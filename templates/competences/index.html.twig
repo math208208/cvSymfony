@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Compétences
+{% endblock %}
+
+{% block body %}
+	<main>
+		<section class="css-sectionComp1">
+			<h2 class="titreSection">Langages</h2>
+			<!-- Entrainement BEM -->
+			<div class="langages">
+				{% for competence in competences %}
+					<div class="langages__langage js-langage">
+						<h3 class="langages__titre js-nomLangage">{{competence.nom}}</h3>
+						<div class="langages__progress js-progressBar">
+							<div class="langages__progress--bar" data-pourcent={{competence.pourcentageMetrise}} ></div>
+						</div>
+						<p class="langages__pourcentage js-pourcentage">{{competence.pourcentageMetrise}}%</p>
+					</div>
+				{% else %}
+					<li>Aucun langage enregistrée.</li>
+				{% endfor %}
+			</div>
+		</section>
+		<section class="css-sectionComp2">
+			<h2 class="titreSection">Outils</h2>
+			<div class="zoneOutils">
+
+				{% for outil in outils %}
+					<div class="outil">
+						<h3>{{outil.nom}}</h3>
+						<img src="{{ asset(outil.image) }}" class="outilImage" alt="logo-outil"/>
+					</div>
+				{% else %}
+					<li>Aucun outil enregistrée.</li>
+				{% endfor %}
+
+
+			</div>
+		</section>
+		<section class="css-sectionComp3">
+			<h2 class="titreSection">Langues</h2>
+			<div class="zoneLangues">
+				{% for langue in langues %}
+
+					<div class="langue anglais">
+						<h3>{{langue.nomLangue}}</h3>
+						<p>{{langue.niveau}}</p>
+					</div>
+
+				{% else %}
+					<li>Aucune langue enregistrée.</li>
+				{% endfor %}
+			</div>
+		</section>
+	</main>
+{% endblock %}

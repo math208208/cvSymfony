@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Contact
+{% endblock %}
+
+{% block body %}
+	<main>
+      <section class="sectionContact">
+        <h2 class="h2Contact">Contact</h2>
+        <ul>
+          <li>Email : {{contact.email}}</li>
+          <li>Tel : {{contact.telephone}}</li>
+          <li>
+            <a
+              href="{{contact.linkdin}}"
+              target="_blank"
+              >LinkdIn</a
+            >
+          </li>
+          <li>
+            <a
+              href="{{contact.github}}"
+              target="_blank"
+              >GitHub</a
+            >
+          </li>
+        </ul>
+      </section>
+
+      <section>
+        <!-- Formulaire avec php -->
+      </section>
+    </main>
+{% endblock %}

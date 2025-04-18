@@ -1,0 +1,56 @@
+@use "variables" as *;
+
+header {
+    background-color: $color-primaire;
+    padding: 30px 50px;
+    border-bottom: 3px solid black;
+    position: sticky;
+    top: 0;
+    z-index: 8;
+    nav {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        .imgMenu {
+            background-color: $color-primaire;
+            display: none;
+        }
+
+        .underline {
+            text-decoration: underline;
+        }
+        a {
+            margin: 30px;
+            position: relative;
+            text-decoration: none;
+            text-transform: uppercase;
+            transition: 0.5s;
+
+            &::after {
+                position: absolute;
+                content: "";
+                top: 100%;
+                left: 0;
+                width: 100%;
+                height: 3px;
+                background: linear-gradient(to right, #83a4d4 0%, #b6fbff 51%, #83a4d4 100%);
+                transform: scaleX(0);
+                transform-origin: center;
+                transition: transform 0.5s;
+            }
+
+            &:hover {
+                background: linear-gradient(to right, #83a4d4 0%, #b6fbff 51%, #83a4d4 100%); 
+                -webkit-background-clip: text;
+                background-clip: text; 
+                font-weight: bold;
+                color: transparent;
+            }
+
+            &:hover::after {
+                transform: scaleX(1);
+                transform-origin: center;
+            }
+        }
+    }
+}

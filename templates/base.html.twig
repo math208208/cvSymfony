@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="fr">
+	<head>
+		<meta charset="utf-8"/>
+		<title>CV -
+			{% block title %}{% endblock %}
+		</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1"/>
+		{% block stylesheets %}
+			{{ encore_entry_link_tags('app') }}
+		{% endblock %}
+
+	</head>
+
+	<body>
+
+		<!-- En-tête -->
+		<header>
+			<nav>
+				<div class="navMenu">
+					<h2 id="titrePage">Accueil</h2>
+					<img id="idmenu" alt="imgmenu" src={{ asset('build/images/menu.png') }} class="imgMenu"/>
+				</div>
+				<div class="navDiva">
+					<a id="navAccueil" class="butNav" href="{{ path('app_main', {slug: user.slug}) }}">Accueil</a>
+					<a id="navCompetences" class="butNav" href="{{ path('app_competences', {slug: user.slug}) }}">Compétences</a>
+					<a id="navExperiences" class="butNav" href="{{ path('app_experience', {slug: user.slug}) }}">Expériences</a>
+					<a id="navContact" class="butNav" href="{{ path('app_contact', {slug: user.slug}) }}">Contact</a>
+				</div>
+			</nav>
+		</header>
+
+		{% block body %}{% endblock %}
+
+		<footer>
+			<a href="contact.html">Contact</a>
+		</footer>
+	</body>
+	{% block javascripts %}
+		{{ encore_entry_script_tags('app') }}
+	{% endblock %}
+</html>

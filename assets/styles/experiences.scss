@@ -1,0 +1,46 @@
+@use "variables" as *;
+
+.sectionExperience {
+    overflow: hidden;
+
+    .h2Experience {
+        margin-top: 50px;
+        text-align: center;
+
+    }
+    .divExp {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        background-color: #F7F7F7F7;
+        padding: 70px 0 ;
+        width: 100%;
+        
+        &Uni{
+            margin-bottom: 100px;
+        }
+
+
+        .exp {
+            margin: 0 100px;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+            border-radius: 20px;
+            border: 3px solid black;
+            width: 100%;
+            flex: 0 0 80%; // @todo prend 80% du cont
+            min-width: 0;  /* Empêche le débordement */
+            padding: 70px 20px;
+            box-sizing: border-box;
+            background-color: $color-primaire;
+            
+            .blocexp {
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+            }
+        }
+    }
+        
+}

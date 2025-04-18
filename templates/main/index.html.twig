@@ -1,0 +1,69 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Accueil
+{% endblock %}
+
+{% block body %}
+	<main>
+		<!-- photo moi et description -->
+		<section class="sectionIndex1">
+			<img id="imgmoi" src="{{ asset(user.photo) }}" alt="Photo personne"/>
+
+			<div class="divInfo">
+				<h1>{{user.prenom}}
+					{{user.nom}}</h1>
+				<h3>{{user.profession}}</h3>
+
+				<p>
+					{{user.description}}
+				</p>
+
+				<button class="aBoutton" id="aBoutton">A propos</button>
+			</div>
+		</section>
+
+		<!-- Parcours et photos -->
+		<section id="a-propos" class="sectionIndex2">
+			<div class="parcours" id="a-propos-div">
+				<h2>Formations</h2>
+				<ul>
+					{% for formation in formations %}
+						<li>
+							<em class="italic">{{ formation.annee }}</em>,
+							{{ formation.intitule }}<br/>
+							<em class="italic">{{ formation.lieu }}</em>
+						</li>
+						
+					{% else %}
+						<li>Aucune formation enregistrée.</li>
+					{% endfor %}
+				</ul>
+			</div>
+			<div class="imagesParcours">
+				<img id="idiut" src={{ asset('build/images/iut.png') }} alt="photo iut" class="imgParcours"/>
+				<img id="idlycee" src={{ asset('build/images/lycee.jpeg') }} alt="photo lycee" class="imgParcours"/>
+			</div>
+		</section>
+
+		<!-- Loisirs et photos -->
+		<section class="sectionIndex3">
+			<div class="imagesLoisirs">
+				<img id="idgym" src={{ asset('build/images/gym.jpg') }} alt="photo gym" class="imgLoisirs"/>
+				<img id="idter" src={{ asset('build/images/47ter.jpg') }} alt="photo 47ter" class="imgLoisirs"/>
+				<img id="idminecraft" src={{ asset('build/images/minecraft.jpeg') }} alt="Photo minecraft" class="imgLoisirs"/>
+			</div>
+			<div class="loisirs divLoisirs">
+				<h2>Loisirs</h2>
+				<ul>
+					{% for loisir in loisirs %}
+						<li>
+							{{loisir.nom}}
+						</li>
+					{% else %}
+						<li>Aucun loisir enregistrée.</li>
+					{% endfor %}
+				</ul>
+			</div>
+		</section>
+	</main>
+{% endblock %}

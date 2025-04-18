@@ -1,0 +1,222 @@
+<?php
+
+namespace App\Entity;
+
+use App\Repository\UserRepository;
+use Doctrine\DBAL\Types\Types;
+use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+
+
+
+#[ORM\Entity(repositoryClass: UserRepository::class)]
+#[ORM\Table(name: '`user`')]
+#[ORM\HasLifecycleCallbacks]
+class User
+{
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
+    private ?int $id = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $Nom = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $Prenom = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $profession = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $photo = null;
+
+    #[ORM\Column(type: Types::TEXT)]
+    private ?string $description = null;
+
+    #[ORM\OneToOne(mappedBy: 'user', targetEntity: Contact::class, cascade: ['persist', 'remove'])]
+    private ?Contact $contact = null;
+
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: ExperiencePro::class)]
+    private Collection $experiencesPro;
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: ExperienceUni::class)]
+    private Collection $experiencesUni;
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Formation::class)]
+    private Collection $formations;
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Loisir::class)]
+    private Collection $loisirs;
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Langage::class)]
+    private Collection $langues;
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Competence::class)]
+    private Collection $competences;
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Outil::class)]
+    private Collection $outils;
+
+    #[ORM\Column(type: "string", length: 255, unique: true)]
+    private ?string $slug = null;
+
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): self
+    {
+        $this->slug = $slug;
+        return $this;
+    }
+
+    #[ORM\PrePersist]  // Cette méthode sera appelée avant l'insertion dans la base de données
+    public function generateSlug(): void
+    {
+        // Générer le slug à partir du nom et prénom si ce n'est pas déjà fait
+        if (empty($this->slug)) {
+            $this->slug = strtolower($this->Prenom . '-' . $this->Nom);
+        }
+    }
+
+
+    public function __construct()
+    {
+        $this->experiencesPro = new ArrayCollection();
+        $this->experiencesUni = new ArrayCollection();
+        $this->formations = new ArrayCollection();
+        $this->loisirs = new ArrayCollection();
+        $this->langues = new ArrayCollection();
+        $this->competences = new ArrayCollection();
+        $this->outils = new ArrayCollection();
+    }
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function getNom(): ?string
+    {
+        return $this->Nom;
+    }
+
+    public function setNom(string $Nom): static
+    {
+        $this->Nom = $Nom;
+
+        return $this;
+    }
+
+    public function getPrenom(): ?string
+    {
+        return $this->Prenom;
+    }
+
+    public function setPrenom(string $Prenom): static
+    {
+        $this->Prenom = $Prenom;
+
+        return $this;
+    }
+
+    public function getProfession(): ?string
+    {
+        return $this->profession;
+    }
+
+    public function setProfession(?string $profession): static
+    {
+        $this->profession = $profession;
+
+        return $this;
+    }
+
+    public function getPhoto(): ?string
+    {
+        return $this->photo;
+    }
+
+    public function setPhoto(string $photo): static
+    {
+        $this->photo = $photo;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(string $description): static
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+
+    public function getContact(): ?Contact
+    {
+        return $this->contact;
+    }
+
+    public function setContact(Contact $contact): static
+    {
+        $this->contact = $contact;
+
+        return $this;
+    }
+
+
+
+    public function getExperiencesUni(): Collection
+    {
+        return $this->experiencesUni;
+    }
+
+    public function getFormations(): Collection
+    {
+        return $this->formations;
+    }
+
+
+    public function getExperiencesPro(): Collection
+    {
+        return $this->experiencesPro;
+    }
+
+
+    public function getLoisirs(): Collection
+    {
+        return $this->loisirs;
+    }
+
+    public function getCompetences(): Collection
+    {
+        return $this->competences;
+    }
+
+    public function getLangues(): Collection
+    {
+        return $this->langues;
+    }
+
+    public function getOutils(): Collection
+    {
+        return $this->outils;
+    }
+
+
+
+    public function __toString(): string
+    {
+        return $this->getPrenom() . " " . $this->getNom();
+    }
+}
