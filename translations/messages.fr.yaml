@@ -1,0 +1,5 @@
+header :
+  home : "Accueil"
+  skills : "Compétences"
+  experiences : "Experiences"
+  contact : "Contact"

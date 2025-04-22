@@ -22,10 +22,10 @@
 					<img id="idmenu" alt="imgmenu" src={{ asset('build/images/menu.png') }} class="imgMenu"/>
 				</div>
 				<div class="navDiva">
-					<a id="navAccueil" class="butNav" href="{{ path('app_main', {slug: user.slug}) }}">Accueil</a>
-					<a id="navCompetences" class="butNav" href="{{ path('app_competences', {slug: user.slug}) }}">Compétences</a>
-					<a id="navExperiences" class="butNav" href="{{ path('app_experience', {slug: user.slug}) }}">Expériences</a>
-					<a id="navContact" class="butNav" href="{{ path('app_contact', {slug: user.slug}) }}">Contact</a>
+					<a id="navAccueil" class="butNav" href="{{ path('app_main', {slug: user.slug}) }}">{% trans %}header.home{% endtrans %}</a>
+					<a id="navCompetences" class="butNav" href="{{ path('app_competences', {slug: user.slug}) }}">{% trans %}header.skills{% endtrans %}</a>
+					<a id="navExperiences" class="butNav" href="{{ path('app_experience', {slug: user.slug}) }}">{% trans %}header.experiences{% endtrans %}</a>
+					<a id="navContact" class="butNav" href="{{ path('app_contact', {slug: user.slug}) }}">{% trans %}header.contact{% endtrans %}</a>
 				</div>
 			</nav>
 		</header>

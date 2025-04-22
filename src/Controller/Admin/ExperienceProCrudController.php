@@ -9,6 +9,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 
 class ExperienceProCrudController extends AbstractCrudController
 {
@@ -26,8 +27,25 @@ class ExperienceProCrudController extends AbstractCrudController
             TextField::new('entreprise'),
             TextareaField::new('description'),
             IntegerField::new('dateDebut'),
-            IntegerField::new('dateFin')->hideWhenCreating(), // facultatif si tu veux pas forcer dès la création
-            AssociationField::new('user'),
+            IntegerField::new('dateFin')->setRequired(false), 
+            AssociationField::new('user')
+            ->autocomplete()
+            ->setFormTypeOption('attr', ['data-search' => 'true']),
         ];
+    }
+
+
+    public function configureCrud(Crud $crud): Crud{
+        return $crud
+            ->setSearchFields([
+                'id',
+                'poste',
+                'entreprise',
+                'description',
+                'dateDebut',
+                'dateFin',
+                'user.prenom',
+                'user.nom',
+            ]);
     }
 }

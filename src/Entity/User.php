@@ -7,12 +7,14 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
 #[ORM\HasLifecycleCallbacks]
+#[UniqueEntity('email')]
 class User
 {
     #[ORM\Id]
@@ -21,10 +23,10 @@ class User
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $Nom = null;
+    private ?string $nom = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $Prenom = null;
+    private ?string $prenom = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $profession = null;
@@ -35,8 +37,18 @@ class User
     #[ORM\Column(type: Types::TEXT)]
     private ?string $description = null;
 
-    #[ORM\OneToOne(mappedBy: 'user', targetEntity: Contact::class, cascade: ['persist', 'remove'])]
-    private ?Contact $contact = null;
+    #[ORM\Column(length: 255, nullable: true, unique: true)]
+    private ?string $email = null;
+
+    #[ORM\Column(nullable: true , length: 20)]
+    private ?string $telephone = null;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $linkdin = null;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $github = null;
+
 
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: ExperiencePro::class)]
@@ -75,12 +87,20 @@ class User
         return $this;
     }
 
-    #[ORM\PrePersist]  // Cette méthode sera appelée avant l'insertion dans la base de données
+    #[ORM\PrePersist]  
     public function generateSlug(): void
     {
         // Générer le slug à partir du nom et prénom si ce n'est pas déjà fait
         if (empty($this->slug)) {
-            $this->slug = strtolower($this->Prenom . '-' . $this->Nom);
+            $slugTemp = $this->prenom . '-' . $this->nom;
+
+            $slugTemp = strtolower($slugTemp);
+
+            $this->slug = str_replace(
+                ['á', 'à', 'â', 'ä', 'ã', 'å', 'ç', 'é', 'è', 'ê', 'ë', 'í', 'ï', 'î', 'ì', 'ñ', 'ó', 'ò', 'ô', 'ö', 'õ', 'ú', 'ù', 'û', 'ü', 'ý'],
+                ['a', 'a', 'a', 'a', 'a', 'a', 'c', 'e', 'e', 'e', 'e', 'i', 'i', 'i', 'i', 'n', 'o', 'o', 'o', 'o', 'o', 'u', 'u', 'u', 'u', 'y'],
+                $slugTemp
+            );
         }
     }
 
@@ -103,24 +123,24 @@ class User
 
     public function getNom(): ?string
     {
-        return $this->Nom;
+        return $this->nom;
     }
 
     public function setNom(string $Nom): static
     {
-        $this->Nom = $Nom;
+        $this->nom = $Nom;
 
         return $this;
     }
 
     public function getPrenom(): ?string
     {
-        return $this->Prenom;
+        return $this->prenom;
     }
 
     public function setPrenom(string $Prenom): static
     {
-        $this->Prenom = $Prenom;
+        $this->prenom = $Prenom;
 
         return $this;
     }
@@ -162,17 +182,7 @@ class User
     }
 
 
-    public function getContact(): ?Contact
-    {
-        return $this->contact;
-    }
-
-    public function setContact(Contact $contact): static
-    {
-        $this->contact = $contact;
-
-        return $this;
-    }
+   
 
 
 
@@ -218,5 +228,54 @@ class User
     public function __toString(): string
     {
         return $this->getPrenom() . " " . $this->getNom();
+    }
+
+
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(string $email): static
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
+    public function getTelephone(): ?string
+    {
+        return $this->telephone;
+    }
+
+    public function setTelephone(?string $telephone): static
+    {
+        $this->telephone = $telephone;
+
+        return $this;
+    }
+
+    public function getLinkdin(): ?string
+    {
+        return $this->linkdin;
+    }
+
+    public function setLinkdin(?string $linkdin): static
+    {
+        $this->linkdin = $linkdin;
+
+        return $this;
+    }
+
+    public function getGithub(): ?string
+    {
+        return $this->github;
+    }
+
+    public function setGithub(?string $github): static
+    {
+        $this->github = $github;
+
+        return $this;
     }
 }

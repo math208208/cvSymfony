@@ -8,6 +8,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 
 
 #[AdminDashboard(routePath: '/admin', routeName: 'admin')]
@@ -45,8 +46,6 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Outils', 'fa fa-wrench', \App\Entity\Outil::class);
         yield MenuItem::linkToCrud('Langues', 'fa fa-language', \App\Entity\Langage::class);
 
-        yield MenuItem::section('Contact');
-        yield MenuItem::linkToCrud('Contact', 'fa fa-phone', \App\Entity\Contact::class);
 
     }
 }

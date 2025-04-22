@@ -26,9 +26,9 @@ class CreateAdminCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $admin = new Admin();
-        $admin->setEmail('none');
+        $admin->setEmail('matheomoiron@gmail.com');
         $admin->setRoles(['ROLE_ADMIN']);
-        $admin->setPassword($this->hasher->hashPassword($admin, 'none'));
+        $admin->setPassword($this->hasher->hashPassword($admin, 'infostrates'));
 
         $this->em->persist($admin);
         $this->em->flush();
@@ -37,3 +37,4 @@ class CreateAdminCommand extends Command
         return Command::SUCCESS;
     }
 }
+

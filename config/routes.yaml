@@ -15,3 +15,5 @@ app_logout:
 app_main:
     path: /{slug}
     controller: App\Controller\MainController::show
+
+    

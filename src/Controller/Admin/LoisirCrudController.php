@@ -7,6 +7,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 
 class LoisirCrudController extends AbstractCrudController
 {
@@ -21,8 +22,21 @@ class LoisirCrudController extends AbstractCrudController
         return [
             IdField::new('id')->hideOnForm(),
             TextField::new('nom'),
-            TextField::new('photo'),
-            AssociationField::new('user'),
+            TextField::new('photo')->setRequired(false),
+            AssociationField::new('user')
+            ->autocomplete()
+            ->setFormTypeOption('attr', ['data-search' => 'true']),
         ];
+    }
+
+    public function configureCrud(Crud $crud): Crud{
+        return $crud
+            ->setSearchFields([
+                'id',
+                'nom',
+                'photo',
+                'user.prenom',
+                'user.nom',
+            ]);
     }
 }
