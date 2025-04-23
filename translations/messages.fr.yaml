@@ -2,4 +2,19 @@ header :
   home : "Accueil"
   skills : "Compétences"
   experiences : "Experiences"
-  contact : "Contact"
+
+button :
+  aboutMe : "A propos"
+
+section :
+  training : "Formations"
+  hobbies : "Loisirs"
+  programming : "Langages de programmation"
+  tools : "Outils"
+  languages : "Langues"
+  proExperience : "Expériences professionnelles"
+  acaExperience : "Expériences universitaire"
+
+
+contact : "Contact"
+nodata : "Aucune données"

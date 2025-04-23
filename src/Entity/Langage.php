@@ -19,10 +19,10 @@ class Langage
     #[ORM\Column(length: 255)]
     private ?string $niveau = null;
 
-    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'langage')]
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'langues')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?User $user = null;
-    
+    private ?User $user;
+
     public function getUser(): ?User
     {
         return $this->user;

@@ -1,12 +1,12 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Compétences
+{% block title %}{% trans %}header.skills{% endtrans %}
 {% endblock %}
 
 {% block body %}
 	<main>
 		<section class="css-sectionComp1">
-			<h2 class="titreSection">Langages</h2>
+			<h2 class="titreSection">{% trans %}section.programming{% endtrans %}</h2>
 			<!-- Entrainement BEM -->
 			<div class="langages">
 				{% for competence in competences %}
@@ -18,12 +18,12 @@
 						<p class="langages__pourcentage js-pourcentage">{{competence.pourcentageMetrise}}%</p>
 					</div>
 				{% else %}
-					<li>Aucun langage enregistrée.</li>
+					<li>{% trans %}nodata{% endtrans %}</li>
 				{% endfor %}
 			</div>
 		</section>
 		<section class="css-sectionComp2">
-			<h2 class="titreSection">Outils</h2>
+			<h2 class="titreSection">{% trans %}section.tools{% endtrans %}</h2>
 			<div class="zoneOutils">
 
 				{% for outil in outils %}
@@ -32,14 +32,14 @@
 						<img src="{{ asset(outil.image) }}" class="outilImage" alt="logo-outil"/>
 					</div>
 				{% else %}
-					<li>Aucun outil enregistrée.</li>
+					<li>{% trans %}nodata{% endtrans %}</li>
 				{% endfor %}
 
 
 			</div>
 		</section>
 		<section class="css-sectionComp3">
-			<h2 class="titreSection">Langues</h2>
+			<h2 class="titreSection">{% trans %}section.languages{% endtrans %}</h2>
 			<div class="zoneLangues">
 				{% for langue in langues %}
 
@@ -49,7 +49,7 @@
 					</div>
 
 				{% else %}
-					<li>Aucune langue enregistrée.</li>
+					<li>{% trans %}nodata{% endtrans %}</li>
 				{% endfor %}
 			</div>
 		</section>

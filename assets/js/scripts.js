@@ -68,19 +68,25 @@ window.addEventListener('load', () => {
     })
 });
 
-
 function navMenu(titreDoc) {
     switch (titreDoc) {
-        case "CV - Compétences":
+        case "CV - Compétences" :
+        case "CV - Skills":
+        case "CV - Competencias":
             competences();
             break;
-        case "CV - Accueil":
+        case "CV - Accueil" :
+        case "CV - Home":
+        case "CV - Inicio":
             accueil();
             break;
-        case "CV - Expériences":
+        case "CV - Expériences" :
+        case "CV - Experiences":
+        case "CV - Experiencias":
             experiences();
             break;
         case "CV - Contact":
+        case "CV - Contacto":
             contact();
             break;
         default:

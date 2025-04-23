@@ -8,7 +8,6 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
-use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 class UserCrudController extends AbstractCrudController
 {
@@ -20,17 +19,17 @@ class UserCrudController extends AbstractCrudController
     public function configureActions(Actions $actions): Actions
     {
         $redirectAction = Action::new('redirectToExternalPage')
-            ->setLabel('Go to Website')  
-            ->setIcon('fa fa-external-link-alt')  
+            ->setLabel('Go to Website')
+            ->setIcon('fa fa-external-link-alt')
             ->linkToUrl(function (User $user) {
-                return 'https://127.0.0.1:8001/'.$user->getSlug();
+                return 'https://127.0.0.1:8001/' . $user->getSlug();
             })
             ->setHtmlAttributes(['target' => '_blank']);
-    
+
 
         return $actions
-            ->add('index', $redirectAction)  
-            ->add('detail', $redirectAction);  
+            ->add('index', $redirectAction)
+            ->add('detail', $redirectAction);
     }
 
     public function configureFields(string $pageName): iterable

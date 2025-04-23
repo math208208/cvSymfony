@@ -1,12 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Expériences
+{% block title %}
+	{% trans %}header.experiences{% endtrans %}
 {% endblock %}
 
 {% block body %}
 	<main>
 		<section class="sectionExperience  sectionExperiencePro">
-			<h2 class="h2Experience">Expériences professionnelles</h2>
+			<h2 class="h2Experience">{% trans %}section.proExperience{% endtrans %}</h2>
 			<div class="divExp divExpPro">
 				{% for experiencePro in experiencesPro %}
 					<div class="exp expPro">
@@ -29,7 +30,7 @@
 						</div>
 					</div>
 				{% else %}
-					<li>Aucune experiencePro enregistrée.</li>
+					<li>{% trans %}nodata{% endtrans %}</li>
 				{% endfor %}
 
 
@@ -37,9 +38,9 @@
 
 
 		</section>
-
+		
 		<section class="sectionExperience sectionExperienceUni">
-			<h2 class="h2Experience h2ExperienceUni">Expériences universitaire</h2>
+			<h2 class="h2Experience h2ExperienceUni">{% trans %}section.acaExperience{% endtrans %}</h2>
 			<div class="divExp divExpUni">
 
 				{% for experienceUni in experiencesUni %}
@@ -61,7 +62,7 @@
 						</div>
 					</div>
 				{% else %}
-					<li>Aucune experienceUni enregistrée.</li>
+					<li>{% trans %}nodata{% endtrans %}</li>
 				{% endfor %}
 
 			</div>

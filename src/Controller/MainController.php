@@ -9,8 +9,7 @@ use App\Repository\UserRepository;
 
 final class MainController extends AbstractController
 {
-    // Route pour afficher un utilisateur, avec un slug
-    #[Route('/{local}/{slug}', name: 'app_main')]
+    #[Route('/{slug}', name: 'app_main')]
     public function show(string $slug, UserRepository $userRepository): Response
     {
         $user = $userRepository->findOneBySlug($slug);
@@ -26,5 +25,4 @@ final class MainController extends AbstractController
         ]);
     }
 
-    
 }

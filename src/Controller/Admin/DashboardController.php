@@ -2,6 +2,7 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\ExperienceProTranslation;
 use EasyCorp\Bundle\EasyAdminBundle\Attribute\AdminDashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
@@ -45,6 +46,10 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Competences', 'fa fa-cogs', \App\Entity\Competence::class);
         yield MenuItem::linkToCrud('Outils', 'fa fa-wrench', \App\Entity\Outil::class);
         yield MenuItem::linkToCrud('Langues', 'fa fa-language', \App\Entity\Langage::class);
+
+        yield MenuItem::section('Traductions');
+        yield MenuItem::linkToCrud('Trad Expérience Pro', 'fas fa-language', ExperienceProTranslation::class);
+
 
 
     }

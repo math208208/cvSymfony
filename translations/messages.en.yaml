@@ -2,4 +2,20 @@ header :
   home : "Home"
   skills : "Skills"
   experiences : "Experiences"
-  contact : "Contact"
+
+
+button :
+  aboutMe : "About Me"
+
+section :
+  training : "Training"
+  hobbies : "Hobbies"
+  programming : "Programming languages"
+  tools : "Tools"
+  languages : "Languages"
+  proExperience : "Professional experience"
+  acaExperience : "Academic experience"
+
+
+contact : "Contact"
+nodata : "No data"

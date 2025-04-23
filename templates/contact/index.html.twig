@@ -1,12 +1,12 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Contact
+{% block title %}contact
 {% endblock %}
 
 {% block body %}
 	<main>
       <section class="sectionContact">
-        <h2 class="h2Contact">Contact</h2>
+        <h2 class="h2Contact">{% trans %}section.proExperiences{% endtrans %}</h2>
         <ul>
           <li>Email : {{user.email}}</li>
           <li>Tel : {{user.telephone}}</li>

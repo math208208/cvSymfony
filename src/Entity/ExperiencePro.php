@@ -2,10 +2,12 @@
 
 namespace App\Entity;
 
+use App\Entity\ExperienceProTranslation as EntityExperienceProTranslation;
 use App\Repository\ExperienceProRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\UX\Turbo\Attribute\Broadcast;
 
 #[ORM\Entity(repositoryClass: ExperienceProRepository::class)]
 class ExperiencePro
@@ -17,6 +19,7 @@ class ExperiencePro
 
     #[ORM\Column(length: 255)]
     private ?string $poste = null;
+
 
     #[ORM\Column(length: 255)]
     private ?string $entreprise = null;
@@ -34,9 +37,30 @@ class ExperiencePro
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
 
+    #[ORM\OneToMany(mappedBy: 'translatable', targetEntity: EntityExperienceProTranslation::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
+    private Collection $translations;
+
+
+    public function __construct()
+    {
+        $this->translations = new ArrayCollection();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getTranslations(): ?Collection
+    {
+        return $this->translations;
+    }
+
+    public function setTranslations(Collection $translations): static
+    {
+        $this->translations = $translations;
+
+        return $this;
     }
 
     public function getPoste(): ?string
@@ -109,5 +133,11 @@ class ExperiencePro
         $this->user = $user;
 
         return $this;
+    }
+
+
+    public function __toString(): string
+    {
+        return $this->poste ?? 'Expérience';
     }
 }

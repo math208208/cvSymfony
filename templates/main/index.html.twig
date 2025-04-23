@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Accueil
+{% block title %}{% trans %}header.home{% endtrans %}
 {% endblock %}
 
 {% block body %}
@@ -18,14 +18,14 @@
 					{{user.description}}
 				</p>
 
-				<button class="aBoutton" id="aBoutton">A propos</button>
+				<button class="aBoutton" id="aBoutton">{% trans %}button.aboutMe{% endtrans %}</button>
 			</div>
 		</section>
 
 		<!-- Parcours et photos -->
 		<section id="a-propos" class="sectionIndex2">
 			<div class="parcours" id="a-propos-div">
-				<h2>Formations</h2>
+				<h2>{% trans %}section.training{% endtrans %}</h2>
 				<ul>
 					{% for formation in formations %}
 						<li>
@@ -35,7 +35,7 @@
 						</li>
 						
 					{% else %}
-						<li>Aucune formation enregistrée.</li>
+						<li>{% trans %}nodata{% endtrans %}</li>
 					{% endfor %}
 				</ul>
 			</div>
@@ -53,14 +53,14 @@
 				<img id="idminecraft" src={{ asset('build/images/minecraft.jpeg') }} alt="Photo minecraft" class="imgLoisirs"/>
 			</div>
 			<div class="loisirs divLoisirs">
-				<h2>Loisirs</h2>
+				<h2>{% trans %}section.hobbies{% endtrans %}</h2>
 				<ul>
 					{% for loisir in loisirs %}
 						<li>
 							{{loisir.nom}}
 						</li>
 					{% else %}
-						<li>Aucun loisir enregistrée.</li>
+						<li>{% trans %}nodata{% endtrans %}</li>
 					{% endfor %}
 				</ul>
 			</div>
