@@ -17,7 +17,7 @@ class DashboardController extends AbstractDashboardController
 {
     public function index(): Response
     {
-        $url = $this->generateUrl('admin_user_index'); // <- Nom de la route générée par EasyAdmin
+        $url = $this->generateUrl('admin_user_index'); 
         return new RedirectResponse($url);
     }
 

@@ -8,7 +8,10 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
+use Vich\UploaderBundle\Form\Type\VichImageType;
+
 class UserCrudController extends AbstractCrudController
 {
     public static function getEntityFqcn(): string
@@ -22,7 +25,7 @@ class UserCrudController extends AbstractCrudController
             ->setLabel('Go to Website')
             ->setIcon('fa fa-external-link-alt')
             ->linkToUrl(function (User $user) {
-                return 'https://127.0.0.1:8001/' . $user->getSlug();
+                return 'https://127.0.0.1:8001/fr/' . $user->getSlug();
             })
             ->setHtmlAttributes(['target' => '_blank']);
 
@@ -39,9 +42,14 @@ class UserCrudController extends AbstractCrudController
             TextField::new('nom', 'Nom'),
             TextField::new('prenom', 'Prénom'),
             TextField::new('profession', 'Profession'),
-            TextField::new('photo', 'Photo'),
             TextField::new('description', 'Description'),
             TextField::new('email'),
+            TextField::new('imageFile')
+                ->setFormType(VichImageType::class)
+                ->onlyOnForms(),
+            ImageField::new('imageName', 'Image')
+                ->setBasePath('/uploads/images')
+                ->hideOnForm(),
             TextField::new('telephone')->setRequired(false),
             TextareaField::new('linkdin')->setRequired(false),
             TextareaField::new('github')->setRequired(false),

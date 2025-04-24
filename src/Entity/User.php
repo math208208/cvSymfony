@@ -2,21 +2,23 @@
 
 namespace App\Entity;
 
+use App\Entity\Trait\Images;
 use App\Repository\UserRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Vich\UploaderBundle\Mapping\Annotation\Uploadable;
 
-
-
+#[Uploadable] 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
 #[ORM\HasLifecycleCallbacks]
 #[UniqueEntity('email')]
 class User
 {
+    use Images;
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -31,8 +33,6 @@ class User
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $profession = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $photo = null;
 
     #[ORM\Column(type: Types::TEXT)]
     private ?string $description = null;
@@ -157,17 +157,6 @@ class User
         return $this;
     }
 
-    public function getPhoto(): ?string
-    {
-        return $this->photo;
-    }
-
-    public function setPhoto(string $photo): static
-    {
-        $this->photo = $photo;
-
-        return $this;
-    }
 
     public function getDescription(): ?string
     {

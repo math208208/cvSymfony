@@ -2,12 +2,17 @@
 
 namespace App\Entity;
 
+use App\Entity\Trait\Images;
 use App\Repository\LoisirRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Vich\UploaderBundle\Mapping\Annotation\Uploadable;
 
+#[Uploadable]
 #[ORM\Entity(repositoryClass: LoisirRepository::class)]
 class Loisir
 {
+    use Images;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -20,9 +25,6 @@ class Loisir
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
     
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $photo = null;
-
 
     public function getId(): ?int
     {
@@ -53,16 +55,4 @@ class Loisir
         return $this;
     }
 
-
-    public function getPhoto(): ?string
-    {
-        return $this->photo;
-    }
-
-    public function SetPhoto(?string $photo): static
-    {
-        $this->photo = $photo;
-
-        return $this;
-    }
 }

@@ -2,13 +2,17 @@
 
 namespace App\Entity;
 
+use App\Entity\Trait\Images;
 use App\Repository\FormationRepository;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\UX\Turbo\Attribute\Broadcast;
+use Vich\UploaderBundle\Mapping\Annotation\Uploadable;
 
+#[Uploadable]
 #[ORM\Entity(repositoryClass: FormationRepository::class)]
 class Formation
 {
+    use Images;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
