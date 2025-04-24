@@ -7,7 +7,7 @@
 	<main>
 		<!-- photo moi et description|raw -->
 		<section class="sectionIndex1">
-			<img id="imgmoi" src="{{ asset('uploads/images/' ~ user.imageName) }}"  alt="Photo personne"/>
+			<img id="imgmoi" src="{{ user.imageName ? asset('uploads/images/' ~ user.imageName) : asset('build/images/default.png') }}" alt="Photo personne"/>
 
 			<div class="divInfo">
 				<h1>{{user.prenom}}
@@ -40,17 +40,33 @@
 				</ul>
 			</div>
 			<div class="imagesParcours">
-				<img id="idiut" src={{ asset('build/images/iut.png') }} alt="photo iut" class="imgParcours"/>
-				<img id="idlycee" src={{ asset('build/images/lycee.jpeg') }} alt="photo lycee" class="imgParcours"/>
+				{% for formation in formations %}
+					{% if formation.imageName != null %}
+					<img src="{{ asset('uploads/images/' ~ formation.imageName) }}" alt="Image formation" class="imgParcours"/>
+					{% endif %}
+
+				{% else %}
+					<li>{% trans %}nodata{% endtrans %}</li>
+				{% endfor %}
+			
 			</div>
+					
+			
 		</section>
 
 		<!-- Loisirs et photos -->
 		<section class="sectionIndex3">
 			<div class="imagesLoisirs">
-				<img id="idgym" src={{ asset('build/images/gym.jpg') }} alt="photo gym" class="imgLoisirs"/>
-				<img id="idter" src={{ asset('build/images/47ter.jpg') }} alt="photo 47ter" class="imgLoisirs"/>
-				<img id="idminecraft" src={{ asset('build/images/minecraft.jpeg') }} alt="Photo minecraft" class="imgLoisirs"/>
+			{% for loisir in loisirs %}
+
+				{% if loisir.imageName != null %}
+
+				<img id="idgym" src="{{ asset('uploads/images/' ~ loisir.imageName) }}" alt="Image loisir" class="imgLoisirs"/>
+
+				{% endif %}
+			{% else %}
+				<li>{% trans %}nodata{% endtrans %}</li>
+			{% endfor %}
 			</div>
 			<div class="loisirs divLoisirs">
 				<h2>{% trans %}section.hobbies{% endtrans %}</h2>

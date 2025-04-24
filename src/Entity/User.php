@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Entity\Trait\Images;
+use App\Entity\Translation\UserTranslation;
 use App\Repository\UserRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -75,6 +76,22 @@ class User
     #[ORM\Column(type: "string", length: 255, unique: true)]
     private ?string $slug = null;
 
+    #[ORM\OneToMany(mappedBy: 'translatable', targetEntity: UserTranslation::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
+    private Collection $translations;
+
+
+    public function getTranslations(): ?Collection
+    {
+        return $this->translations;
+    }
+
+    public function setTranslations(Collection $translations): static
+    {
+        $this->translations = $translations;
+
+        return $this;
+    }
+
 
     public function getSlug(): ?string
     {
@@ -114,6 +131,8 @@ class User
         $this->langues = new ArrayCollection();
         $this->competences = new ArrayCollection();
         $this->outils = new ArrayCollection();
+        $this->translations = new ArrayCollection();
+
     }
 
     public function getId(): ?int

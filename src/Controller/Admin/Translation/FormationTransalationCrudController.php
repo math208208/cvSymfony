@@ -1,12 +1,9 @@
 <?php
 
-namespace App\Controller\Admin;
+namespace App\Controller\Admin\Translation;
 
-
-use App\Entity\ExperienceProTranslation;
+use App\Entity\Translation\FormationTranslation;
 use App\Service\TranslationService as ServiceTranslationService;
-use ContainerIlJYRx0\getTranslationServiceService;
-use Doctrine\DBAL\Query\QueryBuilder;
 use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
@@ -15,7 +12,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
-class ExperienceProTranslationCrudController extends AbstractCrudController
+class FormationTransalationCrudController extends AbstractCrudController
 {
 
 
@@ -32,12 +29,12 @@ class ExperienceProTranslationCrudController extends AbstractCrudController
     public function configureCrud(Crud $crud): Crud
     {
         return $crud
-            ->setPageTitle(Crud::PAGE_INDEX, 'Traductions des expériences professionnelles');
+            ->setPageTitle(Crud::PAGE_INDEX, 'Traductions des formations');
     }
 
     public static function getEntityFqcn(): string
     {
-        return ExperienceProTranslation::class;
+        return FormationTranslation::class;
     }
 
     
@@ -45,15 +42,14 @@ class ExperienceProTranslationCrudController extends AbstractCrudController
     {
         return [
             AssociationField::new('translatable')
-            ->setFormTypeOption('choice_label', 'poste') ,
+            ->setFormTypeOption('choice_label', 'intitule') ,
             ChoiceField::new('locale')
                 ->setChoices([
                     'Français' => 'fr',
                     'English' => 'en',
                     'Español' => 'es'
                 ]),
-            TextField::new('poste'),
-            TextareaField::new('description')
+            TextField::new('intitule'),
         ];
     }
 

@@ -3,7 +3,10 @@
 namespace App\Entity;
 
 use App\Entity\Trait\Images;
+use App\Entity\Translation\LoisirTranslation;
 use App\Repository\LoisirRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Vich\UploaderBundle\Mapping\Annotation\Uploadable;
 
@@ -25,6 +28,29 @@ class Loisir
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
     
+    #[ORM\OneToMany(mappedBy: 'translatable', targetEntity: LoisirTranslation::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
+    private Collection $translations;
+
+    public function __toString(): string
+    {
+        return $this->nom ?? 'Loisir';
+    }
+
+    public function getTranslations(): ?Collection
+    {
+        return $this->translations;
+    }
+
+    public function setTranslations(Collection $translations): static
+    {
+        $this->translations = $translations;
+
+        return $this;
+    }
+    public function __construct()
+    {
+        $this->translations = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {

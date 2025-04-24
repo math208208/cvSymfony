@@ -2,7 +2,10 @@
 
 namespace App\Entity;
 
+use App\Entity\Translation\LangageTranslation;
 use App\Repository\LangageRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: LangageRepository::class)]
@@ -22,6 +25,31 @@ class Langage
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'langues')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user;
+
+
+    #[ORM\OneToMany(mappedBy: 'translatable', targetEntity: LangageTranslation::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
+    private Collection $translations;
+
+    public function __toString(): string
+    {
+        return $this->nomLangue ?? 'Langage';
+    }
+
+    public function getTranslations(): ?Collection
+    {
+        return $this->translations;
+    }
+
+    public function setTranslations(Collection $translations): static
+    {
+        $this->translations = $translations;
+
+        return $this;
+    }
+    public function __construct()
+    {
+        $this->translations = new ArrayCollection();
+    }
 
     public function getUser(): ?User
     {

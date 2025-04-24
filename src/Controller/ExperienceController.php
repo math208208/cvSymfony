@@ -1,8 +1,10 @@
 <?php
 namespace App\Controller;
 
-use App\Entity\ExperienceProTranslation as EntityExperienceProTranslation;
+use App\Entity\Translation\ExperienceProTranslation;
+use App\Entity\Translation\ExperienceUniTranslation;
 use App\Repository\ExperienceProRepository;
+use App\Repository\ExperienceUniRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -16,7 +18,9 @@ final class ExperienceController extends AbstractController
     public function show(
         string $slug, 
         UserRepository $userRepository, 
-        ExperienceProRepository $repo,
+        ExperienceProRepository $repoExpPro,
+        ExperienceUniRepository $repoExpUni,
+
         ServiceTranslationService $translator,
         Request $request
     ): Response
@@ -27,22 +31,30 @@ final class ExperienceController extends AbstractController
             throw $this->createNotFoundException('CV non trouvé.');
         }
 
-        $experiencesPro = $repo->findByUser($user);  
+        $experiencesPro = $repoExpPro->findByUser($user);  
+        $experiencesUni = $repoExpUni->findByUser($user);  
 
         $locale = $request->getLocale();
 
         //permet de recup uniquement les données du user en question 
-        foreach ($experiencesPro as $experience) {
-            if ($translation = $translator->translate($experience, $locale, EntityExperienceProTranslation::class)) {
-                $experience->setPoste($translation->getPoste());
-                $experience->setDescription($translation->getDescription());
+        foreach ($experiencesPro as $experiencePro) {
+            if ($translation = $translator->translate($experiencePro, $locale, ExperienceProTranslation::class)) {
+                $experiencePro->setPoste($translation->getPoste());
+                $experiencePro->setDescription($translation->getDescription());
+            }
+        }
+
+        foreach ($experiencesUni as $experienceUni) {
+            if ($translation = $translator->translate($experienceUni, $locale, ExperienceUniTranslation::class)) {
+                $experienceUni->setPoste($translation->getPoste());
+                $experienceUni->setDescription($translation->getDescription());
             }
         }
 
         return $this->render('experiences/index.html.twig', [
             'user' => $user,
             'experiencesPro' => $experiencesPro,  
-            'experiencesUni' => $user->getExperiencesUni(),  
+            'experiencesUni' => $experiencesUni,  
         ]);
     }
 }

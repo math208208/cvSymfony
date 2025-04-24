@@ -2,9 +2,11 @@
 
 namespace App\Entity;
 
+use App\Entity\Translation\ExperienceUniTranslation;
 use App\Repository\ExperienceUniRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\UX\Turbo\Attribute\Broadcast;
 
 #[ORM\Entity(repositoryClass: ExperienceUniRepository::class)]
 class ExperienceUni
@@ -32,6 +34,29 @@ class ExperienceUni
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
 
+    #[ORM\OneToMany(mappedBy: 'translatable', targetEntity: ExperienceUniTranslation::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
+    private Collection $translations;
+
+    public function __toString(): string
+    {
+        return $this->titre ?? 'Expérience';
+    }
+
+    public function getTranslations(): ?Collection
+    {
+        return $this->translations;
+    }
+
+    public function setTranslations(Collection $translations): static
+    {
+        $this->translations = $translations;
+
+        return $this;
+    }
+    public function __construct()
+    {
+        $this->translations = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {

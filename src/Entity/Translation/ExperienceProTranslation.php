@@ -1,5 +1,5 @@
 <?php
-namespace App\Entity;
+namespace App\Entity\Translation;
 
 use App\Entity\ExperiencePro;
 use Doctrine\DBAL\Types\Types;

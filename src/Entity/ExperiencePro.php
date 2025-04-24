@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Entity\ExperienceProTranslation as EntityExperienceProTranslation;
+use App\Entity\Translation\ExperienceProTranslation;
 use App\Repository\ExperienceProRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -37,7 +38,7 @@ class ExperiencePro
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
 
-    #[ORM\OneToMany(mappedBy: 'translatable', targetEntity: EntityExperienceProTranslation::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'translatable', targetEntity: ExperienceProTranslation::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
     private Collection $translations;
 
 
@@ -51,6 +52,7 @@ class ExperiencePro
         return $this->id;
     }
 
+    
     public function getTranslations(): ?Collection
     {
         return $this->translations;
@@ -135,7 +137,7 @@ class ExperiencePro
         return $this;
     }
 
-
+    
     public function __toString(): string
     {
         return $this->poste ?? 'Expérience';

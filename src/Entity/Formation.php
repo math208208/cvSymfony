@@ -3,7 +3,10 @@
 namespace App\Entity;
 
 use App\Entity\Trait\Images;
+use App\Entity\Translation\FormationTranslation;
 use App\Repository\FormationRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Vich\UploaderBundle\Mapping\Annotation\Uploadable;
 
@@ -35,6 +38,32 @@ class Formation
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'formations')]
     #[ORM\JoinColumn(nullable: true)]
     private ?User $user = null;
+
+
+    #[ORM\OneToMany(mappedBy: 'translatable', targetEntity: FormationTranslation::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
+    private Collection $translations;
+
+    public function __toString(): string
+    {
+        return $this->intitule ?? 'Formation';
+    }
+
+    public function getTranslations(): ?Collection
+    {
+        return $this->translations;
+    }
+
+    public function setTranslations(Collection $translations): static
+    {
+        $this->translations = $translations;
+
+        return $this;
+    }
+    public function __construct()
+    {
+        $this->translations = new ArrayCollection();
+    }
+
 
     public function getId(): ?int
     {

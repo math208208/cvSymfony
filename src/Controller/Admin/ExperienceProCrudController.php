@@ -2,7 +2,7 @@
 
 namespace App\Controller\Admin;
 
-use App\Controller\Admin\ExperienceProTranslationCrudController as AdminExperienceProTranslationCrudController;
+use App\Controller\Admin\Translation\ExperienceProTranslationCrudController;
 use App\Entity\ExperiencePro;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
@@ -40,7 +40,7 @@ class ExperienceProCrudController extends AbstractCrudController
         //permet de pouvoir ajouter si cest une page dedit ou une nouvelle exp
         if (Crud::PAGE_EDIT === $pageName || Crud::PAGE_NEW === $pageName) {
             $fields[] = CollectionField::new('translations')
-                ->useEntryCrudForm(AdminExperienceProTranslationCrudController::class)
+                ->useEntryCrudForm(ExperienceProTranslationCrudController::class)
                 ->setLabel('Traductions');
         }
 

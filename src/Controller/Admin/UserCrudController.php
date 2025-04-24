@@ -2,12 +2,15 @@
 
 namespace App\Controller\Admin;
 
+use App\Controller\Admin\Translation\UserTransalationCrudController;
 use App\Entity\User;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use Vich\UploaderBundle\Form\Type\VichImageType;
@@ -37,7 +40,7 @@ class UserCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
-        return [
+        $fields = [
             IdField::new('id')->onlyOnIndex(),
             TextField::new('nom', 'Nom'),
             TextField::new('prenom', 'Prénom'),
@@ -56,5 +59,14 @@ class UserCrudController extends AbstractCrudController
             TextareaField::new('github')->setRequired(false),
             TextField::new('slug')->onlyOnIndex(),
         ];
+
+        //permet de pouvoir ajouter si cest une page dedit ou une nouvelle exp
+        if (Crud::PAGE_EDIT === $pageName || Crud::PAGE_NEW === $pageName) {
+            $fields[] = CollectionField::new('translations')
+                ->useEntryCrudForm(UserTransalationCrudController::class)
+                ->setLabel('Traductions');
+        }
+
+        return $fields;
     }
 }
