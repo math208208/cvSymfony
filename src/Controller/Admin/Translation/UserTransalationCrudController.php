@@ -29,7 +29,13 @@ class UserTransalationCrudController extends AbstractCrudController
     public function configureCrud(Crud $crud): Crud
     {
         return $crud
-            ->setPageTitle(Crud::PAGE_INDEX, 'Traductions des personnes ');
+            ->setPageTitle(Crud::PAGE_INDEX, 'Traductions des personnes ')
+            ->setSearchFields([
+                'translatable.nom', 
+                'translatable.prenom', 
+                'profession',
+                'description',
+            ]);
     }
 
     public static function getEntityFqcn(): string
@@ -42,7 +48,9 @@ class UserTransalationCrudController extends AbstractCrudController
     {
         return [
             AssociationField::new('translatable')
-            ->setFormTypeOption('choice_label', 'slug') ,
+            ->setFormTypeOption('choice_label', function ($entity) {
+                return $entity->getPrenom() . ' ' . $entity->getNom();
+            }),
             ChoiceField::new('locale')
                 ->setChoices([
                     'Français' => 'fr',

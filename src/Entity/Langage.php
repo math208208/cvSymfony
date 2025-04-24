@@ -32,7 +32,7 @@ class Langage
 
     public function __toString(): string
     {
-        return $this->nomLangue ?? 'Langage';
+        return $this->user." -> ".$this->nomLangue ?? 'Langage';
     }
 
     public function getTranslations(): ?Collection

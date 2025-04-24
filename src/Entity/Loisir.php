@@ -33,7 +33,7 @@ class Loisir
 
     public function __toString(): string
     {
-        return $this->nom ?? 'Loisir';
+        return $this->user." -> ".$this->nom ?? 'Loisir';
     }
 
     public function getTranslations(): ?Collection

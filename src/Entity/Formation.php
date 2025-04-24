@@ -45,7 +45,7 @@ class Formation
 
     public function __toString(): string
     {
-        return $this->intitule ?? 'Formation';
+        return $this->user." -> ".$this->intitule ?? 'Formation';
     }
 
     public function getTranslations(): ?Collection

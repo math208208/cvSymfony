@@ -39,7 +39,7 @@ class ExperienceUni
 
     public function __toString(): string
     {
-        return $this->titre ?? 'Expérience';
+        return $this->user." -> ".$this->titre ?? 'Expérience';
     }
 
     public function getTranslations(): ?Collection

@@ -30,7 +30,15 @@ class ExperienceUniTranslationCrudController extends AbstractCrudController
     public function configureCrud(Crud $crud): Crud
     {
         return $crud
-            ->setPageTitle(Crud::PAGE_INDEX, 'Traductions des expériences Universitaires');
+            ->setPageTitle(Crud::PAGE_INDEX, 'Traductions des expériences Universitaires')
+            ->setSearchFields([
+                'translatable.titre', 
+                'translatable.user.nom', 
+                'translatable.user.prenom', 
+                'titre',
+                'sousTitre',
+                'description',
+            ]);
     }
 
     public static function getEntityFqcn(): string
@@ -43,7 +51,9 @@ class ExperienceUniTranslationCrudController extends AbstractCrudController
     {
         return [
             AssociationField::new('translatable')
-            ->setFormTypeOption('choice_label', 'titre') ,
+            ->setFormTypeOption('choice_label', function ($entity) {
+                return $entity->getUser()->getPrenom() . ' ' . $entity->getUser()->getNom() . ' -> ' . $entity->getTitre();
+            }),
             ChoiceField::new('locale')
                 ->setChoices([
                     'Français' => 'fr',

@@ -140,6 +140,6 @@ class ExperiencePro
     
     public function __toString(): string
     {
-        return $this->poste ?? 'Expérience';
+        return $this->user." -> ".$this->poste ?? 'Expérience';
     }
 }

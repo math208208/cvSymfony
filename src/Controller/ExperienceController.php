@@ -9,7 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use App\Repository\UserRepository;
-use App\Service\TranslationService as ServiceTranslationService;
+use App\Service\TranslationService;
 use Symfony\Component\HttpFoundation\Request;
 
 final class ExperienceController extends AbstractController
@@ -20,8 +20,7 @@ final class ExperienceController extends AbstractController
         UserRepository $userRepository, 
         ExperienceProRepository $repoExpPro,
         ExperienceUniRepository $repoExpUni,
-
-        ServiceTranslationService $translator,
+        TranslationService $translator,
         Request $request
     ): Response
     {
@@ -46,7 +45,8 @@ final class ExperienceController extends AbstractController
 
         foreach ($experiencesUni as $experienceUni) {
             if ($translation = $translator->translate($experienceUni, $locale, ExperienceUniTranslation::class)) {
-                $experienceUni->setPoste($translation->getPoste());
+                $experienceUni->setTitre($translation->getTitre());
+                $experienceUni->setSousTitre($translation->getSousTitre());
                 $experienceUni->setDescription($translation->getDescription());
             }
         }

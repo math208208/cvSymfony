@@ -49,8 +49,7 @@ class UserCrudController extends AbstractCrudController
             TextField::new('email')->setRequired(true),
             TextField::new('imageFile')
                 ->setFormType(VichImageType::class)
-                ->onlyOnForms()
-                ->setRequired(true),
+                ->onlyOnForms(),
             ImageField::new('imageName', 'Image')
                 ->setBasePath('/uploads/images')
                 ->hideOnForm(),
@@ -60,8 +59,7 @@ class UserCrudController extends AbstractCrudController
             TextField::new('slug')->onlyOnIndex(),
         ];
 
-        //permet de pouvoir ajouter si cest une page dedit ou une nouvelle exp
-        if (Crud::PAGE_EDIT === $pageName || Crud::PAGE_NEW === $pageName) {
+        if (Crud::PAGE_NEW === $pageName) {
             $fields[] = CollectionField::new('translations')
                 ->useEntryCrudForm(UserTransalationCrudController::class)
                 ->setLabel('Traductions');
