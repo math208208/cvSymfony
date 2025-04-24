@@ -18,7 +18,6 @@ class AppFixtures extends Fixture
             $user->setNom($faker->lastName);
             $user->setPrenom($faker->firstName);
             $user->setProfession($faker->jobTitle);
-            $user->setPhoto('default_avatar.png');
             $user->setDescription($faker->paragraph);
             $user->setEmail($faker->unique()->email);
             $user->setTelephone($faker->phoneNumber);

@@ -23,7 +23,7 @@ class Outil
     private ?string $nom = null;
 
 
-    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'outil')]
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'outils')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
 

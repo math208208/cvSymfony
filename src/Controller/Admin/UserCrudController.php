@@ -28,14 +28,22 @@ class UserCrudController extends AbstractCrudController
             ->setLabel('Go to Website')
             ->setIcon('fa fa-external-link-alt')
             ->linkToUrl(function (User $user) {
-                return 'https://127.0.0.1:8001/fr/' . $user->getSlug();
+                return 'https://127.0.0.1:8001/' . $user->getSlug();
             })
             ->setHtmlAttributes(['target' => '_blank']);
 
+        $test = Action::new('test')
+            ->setLabel('Detail')
+            ->linkToUrl(function (User $user) {
+                return 'https://127.0.0.1:8001/admin/user/' . $user->getId();
+            });
+
 
         return $actions
+            ->add('index', $test)
             ->add('index', $redirectAction)
             ->add('detail', $redirectAction);
+            
     }
 
     public function configureFields(string $pageName): iterable

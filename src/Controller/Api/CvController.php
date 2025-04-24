@@ -15,7 +15,7 @@ final class CvController extends AbstractController
     public function getCv(Request $request, UserRepository $userRepository): JsonResponse
     {
         $email = $request->query->get('email');
-
+        
         if (!$email) {
             return $this->json(['error' => 'Email manquant'], 400);
         }

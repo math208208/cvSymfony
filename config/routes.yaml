@@ -20,6 +20,7 @@ app_main:
     controller: App\Controller\MainController::show
     requirements:
         _locale: fr|en|es
+        slug: .+
 
 redirect_to_locale:
     path: /{slug}

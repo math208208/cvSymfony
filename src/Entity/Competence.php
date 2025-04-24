@@ -19,7 +19,7 @@ class Competence
     #[ORM\Column]
     private ?int $pourcentageMetrise = null;
 
-    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'competence')]
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'competences')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
     

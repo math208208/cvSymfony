@@ -12,7 +12,8 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
-
+use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 class ExperienceUniCrudController extends AbstractCrudController
 {
     public static function getEntityFqcn(): string
@@ -20,6 +21,30 @@ class ExperienceUniCrudController extends AbstractCrudController
         return ExperienceUni::class;
     }
 
+    public function configureActions(Actions $actions): Actions
+    {
+        $redirectAction = Action::new('redirectToExternalPage')
+            ->setLabel('Go to Website')
+            ->setIcon('fa fa-external-link-alt')
+            ->linkToUrl(function (ExperienceUni $experienceUni) {
+                $user = $experienceUni->getUser();
+                return 'https://127.0.0.1:8001/' . $user->getSlug()."/experiences";
+            })
+            ->setHtmlAttributes(['target' => '_blank']);
+
+        $test = Action::new('test')
+            ->setLabel('Detail')
+            ->linkToUrl(function (ExperienceUni $experienceUni) {
+                return 'https://127.0.0.1:8001/admin/experience-uni/' . $experienceUni->getId();
+            });
+
+
+        return $actions
+            ->add('index', $test)
+            ->add('index', $redirectAction)
+            ->add('detail', $redirectAction);
+            
+    }
 
     public function configureFields(string $pageName): iterable
     {

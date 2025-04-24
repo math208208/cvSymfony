@@ -12,7 +12,8 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
-
+use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 class ExperienceProCrudController extends AbstractCrudController
 {
 
@@ -20,6 +21,32 @@ class ExperienceProCrudController extends AbstractCrudController
     {
         return ExperiencePro::class;
     }
+
+    public function configureActions(Actions $actions): Actions
+    {
+        $redirectAction = Action::new('redirectToExternalPage')
+            ->setLabel('Go to Website')
+            ->setIcon('fa fa-external-link-alt')
+            ->linkToUrl(function (ExperiencePro $experiencePro) {
+                $user = $experiencePro->getUser();
+                return 'https://127.0.0.1:8001/' . $user->getSlug()."/experiences";
+            })
+            ->setHtmlAttributes(['target' => '_blank']);
+
+        $test = Action::new('test')
+            ->setLabel('Detail')
+            ->linkToUrl(function (ExperiencePro $experiencePro) {
+                return 'https://127.0.0.1:8001/admin/experience-pro/' . $experiencePro->getId();
+            });
+
+
+        return $actions
+            ->add('index', $test)
+            ->add('index', $redirectAction)
+            ->add('detail', $redirectAction);
+            
+    }
+
 
     public function configureFields(string $pageName): iterable
     {
