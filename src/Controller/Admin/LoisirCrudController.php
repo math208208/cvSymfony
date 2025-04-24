@@ -27,12 +27,13 @@ class LoisirCrudController extends AbstractCrudController
             TextField::new('imageFile')
                 ->setFormType(VichImageType::class)
                 ->onlyOnForms(),
-            ImageField::new('imageName')
+            ImageField::new('imageName', 'Image')
                 ->setBasePath('/uploads/images')
                 ->hideOnForm(),
             AssociationField::new('user')
                 ->autocomplete()
-                ->setFormTypeOption('attr', ['data-search' => 'true']),
+                ->setFormTypeOption('attr', ['data-search' => 'true'])
+                ->setRequired(true),
         ];
     }
 

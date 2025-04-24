@@ -27,10 +27,12 @@ class ExperienceUniCrudController extends AbstractCrudController
             TextField::new('titre'),
             TextField::new('sousTitre'),
             IntegerField::new('annee'),
-            TextareaField::new('description'),
+            TextareaField::new('description')
+            ->setRequired(false),
             AssociationField::new('user')
             ->autocomplete()
-            ->setFormTypeOption('attr', ['data-search' => 'true']),
+            ->setFormTypeOption('attr', ['data-search' => 'true'])
+            ->setRequired(true),
         ];
     }
 

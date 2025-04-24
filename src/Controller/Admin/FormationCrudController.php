@@ -35,7 +35,8 @@ class FormationCrudController extends AbstractCrudController
                 ->hideOnForm(),
             AssociationField::new('user')
             ->autocomplete()
-            ->setFormTypeOption('attr', ['data-search' => 'true']),
+            ->setFormTypeOption('attr', ['data-search' => 'true'])
+            ->setRequired(true),
         ];
     }
 

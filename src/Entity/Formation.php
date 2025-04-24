@@ -11,6 +11,7 @@ use Vich\UploaderBundle\Mapping\Annotation\Uploadable;
 #[ORM\Entity(repositoryClass: FormationRepository::class)]
 class Formation
 {
+
     use Images;
 
     #[ORM\Id]

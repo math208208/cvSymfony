@@ -27,12 +27,14 @@ class ExperienceProCrudController extends AbstractCrudController
             IdField::new('id')->hideOnForm(),
             TextField::new('poste'),
             TextField::new('entreprise'),
-            TextareaField::new('description'),
+            TextareaField::new('description')
+            ->setRequired(false),
             IntegerField::new('dateDebut'),
             IntegerField::new('dateFin')->setRequired(false),
             AssociationField::new('user')
                 ->autocomplete()
-                ->setFormTypeOption('attr', ['data-search' => 'true']),
+                ->setFormTypeOption('attr', ['data-search' => 'true'])
+                ->setRequired(true),
         ];
 
         //permet de pouvoir ajouter si cest une page dedit ou une nouvelle exp

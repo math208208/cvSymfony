@@ -8,6 +8,8 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
+use Vich\UploaderBundle\Form\Type\VichImageType;
 
 class OutilCrudController extends AbstractCrudController
 {
@@ -22,10 +24,17 @@ class OutilCrudController extends AbstractCrudController
         return [
             IdField::new('id')->hideOnForm(),
             TextField::new('nom'),
-            TextField::new('image'),
+            TextField::new('imageFile')
+                ->setFormType(VichImageType::class)
+                ->onlyOnForms()
+                ->setRequired(true),
+            ImageField::new('imageName', 'Image')
+                ->setBasePath('/uploads/images')
+                ->hideOnForm(),
             AssociationField::new('user')
             ->autocomplete()
-            ->setFormTypeOption('attr', ['data-search' => 'true']),
+            ->setFormTypeOption('attr', ['data-search' => 'true'])
+            ->setRequired(true),
 
         ];
     }
@@ -36,7 +45,6 @@ class OutilCrudController extends AbstractCrudController
             ->setSearchFields([
                 'id',
                 'nom',
-                'image',
                 'user.prenom',
                 'user.nom',
             ]);

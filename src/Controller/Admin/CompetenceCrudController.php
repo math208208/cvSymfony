@@ -26,7 +26,8 @@ class CompetenceCrudController extends AbstractCrudController
             IntegerField::new('pourcentageMetrise'),
             AssociationField::new('user')
             ->autocomplete()
-            ->setFormTypeOption('attr', ['data-search' => 'true']),
+            ->setFormTypeOption('attr', ['data-search' => 'true'])
+            ->setRequired(true),
         ];
     }
     

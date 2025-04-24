@@ -29,7 +29,7 @@
 				{% for outil in outils %}
 					<div class="outil">
 						<h3>{{outil.nom}}</h3>
-						<img src="{{ asset(outil.image) }}" class="outilImage" alt="logo-outil"/>
+						<img src="{{ asset('uploads/images/' ~ outil.imageName) }}" class="outilImage" alt="logo-outil"/>
 					</div>
 				{% else %}
 					<li>{% trans %}nodata{% endtrans %}</li>

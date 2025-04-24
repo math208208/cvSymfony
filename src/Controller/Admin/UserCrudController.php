@@ -42,11 +42,12 @@ class UserCrudController extends AbstractCrudController
             TextField::new('nom', 'Nom'),
             TextField::new('prenom', 'Prénom'),
             TextField::new('profession', 'Profession'),
-            TextField::new('description', 'Description'),
-            TextField::new('email'),
+            TextField::new('description', 'Description')->setRequired(false),
+            TextField::new('email')->setRequired(true),
             TextField::new('imageFile')
                 ->setFormType(VichImageType::class)
-                ->onlyOnForms(),
+                ->onlyOnForms()
+                ->setRequired(true),
             ImageField::new('imageName', 'Image')
                 ->setBasePath('/uploads/images')
                 ->hideOnForm(),

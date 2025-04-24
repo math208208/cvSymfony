@@ -25,7 +25,8 @@ class LangageCrudController extends AbstractCrudController
             TextField::new('niveau'),
             AssociationField::new('user')
             ->autocomplete()
-            ->setFormTypeOption('attr', ['data-search' => 'true']),
+            ->setFormTypeOption('attr', ['data-search' => 'true'])
+            ->setRequired(true),
 
         ];
     }
