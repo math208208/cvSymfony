@@ -20,7 +20,7 @@ app_main:
     controller: App\Controller\MainController::show
     requirements:
         _locale: fr|en|es
-        slug: .+
+        slug: (?!favicon\.ico).+
 
 redirect_to_locale:
     path: /{slug}
