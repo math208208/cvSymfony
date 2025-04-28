@@ -1,57 +1,7 @@
 @use "variables" as *;
 
 @media (max-width: 1023px) {
-    //header
-    header {
-        padding: 0;
-        background-color: $color-secondaire;
-
-        nav {
-            display: flex;
-
-            flex-direction: column;
-            .navMenu {
-                display: flex;
-                flex-direction: row;
-                justify-content: space-between;
-                .imgMenu {
-                    display: block;
-                    width: 10%;
-                    margin-top: auto;
-                    margin-bottom: auto;
-                    background-color: $color-secondaire;
-                }
-            }
-            h2 {
-                padding: 15px;
-                font-size: 1.3em;
-                
-            }
-
-            .navDiva {
-                display: flex;
-                flex-direction: column;
-                text-align: center;
-                max-height: 0;
-                overflow: hidden;
-                transition: max-height 0.5s ease-out;
-                a {
-                    position: sticky;
-                    top: 0;
-                    z-index: 8;
-                    padding: auto;
-                    margin: auto;
-                    margin-bottom: 10px;
-
-                }
-            }
-
-            .menu-ouvert {
-                max-height: 500px;
-                
-            }
-        }
-    }
+    
 
     //index
     .sectionIndex1 {

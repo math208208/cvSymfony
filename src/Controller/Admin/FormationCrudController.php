@@ -4,6 +4,7 @@ namespace App\Controller\Admin;
 
 use App\Controller\Admin\Translation\FormationTransalationCrudController;
 use App\Entity\Formation;
+use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
@@ -15,6 +16,11 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use Vich\UploaderBundle\Form\Type\VichImageType;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
+use EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto;
+use EasyCorp\Bundle\EasyAdminBundle\Dto\SearchDto;
+use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
+use EasyCorp\Bundle\EasyAdminBundle\Collection\FilterCollection;
+
 class FormationCrudController extends AbstractCrudController
 {
     public static function getEntityFqcn(): string
@@ -29,14 +35,14 @@ class FormationCrudController extends AbstractCrudController
             ->setIcon('fa fa-external-link-alt')
             ->linkToUrl(function (Formation $formation) {
                 $user = $formation->getUser();
-                return 'https://127.0.0.1:8001/' . $user->getSlug();
+                return 'http://localhost:8001/' . $user->getSlug();
             })
             ->setHtmlAttributes(['target' => '_blank']);
 
         $test = Action::new('test')
             ->setLabel('Detail')
             ->linkToUrl(function (Formation $formation) {
-                return 'https://127.0.0.1:8001/admin/formation/' . $formation->getId();
+                return 'http://localhost:8001/admin/formation/' . $formation->getId();
             });
 
 
@@ -45,6 +51,26 @@ class FormationCrudController extends AbstractCrudController
             ->add('index', $redirectAction)
             ->add('detail', $redirectAction);
             
+    }
+
+
+    public function createIndexQueryBuilder(
+        SearchDto $searchDto,
+        EntityDto $entityDto,
+        FieldCollection $fields,
+        FilterCollection $filters
+    ): QueryBuilder {
+        $qb = parent::createIndexQueryBuilder($searchDto, $entityDto, $fields, $filters);
+    
+        $user = $this->getUser();
+    
+        if (!$this->isGranted('ROLE_ADMIN') && $user !== null) {
+            $qb->join('entity.user', 'u')
+               ->andWhere('u.email = :email')
+               ->setParameter('email', $user->getUserIdentifier());
+        }
+    
+        return $qb;
     }
 
     public function configureFields(string $pageName): iterable

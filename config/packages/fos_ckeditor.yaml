@@ -1,0 +1,18 @@
+# Read the documentation: https://symfony.com/doc/current/bundles/FOSCKEditorBundle/index.html
+
+twig:
+    form_themes:
+        - '@FOSCKEditor/Form/ckeditor_widget.html.twig'
+        
+fos_ck_editor:
+    default_config: default_config
+    configs:
+        default_config:
+            toolbar:  
+                - { name: basicstyles, items: [Bold, Italic, Underline, Strike] }
+                - { name: paragraph, items: [NumberedList, BulletedList] }
+                - { name: styles, items: [Format] }
+                - { name: links, items: [Link] }
+            # Force l'utilisation du CDN 4.22.1
+            base_path: "ckeditor" 
+            skin: "moono-lisa"

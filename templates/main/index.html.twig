@@ -15,7 +15,7 @@
 				<h3>{{user.profession}}</h3>
 
 				<p>
-					{{user.description}}
+					{{user.description|raw}}
 				</p>
 
 				<button class="aBoutton" id="aBoutton">{% trans %}button.aboutMe{% endtrans %}</button>

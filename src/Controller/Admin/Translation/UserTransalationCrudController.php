@@ -11,7 +11,11 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
-
+use EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto;
+use EasyCorp\Bundle\EasyAdminBundle\Dto\SearchDto;
+use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
+use EasyCorp\Bundle\EasyAdminBundle\Collection\FilterCollection;
+use Doctrine\ORM\QueryBuilder;
 class UserTransalationCrudController extends AbstractCrudController
 {
 
@@ -64,6 +68,23 @@ class UserTransalationCrudController extends AbstractCrudController
 
     
     
-
+    public function createIndexQueryBuilder(
+        SearchDto $searchDto,
+        EntityDto $entityDto,
+        FieldCollection $fields,
+        FilterCollection $filters
+    ): QueryBuilder {
+        $qb = parent::createIndexQueryBuilder($searchDto, $entityDto, $fields, $filters);
+    
+        $user = $this->getUser();
+    
+        if (!$this->isGranted('ROLE_ADMIN') && $user !== null) {
+            $qb->join('entity.translatable', 't')
+                ->andWhere('t.email = :email')
+                ->setParameter('email', $user->getUserIdentifier()); 
+        }
+    
+        return $qb;
+    }
   
 }

@@ -13,7 +13,14 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
+use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Vich\UploaderBundle\Form\Type\VichImageType;
+use EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto;
+use EasyCorp\Bundle\EasyAdminBundle\Dto\SearchDto;
+use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
+use EasyCorp\Bundle\EasyAdminBundle\Collection\FilterCollection;
+use Doctrine\ORM\QueryBuilder;
 
 class UserCrudController extends AbstractCrudController
 {
@@ -28,14 +35,14 @@ class UserCrudController extends AbstractCrudController
             ->setLabel('Go to Website')
             ->setIcon('fa fa-external-link-alt')
             ->linkToUrl(function (User $user) {
-                return 'https://127.0.0.1:8001/' . $user->getSlug();
+                return 'http://localhost:8001/' . $user->getSlug();
             })
             ->setHtmlAttributes(['target' => '_blank']);
 
         $test = Action::new('test')
             ->setLabel('Detail')
             ->linkToUrl(function (User $user) {
-                return 'https://127.0.0.1:8001/admin/user/' . $user->getId();
+                return 'http://localhost:8001/admin/user/' . $user->getId();
             });
 
 
@@ -43,7 +50,6 @@ class UserCrudController extends AbstractCrudController
             ->add('index', $test)
             ->add('index', $redirectAction)
             ->add('detail', $redirectAction);
-            
     }
 
     public function configureFields(string $pageName): iterable
@@ -53,7 +59,9 @@ class UserCrudController extends AbstractCrudController
             TextField::new('nom', 'Nom'),
             TextField::new('prenom', 'Prénom'),
             TextField::new('profession', 'Profession'),
-            TextField::new('description', 'Description')->setRequired(false),
+            TextEditorField::new('description', 'Description')
+                ->setFormType(CKEditorType::class)
+                ->setRequired(false),
             TextField::new('email')->setRequired(true),
             TextField::new('imageFile')
                 ->setFormType(VichImageType::class)
@@ -65,6 +73,8 @@ class UserCrudController extends AbstractCrudController
             TextareaField::new('linkdin')->setRequired(false),
             TextareaField::new('github')->setRequired(false),
             TextField::new('slug')->onlyOnIndex(),
+
+
         ];
 
         if (Crud::PAGE_NEW === $pageName) {
@@ -74,5 +84,31 @@ class UserCrudController extends AbstractCrudController
         }
 
         return $fields;
+    }
+
+    public function configureCrud(Crud $crud): Crud
+    {
+        return $crud
+            ->addFormTheme('@FOSCKEditor/Form/ckeditor_widget.html.twig');
+    }
+
+    public function createIndexQueryBuilder(
+        SearchDto $searchDto,
+        EntityDto $entityDto,
+        FieldCollection $fields,
+        FilterCollection $filters
+    ): QueryBuilder {
+        $qb = parent::createIndexQueryBuilder($searchDto, $entityDto, $fields, $filters);
+
+        $user = $this->getUser();
+
+        if (!$this->isGranted('ROLE_ADMIN') && $user !== null) {
+            $email = $user->getUserIdentifier(); 
+
+            $qb->andWhere( 'entity.email  = :email')
+                ->setParameter('email', $email);
+        }
+
+        return $qb;
     }
 }

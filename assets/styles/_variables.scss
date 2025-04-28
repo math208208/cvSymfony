@@ -10,6 +10,38 @@ $shadow: rgba(120, 120, 120, 0.495);
     font-style: normal;
 }
 
+
+
+@mixin titre{
+    font-family: "Exo", sans-serif;
+}
+
+@mixin text{
+    font-family: "Quicksand", sans-serif;
+}
+
+@font-face {
+    font-family: "Exo";
+    src: url("../fonts/Exo-VariableFont_wght.ttf") format("woff2");
+    font-weight: normal;
+    font-style: normal;
+}
+
 @mixin boxshadow {
     box-shadow: 3px 3px 3px $shadow;
+}
+
+
+$medium-width: 1024px;
+
+@mixin small{
+    @media (max-width: #{$medium-width - 1px}){
+        @content;
+    }
+}
+
+@mixin desktop{
+    @media(min-width: #{$medium-width}){
+        @content;
+    }
 }

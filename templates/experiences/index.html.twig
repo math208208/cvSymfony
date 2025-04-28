@@ -15,9 +15,7 @@
 							<h2>{{experiencePro.poste}}</h2>
 							<h4>{{experiencePro.entreprise}}</h4>
 							<ul>
-								{% for line in experiencePro.description|split('\n') %}
-									<li>{{ line }}</li>
-								{% endfor %}
+								{{ experiencePro.description|raw }}
 							</ul>
 						</div>
 						<div>
@@ -49,9 +47,7 @@
 							<h2>{{experienceUni.titre}}</h2>
 							<h4>{{experienceUni.sousTitre}}</h4>
 							<ul>
-								{% for line in experienceUni.description|split('\n') %}
-									<li>{{ line }}</li>
-								{% endfor %}
+								{{ experienceUni.description|raw }}
 							</ul>
 						</div>
 						<div>

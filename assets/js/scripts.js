@@ -5,8 +5,8 @@ import { ScrollToPlugin } from "gsap/ScrollToPlugin";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 
-import menu from "../images/menu.png";
-import croix from "../images/fermer.webp";
+import menu from "../images/menu/menu.png";
+import croix from "../images/menu/fermer.webp";
 
 gsap.registerPlugin(Draggable);
 gsap.registerPlugin(ScrollToPlugin);

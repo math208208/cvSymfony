@@ -9,8 +9,12 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto;
+use EasyCorp\Bundle\EasyAdminBundle\Dto\SearchDto;
+use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
+use EasyCorp\Bundle\EasyAdminBundle\Collection\FilterCollection;
+use Doctrine\ORM\QueryBuilder;
 
 class LangageTransalationCrudController extends AbstractCrudController
 {
@@ -59,6 +63,26 @@ class LangageTransalationCrudController extends AbstractCrudController
                 ]),
             TextField::new('nomLangue'),
         ];
+    }
+
+    public function createIndexQueryBuilder(
+        SearchDto $searchDto,
+        EntityDto $entityDto,
+        FieldCollection $fields,
+        FilterCollection $filters
+    ): QueryBuilder {
+        $qb = parent::createIndexQueryBuilder($searchDto, $entityDto, $fields, $filters);
+    
+        $user = $this->getUser();
+    
+        if (!$this->isGranted('ROLE_ADMIN') && $user !== null) {
+            $qb->join('entity.translatable', 't')
+                ->join('t.user', 'u')
+                ->andWhere('u.email = :email')
+                ->setParameter('email', $user->getUserIdentifier()); 
+        }
+    
+        return $qb;
     }
 
     

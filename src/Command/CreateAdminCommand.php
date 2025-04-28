@@ -26,8 +26,8 @@ class CreateAdminCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $admin = new Admin();
-        $admin->setEmail('matheomoiron@gmail.com');
-        $admin->setRoles(['ROLE_ADMIN']);
+        $admin->setEmail('test@test');
+        $admin->setRoles(['ROLE_USER']);
         $admin->setPassword($this->hasher->hashPassword($admin, 'infostrates'));
 
         $this->em->persist($admin);

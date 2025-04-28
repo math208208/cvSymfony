@@ -12,6 +12,11 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto;
+use EasyCorp\Bundle\EasyAdminBundle\Dto\SearchDto;
+use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
+use EasyCorp\Bundle\EasyAdminBundle\Collection\FilterCollection;
+use Doctrine\ORM\QueryBuilder;
 
 class ExperienceUniTranslationCrudController extends AbstractCrudController
 {
@@ -32,13 +37,33 @@ class ExperienceUniTranslationCrudController extends AbstractCrudController
         return $crud
             ->setPageTitle(Crud::PAGE_INDEX, 'Traductions des expériences Universitaires')
             ->setSearchFields([
-                'translatable.titre', 
-                'translatable.user.nom', 
-                'translatable.user.prenom', 
+                'translatable.titre',
+                'translatable.user.nom',
+                'translatable.user.prenom',
                 'titre',
                 'sousTitre',
                 'description',
             ]);
+    }
+
+    public function createIndexQueryBuilder(
+        SearchDto $searchDto,
+        EntityDto $entityDto,
+        FieldCollection $fields,
+        FilterCollection $filters
+    ): QueryBuilder {
+        $qb = parent::createIndexQueryBuilder($searchDto, $entityDto, $fields, $filters);
+    
+        $user = $this->getUser();
+    
+        if (!$this->isGranted('ROLE_ADMIN') && $user !== null) {
+            $qb->join('entity.translatable', 't')
+                ->join('t.user', 'u')
+                ->andWhere('u.email = :email')
+                ->setParameter('email', $user->getUserIdentifier()); 
+        }
+    
+        return $qb;
     }
 
     public static function getEntityFqcn(): string
@@ -46,14 +71,14 @@ class ExperienceUniTranslationCrudController extends AbstractCrudController
         return ExperienceUniTranslation::class;
     }
 
-    
+
     public function configureFields(string $pageName): iterable
     {
         return [
             AssociationField::new('translatable')
-            ->setFormTypeOption('choice_label', function ($entity) {
-                return $entity->getUser()->getPrenom() . ' ' . $entity->getUser()->getNom() . ' -> ' . $entity->getTitre();
-            }),
+                ->setFormTypeOption('choice_label', function ($entity) {
+                    return $entity->getUser()->getPrenom() . ' ' . $entity->getUser()->getNom() . ' -> ' . $entity->getTitre();
+                }),
             ChoiceField::new('locale')
                 ->setChoices([
                     'Français' => 'fr',
@@ -65,9 +90,4 @@ class ExperienceUniTranslationCrudController extends AbstractCrudController
             TextareaField::new('description')
         ];
     }
-
-    
-    
-
-  
 }

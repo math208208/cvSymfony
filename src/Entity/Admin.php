@@ -66,9 +66,14 @@ class Admin implements UserInterface, PasswordAuthenticatedUserInterface
     public function getRoles(): array
     {
         $roles = $this->roles;
-        // guarantee every user at least has ROLE_USER
+        // Ajoute ROLE_USER par défaut
         $roles[] = 'ROLE_USER';
-
+    
+        // Si l'utilisateur a le rôle admin, ajoute ROLE_ADMIN
+        if (in_array('ROLE_ADMIN', $this->roles)) {
+            $roles[] = 'ROLE_ADMIN';
+        }
+    
         return array_unique($roles);
     }
 
@@ -105,4 +110,6 @@ class Admin implements UserInterface, PasswordAuthenticatedUserInterface
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
     }
+
+    
 }

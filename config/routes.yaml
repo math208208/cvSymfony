@@ -33,3 +33,5 @@ redirect_to_locale:
     methods: [GET]
     options:
         expose: true
+
+

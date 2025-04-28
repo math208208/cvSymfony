@@ -15,7 +15,7 @@ use App\Service\TranslationService;
 use Symfony\Component\HttpFoundation\Request;
 final class MainController extends AbstractController
 {
-    #[Route('/{slug}', name: 'app_main')]
+    #[Route('/{slug}', name: 'app_main', requirements: ['slug' => '^(?!favicon\.ico$).+'])]
     public function show(string $slug, UserRepository $userRepository, FormationRepository $repoformations,
     LoisirRepository $repoloisirs,TranslationService $translator, Request $request
 
