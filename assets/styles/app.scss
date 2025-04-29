@@ -1,8 +1,11 @@
 @use "header";
 @use "footer";
 @use 'layout';
+
+@use 'main';
 @use 'index';
 @use 'contact';
 @use 'experiences';
 @use 'competences';
 @use 'responsive';
+

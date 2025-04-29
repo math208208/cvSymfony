@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20250424073039 extends AbstractMigration
+final class Version20250429082734 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -21,7 +21,10 @@ final class Version20250424073039 extends AbstractMigration
     {
         // this up() migration is auto-generated, please modify it to your needs
         $this->addSql(<<<'SQL'
-            ALTER TABLE loisir RENAME COLUMN photo TO image_name
+            ALTER TABLE loisir ADD archived BOOLEAN DEFAULT NULL
+        SQL);
+        $this->addSql(<<<'SQL'
+            ALTER TABLE loisir DROP photo
         SQL);
     }
 
@@ -32,7 +35,10 @@ final class Version20250424073039 extends AbstractMigration
             CREATE SCHEMA public
         SQL);
         $this->addSql(<<<'SQL'
-            ALTER TABLE loisir RENAME COLUMN image_name TO photo
+            ALTER TABLE loisir ADD photo VARCHAR(255) DEFAULT NULL
+        SQL);
+        $this->addSql(<<<'SQL'
+            ALTER TABLE loisir DROP archived
         SQL);
     }
 }

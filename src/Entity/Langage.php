@@ -30,6 +30,22 @@ class Langage
     #[ORM\OneToMany(mappedBy: 'translatable', targetEntity: LangageTranslation::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
     private Collection $translations;
 
+
+    #[ORM\Column(type: 'boolean')]
+    private bool $archived = false;
+    
+    public function isArchived(): bool
+    {
+        return $this->archived;
+    }
+    
+    public function setArchived(bool $archived): self
+    {
+        $this->archived = $archived;
+        return $this;
+    }
+
+
     public function __toString(): string
     {
         return $this->user." -> ".$this->nomLangue ?? 'Langage';

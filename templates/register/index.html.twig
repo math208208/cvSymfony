@@ -1,0 +1,19 @@
+{% extends 'main/index.html.twig' %}
+
+{% block title %}Enregistrement
+{% endblock %}
+
+{% block main_content %}
+	<h1 class="h1main">Créer un compte</h1>
+	{{ form_start(registerForm) }}
+	{{ form_row(registerForm.nom  , {'attr': {'class': 'formNom'}}) }}
+	{{ form_row(registerForm.prenom  , {'attr': {'class': 'formAttr'}}) }}
+	{{ form_row(registerForm.email  , {'attr': {'class': 'formAttr'}}) }}
+	{{ form_row(registerForm.telephone  , {'attr': {'class': 'formAttr'}}) }}
+	{{ form_row(registerForm.plainPassword  , {'attr': {'class': 'formAttr'}}) }}
+	{{ form_row(registerForm.submit  , {'attr': {'class': 'buttonMain'}}) }}
+	{{ form_end(registerForm) }}
+	<a href="{{ path('app_connect') }}" class="formA">Connexion</a>
+
+
+{% endblock %}

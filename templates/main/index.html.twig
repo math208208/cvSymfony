@@ -1,85 +1,41 @@
-{% extends 'base.html.twig' %}
+<!DOCTYPE html>
+<html lang="fr">
+	<head>
+		<meta charset="utf-8"/>
+		<title>Connexion
+		</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1"/>
+		<link rel="icon" type="image/png" href={{ asset('build/images/logo.png') }}>
+		{% block stylesheets %}
+			{{ encore_entry_link_tags('app') }}
+		{% endblock %}
 
-{% block title %}{% trans %}header.home{% endtrans %}
-{% endblock %}
+	</head>
 
-{% block body %}
-	<main>
-		<!-- photo moi et description|raw -->
-		<section class="sectionIndex1">
-			<img id="imgmoi" src="{{ user.imageName ? asset('uploads/images/' ~ user.imageName) : asset('build/images/default.png') }}" alt="Photo personne"/>
+	<body class="bodymain">
 
-			<div class="divInfo">
-				<h1>{{user.prenom}}
-					{{user.nom}}</h1>
-				<h3>{{user.profession}}</h3>
+		<header class="headMain">
+			<nav>
+				<!--Ajouter plus de truc dans le menu genre exemple de cv conseil etc etc-->
+				<div class="navMenu">
+					<a><img id="logo" alt="imgLogo" src={{ asset('build/images/logo.png') }} class="imgLogo"/></a>
+					<img id="idmenu" alt="imgmenu" src={{ asset('build/images/menu/menu.png') }} class="imgMenu"/>
+				</div>
+				<div class="navDiva">
+					<a href="{{ path('app_connect') }}"> Connexion </a>
+				</div>
+			</nav>
+		</header>
 
-				<p>
-					{{user.description|raw}}
-				</p>
+		<main>
+			<!--ajouter exemple cv + slogan -->
+			{% block main_content %}{% endblock %}
 
-				<button class="aBoutton" id="aBoutton">{% trans %}button.aboutMe{% endtrans %}</button>
-			</div>
-		</section>
+		</main>
 
-		<!-- Parcours et photos -->
-		<section id="a-propos" class="sectionIndex2">
-			<div class="parcours" id="a-propos-div">
-				<h2>{% trans %}section.training{% endtrans %}</h2>
-				<ul>
-					{% for formation in formations %}
-						<li>
-							<em class="italic">{{ formation.annee }}</em>,
-							{{ formation.intitule }}<br/>
-							<em class="italic">{{ formation.lieu }}</em>
-						</li>
-						
-					{% else %}
-						<li>{% trans %}nodata{% endtrans %}</li>
-					{% endfor %}
-				</ul>
-			</div>
-			<div class="imagesParcours">
-				{% for formation in formations %}
-					{% if formation.imageName != null %}
-					<img src="{{ asset('uploads/images/' ~ formation.imageName) }}" alt="Image formation" class="imgParcours"/>
-					{% endif %}
 
-				{% else %}
-					<li>{% trans %}nodata{% endtrans %}</li>
-				{% endfor %}
-			
-			</div>
-					
-			
-		</section>
-
-		<!-- Loisirs et photos -->
-		<section class="sectionIndex3">
-			<div class="imagesLoisirs">
-			{% for loisir in loisirs %}
-
-				{% if loisir.imageName != null %}
-
-				<img id="idgym" src="{{ asset('uploads/images/' ~ loisir.imageName) }}" alt="Image loisir" class="imgLoisirs"/>
-
-				{% endif %}
-			{% else %}
-				<li>{% trans %}nodata{% endtrans %}</li>
-			{% endfor %}
-			</div>
-			<div class="loisirs divLoisirs">
-				<h2>{% trans %}section.hobbies{% endtrans %}</h2>
-				<ul>
-					{% for loisir in loisirs %}
-						<li>
-							{{loisir.nom}}
-						</li>
-					{% else %}
-						<li>{% trans %}nodata{% endtrans %}</li>
-					{% endfor %}
-				</ul>
-			</div>
-		</section>
-	</main>
-{% endblock %}
+	</body>
+	{% block javascripts %}
+		{{ encore_entry_script_tags('app') }}
+	{% endblock %}
+</html>

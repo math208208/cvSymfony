@@ -20,6 +20,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\SearchDto;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FilterCollection;
+use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 
 class ExperienceUniCrudController extends AbstractCrudController
 {
@@ -35,7 +36,7 @@ class ExperienceUniCrudController extends AbstractCrudController
             ->setIcon('fa fa-external-link-alt')
             ->linkToUrl(function (ExperienceUni $experienceUni) {
                 $user = $experienceUni->getUser();
-                return 'http://localhost:8001/' . $user->getSlug()."/experiences";
+                return 'http://localhost:8001/' . $user->getSlug() . "/experiences";
             })
             ->setHtmlAttributes(['target' => '_blank']);
 
@@ -46,11 +47,13 @@ class ExperienceUniCrudController extends AbstractCrudController
             });
 
 
-        return $actions
+        $actions = $actions
             ->add('index', $test)
             ->add('index', $redirectAction)
             ->add('detail', $redirectAction);
-            
+
+
+        return $actions;
     }
 
     public function createIndexQueryBuilder(
@@ -60,15 +63,15 @@ class ExperienceUniCrudController extends AbstractCrudController
         FilterCollection $filters
     ): QueryBuilder {
         $qb = parent::createIndexQueryBuilder($searchDto, $entityDto, $fields, $filters);
-    
+
         $user = $this->getUser();
-    
+
         if (!$this->isGranted('ROLE_ADMIN') && $user !== null) {
             $qb->join('entity.user', 'u')
-               ->andWhere('u.email = :email')
-               ->setParameter('email', $user->getUserIdentifier());
+                ->andWhere('u.email = :email')
+                ->setParameter('email', $user->getUserIdentifier());
         }
-    
+
         return $qb;
     }
 
@@ -80,12 +83,14 @@ class ExperienceUniCrudController extends AbstractCrudController
             TextField::new('sousTitre'),
             IntegerField::new('annee'),
             TextEditorField::new('description')
-            ->setFormType(CKEditorType::class)
-            ->setRequired(false),
+                ->setFormType(CKEditorType::class)
+                ->setRequired(false),
             AssociationField::new('user')
-            ->autocomplete()
-            ->setFormTypeOption('attr', ['data-search' => 'true'])
-            ->setRequired(true),
+                ->autocomplete()
+                ->setFormTypeOption('attr', ['data-search' => 'true'])
+                ->setRequired(true),
+            BooleanField::new('archived', 'Archivé')
+                ->renderAsSwitch()
         ];
 
         //permet de pouvoir ajouter si cest une page dedit ou une nouvelle exp
@@ -95,10 +100,10 @@ class ExperienceUniCrudController extends AbstractCrudController
                 ->setLabel('Traductions');
         }
         return $fields;
-
     }
 
-    public function configureCrud(Crud $crud): Crud{
+    public function configureCrud(Crud $crud): Crud
+    {
         return $crud
             ->setSearchFields([
                 'id',
@@ -110,8 +115,5 @@ class ExperienceUniCrudController extends AbstractCrudController
                 'user.nom',
             ])
             ->addFormTheme('@FOSCKEditor/Form/ckeditor_widget.html.twig');
-            
     }
-
-    
 }

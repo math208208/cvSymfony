@@ -6,6 +6,7 @@ namespace App\Controller\Admin\Translation;
 use App\Entity\Translation\ExperienceUniTranslation;
 use App\Service\TranslationService as ServiceTranslationService;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\EntityRepository;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
@@ -53,16 +54,16 @@ class ExperienceUniTranslationCrudController extends AbstractCrudController
         FilterCollection $filters
     ): QueryBuilder {
         $qb = parent::createIndexQueryBuilder($searchDto, $entityDto, $fields, $filters);
-    
+
         $user = $this->getUser();
-    
+
         if (!$this->isGranted('ROLE_ADMIN') && $user !== null) {
             $qb->join('entity.translatable', 't')
                 ->join('t.user', 'u')
                 ->andWhere('u.email = :email')
-                ->setParameter('email', $user->getUserIdentifier()); 
+                ->setParameter('email', $user->getUserIdentifier());
         }
-    
+
         return $qb;
     }
 
@@ -72,12 +73,27 @@ class ExperienceUniTranslationCrudController extends AbstractCrudController
     }
 
 
+
+
     public function configureFields(string $pageName): iterable
     {
+        $user = $this->getUser();
+
         return [
             AssociationField::new('translatable')
                 ->setFormTypeOption('choice_label', function ($entity) {
                     return $entity->getUser()->getPrenom() . ' ' . $entity->getUser()->getNom() . ' -> ' . $entity->getTitre();
+                })
+                //condition pour recup seulement ce de la perssone connecté si sont role est user
+                ->setFormTypeOption('query_builder', function (EntityRepository $er) use ($user) {
+                    if ($this->isGranted('ROLE_ADMIN')) {
+                        return $er->createQueryBuilder('t');
+                    }
+
+                    return $er->createQueryBuilder('t')
+                        ->join('t.user', 'u')
+                        ->where('u.email = :email')
+                        ->setParameter('email', $user->getUserIdentifier());
                 }),
             ChoiceField::new('locale')
                 ->setChoices([

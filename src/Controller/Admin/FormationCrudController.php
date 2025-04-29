@@ -20,6 +20,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\SearchDto;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FilterCollection;
+use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 
 class FormationCrudController extends AbstractCrudController
 {
@@ -46,11 +47,13 @@ class FormationCrudController extends AbstractCrudController
             });
 
 
-        return $actions
+        $actions = $actions
             ->add('index', $test)
             ->add('index', $redirectAction)
             ->add('detail', $redirectAction);
-            
+
+
+        return $actions;
     }
 
 
@@ -61,15 +64,15 @@ class FormationCrudController extends AbstractCrudController
         FilterCollection $filters
     ): QueryBuilder {
         $qb = parent::createIndexQueryBuilder($searchDto, $entityDto, $fields, $filters);
-    
+
         $user = $this->getUser();
-    
+
         if (!$this->isGranted('ROLE_ADMIN') && $user !== null) {
             $qb->join('entity.user', 'u')
-               ->andWhere('u.email = :email')
-               ->setParameter('email', $user->getUserIdentifier());
+                ->andWhere('u.email = :email')
+                ->setParameter('email', $user->getUserIdentifier());
         }
-    
+
         return $qb;
     }
 
@@ -87,9 +90,11 @@ class FormationCrudController extends AbstractCrudController
                 ->setBasePath('/uploads/images')
                 ->hideOnForm(),
             AssociationField::new('user')
-            ->autocomplete()
-            ->setFormTypeOption('attr', ['data-search' => 'true'])
-            ->setRequired(true),
+                ->autocomplete()
+                ->setFormTypeOption('attr', ['data-search' => 'true'])
+                ->setRequired(true),
+            BooleanField::new('archived', 'Archivé')
+                ->renderAsSwitch()
         ];
 
         if (Crud::PAGE_NEW === $pageName) {
@@ -101,7 +106,8 @@ class FormationCrudController extends AbstractCrudController
         return $fields;
     }
 
-    public function configureCrud(Crud $crud): Crud{
+    public function configureCrud(Crud $crud): Crud
+    {
         return $crud
             ->setSearchFields([
                 'id',

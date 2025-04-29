@@ -35,7 +35,7 @@ class User
     private ?string $profession = null;
 
 
-    #[ORM\Column(type: Types::TEXT, nullable: false)]
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
 
     #[ORM\Column(length: 255, nullable: false, unique: true)]

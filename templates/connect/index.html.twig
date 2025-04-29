@@ -1,0 +1,14 @@
+{% extends 'main/index.html.twig' %}
+
+{% block title %}Connexion{% endblock %}
+
+{% block main_content %}
+    <h1 class="h1main">Connexion</h1>
+    {{ form_start(connectForm) }}
+        {{ form_row(connectForm.email  , {'attr': {'class': 'formAttr'}}) }}
+        {{ form_row(connectForm.plainPassword  , {'attr': {'class': 'formAttr'}}) }}
+        {{ form_row(connectForm.submit  , {'attr': {'class': 'buttonMain'}}) }}
+    {{ form_end(connectForm) }}
+    <a href="{{ path('app_register') }}" class="formA">Creer un compte</a>
+
+{% endblock %}

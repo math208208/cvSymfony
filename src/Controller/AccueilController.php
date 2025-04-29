@@ -13,23 +13,29 @@ use Symfony\Component\Routing\Attribute\Route;
 use App\Repository\UserRepository;
 use App\Service\TranslationService;
 use Symfony\Component\HttpFoundation\Request;
-final class MainController extends AbstractController
-{
-    #[Route('/{slug}', name: 'app_main', requirements: ['slug' => '^(?!favicon\.ico$).+'])]
-    public function show(string $slug, UserRepository $userRepository, FormationRepository $repoformations,
-    LoisirRepository $repoloisirs,TranslationService $translator, Request $request
 
-    ): Response
-    {
+final class AccueilController extends AbstractController
+{
+    #[Route('/{slug}', name: 'app_accueil', requirements: ['slug' => '^(?!favicon\.ico$).+'])]
+    public function show(
+        string $slug,
+        UserRepository $userRepository,
+        FormationRepository $repoformations,
+        LoisirRepository $repoloisirs,
+        TranslationService $translator,
+        Request $request,
+        string $_locale
+    ): Response {
         $user = $userRepository->findOneBySlug($slug);
+
         if (!$user) {
-            throw $this->createNotFoundException('CV non trouvé.');
+            throw $this->createNotFoundException('Utilisateur non trouvé.');
         }
 
-        $formations = $repoformations->findByUser($user);  
-        $loisirs = $repoloisirs->findByUser($user);  
-        $locale = $request->getLocale();
 
+        $formations = $repoformations->findByUser($user);
+        $loisirs = $repoloisirs->findByUser($user);
+        $locale = $request->getLocale();
 
         foreach ($formations as $formation) {
             if ($translation = $translator->translate($formation, $locale, FormationTranslation::class)) {
@@ -43,20 +49,15 @@ final class MainController extends AbstractController
             }
         }
 
-
         if ($translation = $translator->translate($user, $locale, UserTranslation::class)) {
             $user->setProfession($translation->getProfession());
             $user->setDescription($translation->getDescription());
         }
-        
 
-
-        return $this->render('main/index.html.twig', [
+        return $this->render('accueil/index.html.twig', [
             'user' => $user,
             'formations' => $formations,
             'loisirs' => $loisirs,
-
         ]);
     }
-
 }

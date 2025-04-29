@@ -45,11 +45,17 @@ class UserCrudController extends AbstractCrudController
                 return 'http://localhost:8001/admin/user/' . $user->getId();
             });
 
-
-        return $actions
+        $actions
             ->add('index', $test)
             ->add('index', $redirectAction)
             ->add('detail', $redirectAction);
+            
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            return $actions
+                ->disable(Action::NEW, Action::DELETE);
+        }
+
+        return $actions;
     }
 
     public function configureFields(string $pageName): iterable
@@ -103,9 +109,9 @@ class UserCrudController extends AbstractCrudController
         $user = $this->getUser();
 
         if (!$this->isGranted('ROLE_ADMIN') && $user !== null) {
-            $email = $user->getUserIdentifier(); 
+            $email = $user->getUserIdentifier();
 
-            $qb->andWhere( 'entity.email  = :email')
+            $qb->andWhere('entity.email  = :email')
                 ->setParameter('email', $email);
         }
 

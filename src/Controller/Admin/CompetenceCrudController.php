@@ -2,9 +2,7 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\Admin;
 use App\Entity\Competence;
-use App\Entity\User;
 use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FilterCollection;
@@ -18,6 +16,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\SearchDto;
+use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 
 class CompetenceCrudController extends AbstractCrudController
 {
@@ -33,7 +32,7 @@ class CompetenceCrudController extends AbstractCrudController
             ->setIcon('fa fa-external-link-alt')
             ->linkToUrl(function (Competence $competence) {
                 $user = $competence->getUser();
-                return 'http://localhost:8001/' . $user->getSlug()."/competences";
+                return 'http://localhost:8001/' . $user->getSlug() . "/competences";
             })
             ->setHtmlAttributes(['target' => '_blank']);
 
@@ -44,11 +43,13 @@ class CompetenceCrudController extends AbstractCrudController
             });
 
 
-        return $actions
+        $actions = $actions
             ->add('index', $test)
             ->add('index', $redirectAction)
             ->add('detail', $redirectAction);
-            
+
+
+        return $actions;
     }
 
     public function createIndexQueryBuilder(
@@ -58,15 +59,15 @@ class CompetenceCrudController extends AbstractCrudController
         FilterCollection $filters
     ): QueryBuilder {
         $qb = parent::createIndexQueryBuilder($searchDto, $entityDto, $fields, $filters);
-    
+
         $user = $this->getUser();
-    
+
         if (!$this->isGranted('ROLE_ADMIN') && $user !== null) {
             $qb->join('entity.user', 'u')
-               ->andWhere('u.email = :email')
-               ->setParameter('email', $user->getUserIdentifier());
+                ->andWhere('u.email = :email')
+                ->setParameter('email', $user->getUserIdentifier());
         }
-    
+
         return $qb;
     }
 
@@ -77,14 +78,17 @@ class CompetenceCrudController extends AbstractCrudController
             TextField::new('nom'),
             IntegerField::new('pourcentageMetrise'),
             AssociationField::new('user')
-            ->autocomplete()
-            ->setFormTypeOption('attr', ['data-search' => 'true'])
-            ->setRequired(true),
+                ->autocomplete()
+                ->setFormTypeOption('attr', ['data-search' => 'true'])
+                ->setRequired(true),
+            BooleanField::new('archived', 'Archivé')
+                ->renderAsSwitch()
         ];
     }
-    
 
-    public function configureCrud(Crud $crud): Crud{
+
+    public function configureCrud(Crud $crud): Crud
+    {
         return $crud
             ->setSearchFields([
                 'id',

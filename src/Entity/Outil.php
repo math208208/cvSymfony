@@ -27,6 +27,21 @@ class Outil
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
 
+    #[ORM\Column(type: 'boolean')]
+    private bool $archived = false;
+    
+    public function isArchived(): bool
+    {
+        return $this->archived;
+    }
+    
+    public function setArchived(bool $archived): self
+    {
+        $this->archived = $archived;
+        return $this;
+    }
+
+
     public function getUser(): ?User
     {
         return $this->user;

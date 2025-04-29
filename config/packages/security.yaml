@@ -22,10 +22,12 @@ security:
                 username_parameter: _username
                 password_parameter: _password
                 default_target_path: /admin
+
             logout:
                 path: app_logout
                 target: /login
             provider: app_user_provider
+
 
         api:
             pattern: ^/api

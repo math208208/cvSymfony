@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20250424080611 extends AbstractMigration
+final class Version20250429075808 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -21,13 +21,7 @@ final class Version20250424080611 extends AbstractMigration
     {
         // this up() migration is auto-generated, please modify it to your needs
         $this->addSql(<<<'SQL'
-            ALTER TABLE "user" ADD image_name VARCHAR(255) DEFAULT NULL
-        SQL);
-        $this->addSql(<<<'SQL'
-            ALTER TABLE "user" ADD updated_at TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL
-        SQL);
-        $this->addSql(<<<'SQL'
-            ALTER TABLE "user" ALTER photo DROP NOT NULL
+            ALTER TABLE "user" ALTER description DROP NOT NULL
         SQL);
     }
 
@@ -38,13 +32,7 @@ final class Version20250424080611 extends AbstractMigration
             CREATE SCHEMA public
         SQL);
         $this->addSql(<<<'SQL'
-            ALTER TABLE "user" DROP image_name
-        SQL);
-        $this->addSql(<<<'SQL'
-            ALTER TABLE "user" DROP updated_at
-        SQL);
-        $this->addSql(<<<'SQL'
-            ALTER TABLE "user" ALTER photo SET NOT NULL
+            ALTER TABLE "user" ALTER description SET NOT NULL
         SQL);
     }
 }

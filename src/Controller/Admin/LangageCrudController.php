@@ -17,6 +17,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\SearchDto;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FilterCollection;
+use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 
 class LangageCrudController extends AbstractCrudController
 {
@@ -32,7 +33,7 @@ class LangageCrudController extends AbstractCrudController
             ->setIcon('fa fa-external-link-alt')
             ->linkToUrl(function (Langage $langage) {
                 $user = $langage->getUser();
-                return 'http://localhost:8001/' . $user->getSlug()."/competences";
+                return 'http://localhost:8001/' . $user->getSlug() . "/competences";
             })
             ->setHtmlAttributes(['target' => '_blank']);
 
@@ -43,11 +44,13 @@ class LangageCrudController extends AbstractCrudController
             });
 
 
-        return $actions
+        $actions = $actions
             ->add('index', $test)
             ->add('index', $redirectAction)
             ->add('detail', $redirectAction);
-            
+
+
+        return $actions;
     }
 
 
@@ -58,15 +61,15 @@ class LangageCrudController extends AbstractCrudController
         FilterCollection $filters
     ): QueryBuilder {
         $qb = parent::createIndexQueryBuilder($searchDto, $entityDto, $fields, $filters);
-    
+
         $user = $this->getUser();
-    
+
         if (!$this->isGranted('ROLE_ADMIN') && $user !== null) {
             $qb->join('entity.user', 'u')
-               ->andWhere('u.email = :email')
-               ->setParameter('email', $user->getUserIdentifier());
+                ->andWhere('u.email = :email')
+                ->setParameter('email', $user->getUserIdentifier());
         }
-    
+
         return $qb;
     }
 
@@ -77,9 +80,11 @@ class LangageCrudController extends AbstractCrudController
             TextField::new('nomLangue'),
             TextField::new('niveau'),
             AssociationField::new('user')
-            ->autocomplete()
-            ->setFormTypeOption('attr', ['data-search' => 'true'])
-            ->setRequired(true),
+                ->autocomplete()
+                ->setFormTypeOption('attr', ['data-search' => 'true'])
+                ->setRequired(true),
+            BooleanField::new('archived', 'Archivé')
+                ->renderAsSwitch()
 
         ];
 
@@ -91,8 +96,9 @@ class LangageCrudController extends AbstractCrudController
 
         return $fields;
     }
-    
-    public function configureCrud(Crud $crud): Crud{
+
+    public function configureCrud(Crud $crud): Crud
+    {
         return $crud
             ->setSearchFields([
                 'id',
