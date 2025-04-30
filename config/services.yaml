@@ -26,6 +26,13 @@ services:
         autoconfigure: true
         public: true  
 
+    App\Security\AdminAuthenticator:
+        autowire: true
+        autoconfigure: true
+    
+    App\EventListener\SlugCheckerListener:
+        tags:
+            - { name: kernel.event_listener, event: kernel.request }
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

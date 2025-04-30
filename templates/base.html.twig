@@ -23,10 +23,14 @@
 					<img id="idmenu" alt="imgmenu" src={{ asset('build/images/menu/menu.png') }} class="imgMenu"/>
 				</div>
 				<div class="navDiva">
+					<a id="navExplorer" class="butNav" href="">Explorer</a>
+
 					<a id="navAccueil" class="butNav" href="{{ path('app_accueil', {slug: user.slug}) }}">{% trans %}header.home{% endtrans %}</a>
 					<a id="navCompetences" class="butNav" href="{{ path('app_competences', {slug: user.slug}) }}">{% trans %}header.skills{% endtrans %}</a>
 					<a id="navExperiences" class="butNav" href="{{ path('app_experience', {slug: user.slug}) }}">{% trans %}header.experiences{% endtrans %}</a>
 					<a id="navContact" class="butNav" href="{{ path('app_contact', {slug: user.slug}) }}">{% trans %}contact{% endtrans %}</a>
+					<a href="{{ path('app_profil', {slug: user.slug}) }}" class="actionA"><img class="imgAction" src={{ asset('build/images/menu/profil.png') }} alt="imgProfil"/></a>
+					<a href="{{ path('app_logout') }}" class="actionA"><img class="imgAction" src={{ asset('build/images/menu/exit.png') }} alt="imgExit"/></a>
 
 				</div>
 			</nav>

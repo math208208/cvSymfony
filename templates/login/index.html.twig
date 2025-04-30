@@ -1,0 +1,44 @@
+{% extends 'main/index.html.twig' %}
+
+{% block title %}Connexion{% endblock %}
+
+{% block main_content %}
+    <h1 class="h1main">Connexion</h1>
+
+    {% if error %}
+        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+    {% endif %}
+
+    <form method="post" action="{{ path('app_login') }}">
+        <div>
+            <label for="email">Email :</label>
+            <input class="formAttr" type="email" id="email" name="_email" value="{{ last_username }}" required autofocus>
+        </div>
+        <div>
+            <label for="password">Mot de passe :</label>
+            <input class="formAttr" type="password" id="password" name="_plainPassword" required>
+        </div>
+        
+        {# Champ CSRF token ESSENTIEL #}
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+        
+        <button class="buttonMain" type="submit">Se connecter</button>
+    </form>
+
+    <a href="{{ path('app_register') }}" class="formA">Créer un compte</a>
+{% endblock %}
+
+{# {% extends 'main/index.html.twig' %}
+
+{% block title %}Connexion{% endblock %}
+
+{% block main_content %}
+    <h1 class="h1main">Connexion</h1>
+    {{ form_start(connectForm) }}
+        {{ form_row(connectForm.email  , {'attr': {'class': 'formAttr'}}) }}
+        {{ form_row(connectForm.plainPassword  , {'attr': {'class': 'formAttr'}}) }}
+        {{ form_row(connectForm.submit  , {'attr': {'class': 'buttonMain'}}) }}
+    {{ form_end(connectForm) }}
+    <a href="{{ path('app_register') }}" class="formA">Creer un compte</a>
+
+{% endblock %} #}

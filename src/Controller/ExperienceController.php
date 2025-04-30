@@ -24,6 +24,8 @@ final class ExperienceController extends AbstractController
         Request $request
     ): Response
     {
+        $this->denyAccessUnlessGranted('VIEW_PROFILE', $slug);
+
         $user = $userRepository->findOneBySlug($slug);
         
         if (!$user) {
@@ -31,7 +33,17 @@ final class ExperienceController extends AbstractController
         }
 
         $experiencesPro = $repoExpPro->findByUser($user);  
+        foreach ($experiencesPro as $key => $experiencePro) {
+            if ($experiencePro->isArchived()) {
+                unset($experiencesPro[$key]); 
+            }
+        }
         $experiencesUni = $repoExpUni->findByUser($user);  
+        foreach ($experiencesUni as $key => $experienceUni) {
+            if ($experienceUni->isArchived()) {
+                unset($experiencesUni[$key]); 
+            }
+        }
 
         $locale = $request->getLocale();
 

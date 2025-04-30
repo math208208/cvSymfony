@@ -20,6 +20,9 @@ migrate:
 migration:
 		symfony console make:migration
 
+contphp:
+		docker compose exec php-fpm bash
+
 
 
 

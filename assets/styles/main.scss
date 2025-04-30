@@ -1,7 +1,7 @@
 .bodymain {
     background: radial-gradient(circle, rgba(126, 195, 247, 1) 0%, rgba(126, 237, 133, 1) 100%);
     .headMain {
-        background-color: rgba(255, 255, 255, 0);
+        background: rgba(255, 255, 255, 0);
         border: 0px;
     }
 
@@ -17,6 +17,10 @@
             margin-bottom: 40px;
         }
 
+        form{
+            display: flex;
+            flex-direction: column;
+        }
         .formNom {
             margin-left: 15px;
         }

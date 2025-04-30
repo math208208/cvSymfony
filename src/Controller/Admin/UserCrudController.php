@@ -49,7 +49,7 @@ class UserCrudController extends AbstractCrudController
             ->add('index', $test)
             ->add('index', $redirectAction)
             ->add('detail', $redirectAction);
-            
+
         if (!$this->isGranted('ROLE_ADMIN')) {
             return $actions
                 ->disable(Action::NEW, Action::DELETE);
@@ -68,7 +68,6 @@ class UserCrudController extends AbstractCrudController
             TextEditorField::new('description', 'Description')
                 ->setFormType(CKEditorType::class)
                 ->setRequired(false),
-            TextField::new('email')->setRequired(true),
             TextField::new('imageFile')
                 ->setFormType(VichImageType::class)
                 ->onlyOnForms(),
@@ -79,9 +78,18 @@ class UserCrudController extends AbstractCrudController
             TextareaField::new('linkdin')->setRequired(false),
             TextareaField::new('github')->setRequired(false),
             TextField::new('slug')->onlyOnIndex(),
-
-
         ];
+
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            $fields[] = TextField::new('email')
+                ->setRequired(true)
+                ->hideOnForm();
+        } else {
+            $fields[] = TextField::new('email')
+                ->setRequired(true);
+        }
+
+
 
         if (Crud::PAGE_NEW === $pageName) {
             $fields[] = CollectionField::new('translations')

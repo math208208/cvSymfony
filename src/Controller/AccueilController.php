@@ -26,6 +26,9 @@ final class AccueilController extends AbstractController
         Request $request,
         string $_locale
     ): Response {
+        
+        $this->denyAccessUnlessGranted('VIEW_PROFILE', $slug);
+
         $user = $userRepository->findOneBySlug($slug);
 
         if (!$user) {
@@ -34,7 +37,19 @@ final class AccueilController extends AbstractController
 
 
         $formations = $repoformations->findByUser($user);
+        foreach ($formations as $key => $formation) {
+            if ($formation->isArchived()) {
+                unset($formations[$key]); 
+            }
+        }
+        
         $loisirs = $repoloisirs->findByUser($user);
+        foreach ($loisirs as $key => $loisir) {
+            if ($loisir->isArchived()) {
+                unset($loisirs[$key]); 
+            }
+        }
+
         $locale = $request->getLocale();
 
         foreach ($formations as $formation) {

@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Controller;
 
 use App\Entity\User;
@@ -6,18 +7,25 @@ use App\Entity\Admin;
 use App\Form\RegisterType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
 class RegisterController extends AbstractController
 {
-    #[Route('/register', name: 'app_register')]
+    #[Route(path: '/register', name: 'app_register')]
     public function register(
         Request $request,
         EntityManagerInterface $em,
-        UserPasswordHasherInterface $passwordHasher
+        UserPasswordHasherInterface $passwordHasher,
+        TokenStorageInterface $tokenStorage,
+        SessionInterface $session
+
     ): Response {
         $form = $this->createForm(RegisterType::class);
         $form->handleRequest($request);
@@ -41,12 +49,14 @@ class RegisterController extends AbstractController
             $em->persist($admin);
             $em->flush();
 
-            $this->addFlash('success', 'Compte créé avec succès !');
+            $token = new UsernamePasswordToken($admin, 'main', $admin->getRoles());
+            $tokenStorage->setToken($token);
+            $session->set('_security_main', serialize($token)); 
 
 
 
-           
-            return $this->redirectToRoute('app_accueil', ['slug' => $user -> getSlug()]);
+
+            return $this->redirectToRoute('app_accueil', ['slug' => $user->getSlug()]);
         }
 
         return $this->render('register/index.html.twig', [

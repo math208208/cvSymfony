@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Form;
 
 use Symfony\Component\Form\AbstractType;
@@ -13,12 +14,14 @@ class ConnectType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('email', EmailType::class)
-            ->add('plainPassword', PasswordType::class, [
-                'label' => 'Mot de passe'
+            ->add('_email', EmailType::class, [
+                'label' => 'Email',
+            ])
+            ->add('_plainPassword', PasswordType::class, [
+                'label' => 'Mot de passe',
             ])
             ->add('submit', SubmitType::class, [
-                'label' => 'Me connecter !'
+                'label' => 'Se connecter',
             ]);
     }
 }

@@ -16,17 +16,14 @@ security:
 
         main:
             pattern: ^/(?!api)  # Exclut toutes les routes /api du firewall main
-            form_login:
-                login_path: app_login
-                check_path: app_login
-                username_parameter: _username
-                password_parameter: _password
-                default_target_path: /admin
-
+            lazy: true
+            provider: app_user_provider
+            custom_authenticator: App\Security\AdminAuthenticator
             logout:
                 path: app_logout
                 target: /login
-            provider: app_user_provider
+            
+            
 
 
         api:
@@ -42,9 +39,13 @@ security:
             jwt: ~
 
     access_control:
-        - { path: ^/admin, roles: ROLE_USER }
         - { path: ^/api/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/(fr|en|es)/register, roles: PUBLIC_ACCESS }
+        - { path: ^/login, roles: PUBLIC_ACCESS }
+        
         - { path: ^/api, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/admin, roles: ROLE_USER }
+        - { path: ^/(fr|en|es)/([a-z0-9-]+)$, roles: ROLE_USER }
 
 when@test:
     security:
