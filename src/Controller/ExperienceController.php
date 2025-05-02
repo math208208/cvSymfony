@@ -45,23 +45,8 @@ final class ExperienceController extends AbstractController
             }
         }
 
-        $locale = $request->getLocale();
 
-        //permet de recup uniquement les données du user en question 
-        foreach ($experiencesPro as $experiencePro) {
-            if ($translation = $translator->translate($experiencePro, $locale, ExperienceProTranslation::class)) {
-                $experiencePro->setPoste($translation->getPoste());
-                $experiencePro->setDescription($translation->getDescription());
-            }
-        }
 
-        foreach ($experiencesUni as $experienceUni) {
-            if ($translation = $translator->translate($experienceUni, $locale, ExperienceUniTranslation::class)) {
-                $experienceUni->setTitre($translation->getTitre());
-                $experienceUni->setSousTitre($translation->getSousTitre());
-                $experienceUni->setDescription($translation->getDescription());
-            }
-        }
 
         return $this->render('experiences/index.html.twig', [
             'user' => $user,

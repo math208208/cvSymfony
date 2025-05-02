@@ -90,13 +90,6 @@ class UserCrudController extends AbstractCrudController
         }
 
 
-
-        if (Crud::PAGE_NEW === $pageName) {
-            $fields[] = CollectionField::new('translations')
-                ->useEntryCrudForm(UserTransalationCrudController::class)
-                ->setLabel('Traductions');
-        }
-
         return $fields;
     }
 

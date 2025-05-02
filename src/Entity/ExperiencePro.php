@@ -38,9 +38,6 @@ class ExperiencePro
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
 
-    #[ORM\OneToMany(mappedBy: 'translatable', targetEntity: ExperienceProTranslation::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
-    private Collection $translations;
-
 
     #[ORM\Column(type: 'boolean')]
     private bool $archived = false;
@@ -57,28 +54,14 @@ class ExperiencePro
     }
 
 
-    public function __construct()
-    {
-        $this->translations = new ArrayCollection();
-    }
+
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    
-    public function getTranslations(): ?Collection
-    {
-        return $this->translations;
-    }
 
-    public function setTranslations(Collection $translations): static
-    {
-        $this->translations = $translations;
-
-        return $this;
-    }
 
     public function getPoste(): ?string
     {

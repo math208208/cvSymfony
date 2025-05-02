@@ -34,9 +34,6 @@ class ExperienceUni
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
 
-    #[ORM\OneToMany(mappedBy: 'translatable', targetEntity: ExperienceUniTranslation::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
-    private Collection $translations;
-
     #[ORM\Column(type: 'boolean')]
     private bool $archived = false;
     
@@ -57,21 +54,6 @@ class ExperienceUni
         return $this->user." -> ".$this->titre ?? 'Expérience';
     }
 
-    public function getTranslations(): ?Collection
-    {
-        return $this->translations;
-    }
-
-    public function setTranslations(Collection $translations): static
-    {
-        $this->translations = $translations;
-
-        return $this;
-    }
-    public function __construct()
-    {
-        $this->translations = new ArrayCollection();
-    }
 
     public function getId(): ?int
     {

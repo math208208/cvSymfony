@@ -40,9 +40,6 @@ class Formation
     private ?User $user = null;
 
 
-    #[ORM\OneToMany(mappedBy: 'translatable', targetEntity: FormationTranslation::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
-    private Collection $translations;
-
 
     #[ORM\Column(type: 'boolean')]
     private bool $archived = false;
@@ -64,21 +61,6 @@ class Formation
         return $this->user." -> ".$this->intitule ?? 'Formation';
     }
 
-    public function getTranslations(): ?Collection
-    {
-        return $this->translations;
-    }
-
-    public function setTranslations(Collection $translations): static
-    {
-        $this->translations = $translations;
-
-        return $this;
-    }
-    public function __construct()
-    {
-        $this->translations = new ArrayCollection();
-    }
 
 
     public function getId(): ?int

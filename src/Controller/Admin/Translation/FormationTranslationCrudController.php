@@ -3,7 +3,7 @@
 namespace App\Controller\Admin\Translation;
 
 
-use App\Entity\ExperienceUni;
+use App\Entity\Formation;
 use App\Entity\Translation\Translation;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
@@ -19,7 +19,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
-class ExperienceUniTranslationCrudController extends AbstractCrudController
+class FormationTranslationCrudController extends AbstractCrudController
 {
     private EntityManagerInterface $em;
 
@@ -33,7 +33,7 @@ class ExperienceUniTranslationCrudController extends AbstractCrudController
         return Translation::class;
     }
 
-    //affiche seulement les objet ayant ExperienceUni en entité
+    //affiche seulement les objet ayant Formation en entité
     public function createIndexQueryBuilder(
         SearchDto $searchDto,
         EntityDto $entityDto,
@@ -59,27 +59,26 @@ class ExperienceUniTranslationCrudController extends AbstractCrudController
             if ($user) {
                 $fullName = $user->__toString();
 
-                $qb->andWhere('entity.entity = :ExperienceUni')
-                    ->setParameter('ExperienceUni', \App\Entity\ExperienceUni::class)
+                $qb->andWhere('entity.entity = :Formation')
+                    ->setParameter('Formation', \App\Entity\Formation::class)
                     ->andWhere('entity.personne = :fullName')
                     ->setParameter('fullName', $fullName);
             }
         } else {
-            $qb->andWhere('entity.entity = :ExperienceUni')
-                ->setParameter('ExperienceUni', \App\Entity\ExperienceUni::class);
+            $qb->andWhere('entity.entity = :Formation')
+                ->setParameter('Formation', \App\Entity\Formation::class);
         }
 
 
         return $qb;
     }
 
-
     public function configureActions(Actions $actions): Actions
     {
         $test = Action::new('test')
             ->setLabel('Detail')
             ->linkToUrl(function (Translation $translation) {
-                return 'http://localhost:8001/admin/experience-uni-translation/' . $translation->getId();
+                return 'http://localhost:8001/admin/formation-translation/' . $translation->getId();
             });
 
 
@@ -97,9 +96,9 @@ class ExperienceUniTranslationCrudController extends AbstractCrudController
             ChoiceField::new('entity')
                 ->setLabel('Entité')
                 ->setChoices([
-                    'ExperienceUni' => ExperienceUni::class,
+                    'Formation' => Formation::class,
                 ])
-                ->setFormTypeOption('data', ExperienceUni::class)
+                ->setFormTypeOption('data', Formation::class)
                 ->setRequired(true),
 
 
@@ -107,20 +106,18 @@ class ExperienceUniTranslationCrudController extends AbstractCrudController
                 ->setLabel('Personne')
                 ->hideOnForm(),
 
-
             ChoiceField::new('entityId')
-                ->setLabel('ID de ExperienceUni')
-                ->setChoices($this->getExperienceUniIds())
+                ->setLabel('ID de la Formation')
+                ->setChoices($this->getFormationIds())
                 ->onlyOnForms(),
 
             ChoiceField::new('attribute')
                 ->setLabel('Attribut')
-                ->setChoices($this->getExperienceUniAttributs()),
+                ->setChoices($this->getFormationAttributs()),
 
             TextareaField::new('fr')
                 ->setLabel('Francais')
                 ->hideOnForm(),
-
 
 
             TextareaField::new('en')->setLabel('Anglais'),
@@ -128,7 +125,7 @@ class ExperienceUniTranslationCrudController extends AbstractCrudController
         ];
     }
 
-    private function getExperienceUniIds(): array
+    private function getFormationIds(): array
     {
         if (!$this->isGranted('ROLE_ADMIN')) {
             $admin = $this->getUser();
@@ -144,43 +141,42 @@ class ExperienceUniTranslationCrudController extends AbstractCrudController
                 return [];
             }
 
-            $experiencesUni = $this->em->getRepository(ExperienceUni::class)->findBy(['user' => $user]);
+            $formations = $this->em->getRepository(Formation::class)->findBy(['user' => $user]);
 
             $choices = [];
-            foreach ($experiencesUni as $experienceUni) {
+            foreach ($formations as $formation) {
                 $existingTranslation = $this->em->getRepository(Translation::class)->findOneBy([
-                    'entity' => ExperienceUni::class,
-                    'entityId' => $experienceUni->getId(),
+                    'entity' => Formation::class,
+                    'entityId' => $formation->getId(),
                 ]);
 
                 if (!$existingTranslation) {
-                    $choices[$experienceUni->getUser() . " -> " . $experienceUni->getTitre()] = $experienceUni->getId();
+                    $choices[$formation->getUser() . " -> " . $formation->getIntitule()] = $formation->getId();
                 }
             }
         } else {
-            $experiencesUni = $this->em->getRepository(ExperienceUni::class)->findAll();
+            $formations = $this->em->getRepository(Formation::class)->findAll();
 
             $choices = [];
-            foreach ($experiencesUni as $experienceUni) {
+            foreach ($formations as $formation) {
                 $existingTranslation = $this->em->getRepository(Translation::class)->findOneBy([
-                    'entity' => ExperienceUni::class,
-                    'entityId' => $experienceUni->getId(),
+                    'entity' => Formation::class,
+                    'entityId' => $formation->getId(),
                 ]);
 
                 if (!$existingTranslation) {
-                    $choices[$experienceUni->getUser() . " -> " . $experienceUni->getTitre()] = $experienceUni->getId();
+                    $choices[$formation->getUser() . " -> " . $formation->getIntitule()] = $formation->getId();
                 }
             }
         }
         return $choices;
     }
 
-    private function getExperienceUniAttributs(): array
+    private function getFormationAttributs(): array
     {
         return [
-            'Titre' => 'titre',
-            'Sous Titre' => 'sousTitre',
-            'Description' => 'description',
+            'Intitulé' => 'intitule',
+            'Lieu' => 'lieu',
         ];
     }
 
@@ -192,22 +188,23 @@ class ExperienceUniTranslationCrudController extends AbstractCrudController
         }
 
         if (
-            $entityInstance->getEntity() === ExperienceUni::class &&
+            $entityInstance->getEntity() === Formation::class &&
             $entityInstance->getEntityId()
         ) {
-            $experienceUni = $this->em->getRepository(ExperienceUni::class)->find($entityInstance->getEntityId());
+            $formation = $this->em->getRepository(Formation::class)->find($entityInstance->getEntityId());
 
-            if ($experienceUni) {
+            if ($formation) {
                 $attribute = $entityInstance->getAttribute();
 
+                // Vérifie si la méthode getter existe dans l'entité Formation
                 $getter = 'get' . ucfirst($attribute);
-                if (method_exists($experienceUni, $getter)) {
-                    $value = $experienceUni->$getter();
+                if (method_exists($formation, $getter)) {
+                    $value = $formation->$getter();
                     $entityInstance->setFr($value);
                 }
             }
         }
-        $entityInstance->setPersonne($experienceUni->getUser());
+        $entityInstance->setPersonne($formation->getUser());
 
         parent::persistEntity($entityManager, $entityInstance);
     }

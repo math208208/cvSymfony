@@ -93,12 +93,7 @@ class ExperienceUniCrudController extends AbstractCrudController
                 ->renderAsSwitch()
         ];
 
-        //permet de pouvoir ajouter si cest une page dedit ou une nouvelle exp
-        if (Crud::PAGE_NEW === $pageName) {
-            $fields[] = CollectionField::new('translations')
-                ->useEntryCrudForm(ExperienceUniTranslationCrudController::class)
-                ->setLabel('Traductions');
-        }
+        
         return $fields;
     }
 

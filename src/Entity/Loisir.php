@@ -27,9 +27,7 @@ class Loisir
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'loisirs')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
-    
-    #[ORM\OneToMany(mappedBy: 'translatable', targetEntity: LoisirTranslation::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
-    private Collection $translations;
+
 
     #[ORM\Column(type: 'boolean')]
     private bool $archived = false;
@@ -50,21 +48,7 @@ class Loisir
         return $this->user." -> ".$this->nom ?? 'Loisir';
     }
 
-    public function getTranslations(): ?Collection
-    {
-        return $this->translations;
-    }
 
-    public function setTranslations(Collection $translations): static
-    {
-        $this->translations = $translations;
-
-        return $this;
-    }
-    public function __construct()
-    {
-        $this->translations = new ArrayCollection();
-    }
 
     public function getId(): ?int
     {

@@ -97,11 +97,7 @@ class FormationCrudController extends AbstractCrudController
                 ->renderAsSwitch()
         ];
 
-        if (Crud::PAGE_NEW === $pageName) {
-            $fields[] = CollectionField::new('translations')
-                ->useEntryCrudForm(FormationTransalationCrudController::class)
-                ->setLabel('Traductions');
-        }
+       
 
         return $fields;
     }

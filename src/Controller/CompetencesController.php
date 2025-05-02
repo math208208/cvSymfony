@@ -46,15 +46,6 @@ final class CompetencesController extends AbstractController
             }
         }
 
-        
-        $locale = $request->getLocale();
-        foreach ($langages as $langage) {
-            if ($translation = $translator->translate($langage, $locale, LangageTranslation::class)) {
-                $langage->setNomLangue($translation->getNomLangue());
-            }
-        }
-        
-
 
 
         

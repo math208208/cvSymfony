@@ -2,9 +2,7 @@
 
 namespace App\Controller;
 
-use App\Entity\Translation\FormationTranslation;
-use App\Entity\Translation\LoisirTranslation;
-use App\Entity\Translation\UserTranslation;
+
 use App\Repository\FormationRepository;
 use App\Repository\LoisirRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -50,24 +48,7 @@ final class AccueilController extends AbstractController
             }
         }
 
-        $locale = $request->getLocale();
 
-        foreach ($formations as $formation) {
-            if ($translation = $translator->translate($formation, $locale, FormationTranslation::class)) {
-                $formation->setIntitule($translation->getIntitule());
-            }
-        }
-
-        foreach ($loisirs as $loisir) {
-            if ($translation = $translator->translate($loisir, $locale, LoisirTranslation::class)) {
-                $loisir->setNom($translation->getNom());
-            }
-        }
-
-        if ($translation = $translator->translate($user, $locale, UserTranslation::class)) {
-            $user->setProfession($translation->getProfession());
-            $user->setDescription($translation->getDescription());
-        }
 
         return $this->render('accueil/index.html.twig', [
             'user' => $user,

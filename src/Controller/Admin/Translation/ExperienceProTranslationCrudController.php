@@ -3,104 +3,210 @@
 namespace App\Controller\Admin\Translation;
 
 
-use App\Entity\Translation\ExperienceProTranslation as TranslationExperienceProTranslation;
-use App\Service\TranslationService as ServiceTranslationService;
+use App\Entity\ExperiencePro;
+use App\Entity\Translation\Translation;
+use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\EntityRepository;
-use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+use Doctrine\ORM\QueryBuilder;
+use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
+use EasyCorp\Bundle\EasyAdminBundle\Collection\FilterCollection;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
-use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
+use EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto;
+use EasyCorp\Bundle\EasyAdminBundle\Dto\SearchDto;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
-use EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto;
-use EasyCorp\Bundle\EasyAdminBundle\Dto\SearchDto;
-use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
-use EasyCorp\Bundle\EasyAdminBundle\Collection\FilterCollection;
-use Doctrine\ORM\QueryBuilder;
 
 class ExperienceProTranslationCrudController extends AbstractCrudController
 {
-
-
-    private ServiceTranslationService $translationService;
     private EntityManagerInterface $em;
 
-    public function __construct(ServiceTranslationService $translationService, EntityManagerInterface $em)
+    public function __construct(EntityManagerInterface $em)
     {
-        $this->translationService = $translationService;
         $this->em = $em;
-    }
-
-    //Titre de la page 
-    public function configureCrud(Crud $crud): Crud
-    {
-        return $crud
-            ->setPageTitle(Crud::PAGE_INDEX, 'Traductions des expériences professionnelles')
-            ->setSearchFields([
-                'translatable.poste',
-                'translatable.user.nom',
-                'translatable.user.prenom',
-                'locale',
-                'poste',
-                'description',
-            ]);
     }
 
     public static function getEntityFqcn(): string
     {
-        return TranslationExperienceProTranslation::class;
+        return Translation::class;
     }
 
+    //affiche seulement les objet ayant ExperiencePro en entité
     public function createIndexQueryBuilder(
         SearchDto $searchDto,
         EntityDto $entityDto,
         FieldCollection $fields,
         FilterCollection $filters
     ): QueryBuilder {
+
+
         $qb = parent::createIndexQueryBuilder($searchDto, $entityDto, $fields, $filters);
+        $admin = $this->getUser();
 
-        $user = $this->getUser();
+        if (!$this->isGranted('ROLE_ADMIN') && $admin !== null) {
 
-        if (!$this->isGranted('ROLE_ADMIN') && $user !== null) {
-            $qb->join('entity.translatable', 't')
-                ->join('t.user', 'u')
-                ->andWhere('u.email = :email')
-                ->setParameter('email', $user->getUserIdentifier());
+            if ($admin instanceof \App\Entity\Admin) {
+                $adminEmail = $admin->getEmail();
+            } else {
+                throw new \Exception('Utilisateur non valide.');
+            }
+
+
+            $user = $this->em->getRepository(User::class)->findOneBy(['email' => $adminEmail]);
+
+            if ($user) {
+                $fullName = $user->__toString();
+
+                $qb->andWhere('entity.entity = :ExperiencePro')
+                    ->setParameter('ExperiencePro', \App\Entity\ExperiencePro::class)
+                    ->andWhere('entity.personne = :fullName')
+                    ->setParameter('fullName', $fullName);
+            }
+        } else {
+            $qb->andWhere('entity.entity = :ExperiencePro')
+                ->setParameter('ExperiencePro', \App\Entity\ExperiencePro::class);
         }
+
 
         return $qb;
     }
 
 
+    public function configureActions(Actions $actions): Actions
+    {
+        $test = Action::new('test')
+            ->setLabel('Detail')
+            ->linkToUrl(function (Translation $translation) {
+                return 'http://localhost:8001/admin/experience-pro-translation/' . $translation->getId();
+            });
+
+
+        $actions = $actions
+            ->add('index', $test);
+
+        return $actions;
+    }
+
+
     public function configureFields(string $pageName): iterable
     {
-        $user = $this->getUser();
 
         return [
-            AssociationField::new('translatable')
-                ->setFormTypeOption('choice_label', function ($entity) {
-                    return $entity->getUser()->getPrenom() . ' ' . $entity->getUser()->getNom() . ' -> ' . $entity->getPoste();
-                })
-                //condition pour recup seulement ce de la perssone connecté si sont role est user
-                ->setFormTypeOption('query_builder', function (EntityRepository $er) use ($user) {
-                    if ($this->isGranted('ROLE_ADMIN')) {
-                        return $er->createQueryBuilder('t');
-                    }
-
-                    return $er->createQueryBuilder('t')
-                        ->join('t.user', 'u')
-                        ->where('u.email = :email')
-                        ->setParameter('email', $user->getUserIdentifier());
-                }),
-            ChoiceField::new('locale')
+            ChoiceField::new('entity')
+                ->setLabel('Entité')
                 ->setChoices([
-                    'Français' => 'fr',
-                    'English' => 'en',
-                    'Español' => 'es'
-                ]),
-            TextField::new('poste'),
-            TextareaField::new('description')
+                    'ExperiencePro' => ExperiencePro::class,
+                ])
+                ->setFormTypeOption('data', ExperiencePro::class)
+                ->setRequired(true),
+
+
+            TextField::new('personne')
+                ->setLabel('Personne')
+                ->hideOnForm(),
+
+            ChoiceField::new('entityId')
+                ->setLabel('ID de ExperiencePro')
+                ->setChoices($this->getExperienceProIds())
+                ->onlyOnForms(),
+
+            ChoiceField::new('attribute')
+                ->setLabel('Attribut')
+                ->setChoices($this->getExperienceProAttributs()),
+
+            TextareaField::new('fr')
+                ->setLabel('Francais')
+                ->hideOnForm(),
+
+
+            TextareaField::new('en')->setLabel('Anglais'),
+            TextareaField::new('es')->setLabel('Espagnol'),
         ];
+    }
+
+    private function getExperienceProIds(): array
+    {
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            $admin = $this->getUser();
+
+            if (!$admin instanceof \App\Entity\Admin) {
+                return [];
+            }
+
+            $adminEmail = $admin->getEmail();
+            $user = $this->em->getRepository(User::class)->findOneBy(['email' => $adminEmail]);
+
+            if (!$user) {
+                return [];
+            }
+
+            $experiencesPro = $this->em->getRepository(ExperiencePro::class)->findBy(['user' => $user]);
+
+            $choices = [];
+            foreach ($experiencesPro as $experiencePro) {
+                $existingTranslation = $this->em->getRepository(Translation::class)->findOneBy([
+                    'entity' => ExperiencePro::class,
+                    'entityId' => $experiencePro->getId(),
+                ]);
+
+                if (!$existingTranslation) {
+                    $choices[$experiencePro->getUser() . " -> " . $experiencePro->getPoste()] = $experiencePro->getId();
+                }
+            }
+        } else {
+            $experiencesPro = $this->em->getRepository(ExperiencePro::class)->findAll();
+
+            $choices = [];
+            foreach ($experiencesPro as $experiencePro) {
+                $existingTranslation = $this->em->getRepository(Translation::class)->findOneBy([
+                    'entity' => ExperiencePro::class,
+                    'entityId' => $experiencePro->getId(),
+                ]);
+
+                if (!$existingTranslation) {
+                    $choices[$experiencePro->getUser() . " -> " . $experiencePro->getPoste()] = $experiencePro->getId();
+                }
+            }
+        }
+        return $choices;
+    }
+
+    private function getExperienceProAttributs(): array
+    {
+        return [
+            'Poste' => 'poste',
+            'Entreprise' => 'entreprise',
+            'Description' => 'description',
+        ];
+    }
+
+
+    public function persistEntity(EntityManagerInterface $entityManager, $entityInstance): void
+    {
+        if (!$entityInstance instanceof Translation) {
+            return;
+        }
+
+        if (
+            $entityInstance->getEntity() === ExperiencePro::class &&
+            $entityInstance->getEntityId()
+        ) {
+            $experiencePro = $this->em->getRepository(ExperiencePro::class)->find($entityInstance->getEntityId());
+
+            if ($experiencePro) {
+                $attribute = $entityInstance->getAttribute();
+
+                $getter = 'get' . ucfirst($attribute);
+                if (method_exists($experiencePro, $getter)) {
+                    $value = $experiencePro->$getter();
+                    $entityInstance->setFr($value);
+                }
+            }
+        }
+        $entityInstance->setPersonne($experiencePro->getUser());
+
+        parent::persistEntity($entityManager, $entityInstance);
     }
 }

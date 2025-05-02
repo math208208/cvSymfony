@@ -27,10 +27,6 @@ class Langage
     private ?User $user;
 
 
-    #[ORM\OneToMany(mappedBy: 'translatable', targetEntity: LangageTranslation::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
-    private Collection $translations;
-
-
     #[ORM\Column(type: 'boolean')]
     private bool $archived = false;
     
@@ -51,21 +47,7 @@ class Langage
         return $this->user." -> ".$this->nomLangue ?? 'Langage';
     }
 
-    public function getTranslations(): ?Collection
-    {
-        return $this->translations;
-    }
 
-    public function setTranslations(Collection $translations): static
-    {
-        $this->translations = $translations;
-
-        return $this;
-    }
-    public function __construct()
-    {
-        $this->translations = new ArrayCollection();
-    }
 
     public function getUser(): ?User
     {
