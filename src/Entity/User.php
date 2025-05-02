@@ -76,6 +76,19 @@ class User
     #[ORM\Column(type: "string", length: 255, unique: true)]
     private ?string $slug = null;
 
+    #[ORM\Column(type: 'boolean', nullable:true)]
+    private bool $isPrivate = true; 
+    
+    public function isPrivate(): bool
+    {
+        return $this->isPrivate;
+    }
+    
+    public function setIsPrivate(bool $isPrivate): self
+    {
+        $this->isPrivate = $isPrivate;
+        return $this;
+    }
 
     public function getSlug(): ?string
     {

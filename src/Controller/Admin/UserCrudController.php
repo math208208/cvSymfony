@@ -21,6 +21,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Dto\SearchDto;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FilterCollection;
 use Doctrine\ORM\QueryBuilder;
+use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 
 class UserCrudController extends AbstractCrudController
 {
@@ -78,6 +79,8 @@ class UserCrudController extends AbstractCrudController
             TextareaField::new('linkdin')->setRequired(false),
             TextareaField::new('github')->setRequired(false),
             TextField::new('slug')->onlyOnIndex(),
+            BooleanField::new('isPrivate', 'Privé')
+            ->renderAsSwitch()
         ];
 
         if (!$this->isGranted('ROLE_ADMIN')) {

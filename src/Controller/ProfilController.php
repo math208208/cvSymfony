@@ -41,6 +41,7 @@ final class ProfilController extends AbstractController
         UserPasswordHasherInterface $passwordHasher,
         Security $security
     ): RedirectResponse {
+        $etatProfil=$request->request->get('privateProfile');
         $newEmail = $request->request->get('email');
         $plainPassword = $request->request->get('plainPassword');
 
@@ -51,7 +52,11 @@ final class ProfilController extends AbstractController
 
         $oldEmail = $user->getEmail();
         $user->setEmail($newEmail);
-        
+        if($etatProfil===null){
+            $user->setIsPrivate(false);
+        }else{
+            $user->setIsPrivate(true);
+        }
 
         $admin = $adminRepository->findOneBy(['email' => $oldEmail]);
         if ($admin) {

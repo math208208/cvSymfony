@@ -23,7 +23,7 @@
 					<img id="idmenu" alt="imgmenu" src={{ asset('build/images/menu/menu.png') }} class="imgMenu"/>
 				</div>
 				<div class="navDiva">
-					<a id="navExplorer" class="butNav" href="">Explorer</a>
+					<a id="navExplorer" class="butNav" href="{{ path('app_blog', {slug: user.slug}) }}">Explorer</a>
 
 					<a id="navAccueil" class="butNav" href="{{ path('app_accueil', {slug: user.slug}) }}">{% trans %}header.home{% endtrans %}</a>
 					<a id="navCompetences" class="butNav" href="{{ path('app_competences', {slug: user.slug}) }}">{% trans %}header.skills{% endtrans %}</a>
