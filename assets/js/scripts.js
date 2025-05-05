@@ -272,7 +272,6 @@ function accueil() {
 
 
 
-
 function experiences() {
 
     $("#navExperiences").addClass("underline");
@@ -281,13 +280,18 @@ function experiences() {
     gsap.set(".sectionExperiencePro", { opacity: 0 });
     gsap.to(".sectionExperiencePro", {
         opacity: 1,
-        duration: 1.2,
+        duration: 2,
     });
-    let expPro = gsap.utils.toArray(".expPro");
 
-    let endValue1 = window.innerWidth < 768 ? "+=200" :
-        window.innerWidth < 1024 ? "+=300" :
-            "+=400";
+    const expPro = gsap.utils.toArray(".expPro");
+    const expUni = gsap.utils.toArray(".expUni");
+
+    // Coefficients ajustables selon ton design
+    const coef = window.innerWidth < 768 ? 400 : window.innerWidth < 1024 ? 850 : 850;
+
+    // Calcul dynamique basé sur le nombre d'éléments
+    const endValue1 = `+=${coef * expPro.length/1.5}`;
+    const endValue2 = `+=${coef * expUni.length/1.5}`;
 
     gsap.to(expPro, {
         xPercent: -100 * 1.2 * (expPro.length - 1),
@@ -302,11 +306,6 @@ function experiences() {
         }
     });
 
-    let endValue2 = window.innerWidth < 768 ? "+=800" :
-        window.innerWidth < 1024 ? "+=1700" :
-            "+=2800";
-    let expUni = gsap.utils.toArray(".expUni");
-
     gsap.to(expUni, {
         xPercent: -100 * 1.15 * (expUni.length - 1),
         ease: "none",
@@ -319,10 +318,6 @@ function experiences() {
             start: "top top",
         }
     });
-
-
-
-
 }
 
 function contact() {

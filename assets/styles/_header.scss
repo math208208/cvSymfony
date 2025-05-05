@@ -33,25 +33,36 @@ header {
                 padding-top: 10px;
                 padding-left: 50px;
                 @include small {
-                    height: auto;
-                    width: 13%;
+                    height: 70%;
                     padding-left: 10px;
                 }
             }
 
             .imgMenu {
-                background: $color-primaire;
                 display: none;
                 @include small {
                     display: block;
                     width: 10%;
                     margin-top: auto;
                     margin-bottom: auto;
-                    background: $color-secondaire;
                 }
             }
 
-            
+            .actionAmob {
+                text-align: center;
+                margin: auto;
+                width: 100%;
+                height: 10%;
+
+                .imgActionmob {
+                    height: auto;
+                    margin-top: 5px;
+                    width: 40%;
+                    @include desktop {
+                        display: none;
+                    }
+                }
+            }
         }
 
         h2 {
@@ -71,7 +82,6 @@ header {
             display: flex;
             justify-content: space-between;
             @include small {
-                display: flex;
                 flex-direction: column;
                 text-align: center;
                 max-height: 0;
@@ -99,14 +109,14 @@ header {
                     left: 0;
                     width: 100%;
                     height: 3px;
-                    background: radial-gradient(circle,rgba(252, 222, 121, 1) 36%, rgba(250, 174, 162, 1) 100%);
+                    background: radial-gradient(circle, rgba(252, 222, 121, 1) 36%, rgba(250, 174, 162, 1) 100%);
                     transform: scaleX(0);
                     transform-origin: center;
                     transition: transform 0.5s;
                 }
 
                 &:hover {
-                    background: radial-gradient(circle,rgba(252, 222, 121, 1) 36%, rgba(250, 174, 162, 1) 100%);
+                    background: radial-gradient(circle, rgba(252, 222, 121, 1) 36%, rgba(250, 174, 162, 1) 100%);
                     -webkit-background-clip: text;
                     background-clip: text;
                     font-weight: bold;
@@ -119,19 +129,21 @@ header {
                     transform-origin: center;
                 }
             }
-            
-            .actionA{
+
+            .actionA {
                 margin: 0;
-                width:10%;
+                width: 10%;
                 height: 10%;
                 margin-left: 5px;
-                
+
                 .imgAction {
                     height: auto;
-                    width:70%;
+                    width: 70%;
+                }
+                @include small {
+                    display: none;
                 }
             }
-            
         }
 
         .menu-ouvert {

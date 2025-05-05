@@ -2,45 +2,104 @@
 
 .sectionExperience {
     overflow: hidden;
-
+    @include small {
+        padding: 25px;
+    }
     .h2Experience {
         margin-top: 50px;
         text-align: center;
-
+        @include small {
+            padding: 20px;
+            text-align: center;
+            margin: 10px;
+        }
+        &Uni {
+            @include small {
+                margin-top: 30px;
+            }
+        }
     }
     .divExp {
         display: flex;
         flex-direction: row;
         justify-content: space-between;
-        background: #F7F7F7F7;
-        padding: 70px 0 ;
+        background: #f7f7f7f7;
+        padding: 70px 0px;
         width: 100%;
-        
-        &Uni{
+
+        &Uni {
             margin-bottom: 100px;
         }
-
 
         .exp {
             margin: 0 100px;
             display: flex;
-            flex-direction: row;
-            justify-content: space-around;
+            flex-direction: column;
             border-radius: 20px;
             border: 3px solid black;
             width: 100%;
             flex: 0 0 80%; // @todo prend 80% du cont
-            min-width: 0;  /* Empêche le débordement */
-            padding: 70px 20px;
+            min-width: 0; /* Empêche le débordement */
+            padding: 70px 90px;
             box-sizing: border-box;
             background: $color-primaire;
-            
+
+            @include small {
+                margin: 15px;
+                padding: 20px 20px;
+                box-sizing: initial;
+            }
+
             .blocexp {
                 display: flex;
-                flex-direction: column;
+                flex-direction: row;
                 justify-content: space-between;
+                @include small {
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: space-around;
+                }
+                h2 {
+                    margin-bottom: 10px;
+                    @include small {
+                        text-align: center;
+                    }
+                }
+                h4 {
+                    @include small {
+                        text-align: center;
+                    }
+                }
+            }
+            p {
+                font-size: 1.3em;
+                margin-bottom: 10px;
+                font-weight: bold;
+                @include small {
+                    font-size: 1.1em;
+                    text-align: center;
+                    margin-top: 5px;
+                }
+            }
+            .descriptiondiv {
+                margin-top: auto;
+                margin-bottom: auto;
+                @include small {
+                    margin: 0;
+                }
+                ul {
+                    text-align: center;
+                    @include small {
+                        margin-bottom: 25px;
+                    }
+                    li {
+                        font-size: 1.3em;
+                        @include small {
+                            padding: 10px ;
+                        }
+                    }
+                }
             }
         }
     }
-        
 }

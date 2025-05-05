@@ -11,11 +11,48 @@
     justify-content: space-between;
     margin: auto;
     padding: 150px;
+    @include small {
+        flex-direction: column;
+        padding: 25px;
+        justify-content: space-between;
+    }
     #imgmoi {
         height: 35%;
         width: 35%;
         @include boxshadow;
         border-radius: 20px;
+        @include small {
+            width: 50%;
+            margin: auto;
+            margin-bottom: 15px;
+        }
+    }
+    .divInfo {
+        @include small {
+            width: 100%;
+        }
+        h1 {
+            @include small {
+                text-align: center;
+                margin-bottom: 10px;
+            }
+        }
+        h3 {
+            @include small {
+                text-align: center;
+            }
+        }
+        p {
+            @include small {
+                text-align: center;
+                margin-bottom: 20px;
+            }
+        }
+        button {
+            @include small {
+                background-color: $color-terciaire;
+            }
+        }
     }
     div {
         display: flex;
@@ -23,9 +60,8 @@
         justify-content: space-around;
         width: 45%;
 
-
         .aBoutton {
-            background: radial-gradient(circle,rgba(252, 222, 121, 1) 36%, rgba(250, 174, 162, 1) 100%);
+            background: radial-gradient(circle, rgba(252, 222, 121, 1) 36%, rgba(250, 174, 162, 1) 100%);
             padding: 15px;
             border-radius: 30px;
             text-align: center;
@@ -53,14 +89,26 @@
     margin: 30px;
     border: 3px solid black;
     border-radius: 20px;
+    @include small {
+        padding: 15px;
+    }
+    h2 {
+        @include small {
+            text-align: center;
+        }
+    }
     .parcours {
         padding-left: 50px;
+        @include small {
+            padding: 20px;
+            margin: auto;
+        }
     }
-    .imagesParcours{
+    .imagesParcours {
         .imgParcours {
             border-radius: 20px;
             @include boxshadow;
-    
+
             &:nth-child(1) {
                 right: 7%;
                 margin-top: 4em;
@@ -68,9 +116,12 @@
             &:nth-child(2) {
                 right: 29%;
             }
+
+            @include small {
+                display: none;
+            }
         }
     }
-    
 }
 
 .sectionIndex3 {
@@ -79,27 +130,46 @@
     flex-direction: row;
     justify-content: space-between;
     padding: 100px 50px;
-
-    .imgLoisirs {
-        height: 30%;
-        position: absolute;
-        border-radius: 20px;
-        @include boxshadow;
-
-        &:nth-child(3) {
-            left: 45%;
-            z-index: 3;
+    @include small {
+        padding: 40px;
+    }
+    h2 {
+        @include small {
+            text-align: center;
         }
-        &:nth-child(2) {
-            left: 33%;
-            margin-top: 50px;
-            z-index: 2;
-            :hover {
-                z-index: 4;
+    }
+    .imagesLoisirs {
+        @include small {
+            display: none;
+        }
+        .imgLoisirs {
+            height: 30%;
+            position: absolute;
+            border-radius: 20px;
+            @include boxshadow;
+
+            &:nth-child(3) {
+                left: 45%;
+                z-index: 3;
+            }
+            &:nth-child(2) {
+                left: 33%;
+                margin-top: 50px;
+                z-index: 2;
+                :hover {
+                    z-index: 4;
+                }
+            }
+            &:nth-child(1) {
+                z-index: 3;
             }
         }
-        &:nth-child(1) {
-            z-index: 3;
+    }
+
+    .loisirs {
+        @include small {
+            padding: 0;
+            margin: auto;
         }
     }
 }

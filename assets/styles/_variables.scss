@@ -2,6 +2,8 @@ $color-primaire: radial-gradient(circle, rgba(126, 195, 247, 1) 0%, rgba(126, 23
 
 $color-terciaire: #fd9630;
 $color-secondaire: #2dbdb4;
+$color-titre: #000000;
+$color-texte: #4b4a4a;
 $shadow: rgba(120, 120, 120, 0.495);
 
 @font-face {
@@ -15,6 +17,7 @@ $shadow: rgba(120, 120, 120, 0.495);
 
 @mixin titre{
     font-family: "Exo", sans-serif;
+    color: $color-titre;
 }
 
 @mixin text{

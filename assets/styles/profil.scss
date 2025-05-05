@@ -1,35 +1,92 @@
-section{
-    padding: 100px;
+@use "variables" as *;
 
-        h2{
+.sectionParametre {
+    padding: 100px;
+    text-align: center;
+
+    @include small {
+        padding: 30px;
+    }
+    .h2Parametre {
+        margin-bottom: 30px;
+        font-size: 2.3em;
+        
+    }
+    .divChange {
+        display: flex;
+        flex-direction: column;
+        
+        @include small {
+            flex-direction: column;
+            text-align: center;
+        }
+        div {
             margin-bottom: 30px;
-            font-size: 2.3em;
-        }
-        .divChange{
-            display: flex;
-            flex-direction: row;
             
-            div{
-                margin-right: 75px;
-                margin-bottom: 30px;
-                label{
-                    font-size: 1.2em;
-                    margin-right: 20px;
-                }
-                
+            @include small {
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                margin-left: auto;
+                margin-right: auto;
             }
+            label {
+                font-size: 1.2em;
+                margin-right: 20px;
+                @include small {
+                    margin-bottom: 10px;
+                }
+            }
+
         }
-        .divProfilEtat{
+        .divProfilEtat {
             display: flex;
             flex-direction: row;
-            h3{
+            margin-left: auto;
+            margin-right: auto;
+            @include small {
+                text-align: center;
+                margin: auto;
+                margin-bottom: 30px;
+            }
+            h3 {
                 margin-right: 15px;
             }
-        } 
+        }
 
-
+        button {
+            background: radial-gradient(circle, rgba(252, 222, 121, 1) 36%, rgba(250, 174, 162, 1) 100%);
+            padding: 15px;
+            border-radius: 30px;
+            width: 30%;
+            text-transform: uppercase;
+            transition: 0.5s;
+            background-size: 200% auto;
+            display: block;
+            margin: 0px auto;
+            
+            &:hover {
+                background-position: right center; /* change the direction of the change here */
+                text-decoration: none;
+                cursor: pointer;
+            }
+        }
+    }
 }
 
-.sectionModifCV{
-    padding-top: 0;
+.sectionModifCV {
+    text-align: center;
+    padding: 30px 100px;
+    @include small {
+        text-align: center;
+        padding: 30px;
+        
+    }
+    .h2Parametre {
+        font-size: 2.3em;
+        margin-bottom: 30px;
+    }
+    a {
+        margin-bottom: 30px;
+    }
 }

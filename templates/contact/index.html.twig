@@ -5,29 +5,22 @@
 
 {% block body %}
 	<main>
-      <section class="sectionContact">
-        <h2 class="h2Contact">{% trans %}contact{% endtrans %}</h2>
-        <ul>
-          <li>Email : {{user.user.email}}</li>
-          <li>Tel : {{user.user.telephone}}</li>
-          <li>
-            <a
-              href="{{user.user.linkdin}}"
-              target="_blank"
-              >LinkdIn</a
-            >
-          </li>
-          <li>
-            <a
-              href="{{user.user.github}}"
-              target="_blank"
-              >GitHub</a
-            >
-          </li>
-        </ul>
-      </section>
+		<section class="sectionContact">
+			<h2 class="h2Contact">{% trans %}contact{% endtrans %}</h2>
+			<ul>
+				<li>Email :
+					{{user.user.email}}</li>
+				<li>Tel :
+					{{user.user.telephone}}</li>
+				<li>
+					<a href="{{user.user.linkdin}}" target="_blank"><img class="contactImg" src={{ asset('build/images/linkedin.webp') }} alt="imgLinkdin"/></a>
+				</li>
+				<li>
+					<a href="{{user.user.github}}" target="_blank"><img class="contactImg"  src={{ asset('build/images/github.png') }} alt="imgGithub"/></a>
+				</li>
+			</ul>
+		</section>
 
-      <section>
-      </section>
-    </main>
+		<section></section>
+	</main>
 {% endblock %}

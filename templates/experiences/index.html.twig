@@ -14,17 +14,19 @@
 						<div class="blocexp blocexpPro">
 							<h2>{{experiencePro.translated_poste|raw }}</h2>
 							<h4>{{experiencePro.experiencePro.entreprise|raw }}</h4>
-							<ul>
-								{{ experiencePro.translated_description|raw }}
-							</ul>
+
 						</div>
-						<div>
-							<p>
-								<em>
-									{{experiencePro.experiencePro.dateDebut}}
-									-
-									{{experiencePro.experiencePro.dateFin}}</em>
-							</p>
+						<p>
+							<em>
+								{{experiencePro.experiencePro.dateDebut}}
+								-
+								{{experiencePro.experiencePro.dateFin}}</em>
+						</p>
+
+						<div class="descriptiondiv">
+
+							{{ experiencePro.translated_description|raw }}
+
 						</div>
 					</div>
 				{% else %}
@@ -36,7 +38,7 @@
 
 
 		</section>
-		
+
 		<section class="sectionExperience sectionExperienceUni">
 			<h2 class="h2Experience h2ExperienceUni">{% trans %}section.acaExperience{% endtrans %}</h2>
 			<div class="divExp divExpUni">
@@ -46,15 +48,17 @@
 						<div class="blocexp blocexpUni">
 							<h2>{{experienceUni.translated_titre|raw  }}</h2>
 							<h4>{{experienceUni.translated_sousTitre|raw }}</h4>
-							<ul>
-								{{ experienceUni.translated_description|raw }}
-							</ul>
+
 						</div>
-						<div>
-							<p>
-								<em>
-									{{experienceUni.experienceUni.annee}}</em>
-							</p>
+						<p>
+							<em>
+								{{experienceUni.experienceUni.annee}}</em>
+						</p>
+						<div class="descriptiondiv">
+
+
+							{{ experienceUni.translated_description|raw }}
+
 						</div>
 					</div>
 				{% else %}

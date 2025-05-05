@@ -20,7 +20,11 @@
 			<nav>
 				<div class="navMenu">
 					<a href="{{ path('app_accueil', {slug: user.user.slug}) }}"><img id="logo" alt="imgLogo" src={{ asset('build/images/logo.png') }} class="imgLogo"/></a>
+					<a href="{{ path('app_profil', {slug: user.user.slug}) }}" class="actionAmob"><img class="imgActionmob" src={{ asset('build/images/menu/profil.png') }} alt="imgProfil"/></a>
+					<a href="{{ path('app_logout') }}" class="actionAmob"><img class="imgActionmob" src={{ asset('build/images/menu/exit.png') }} alt="imgExit"/></a>
 					<img id="idmenu" alt="imgmenu" src={{ asset('build/images/menu/menu.png') }} class="imgMenu"/>
+					
+
 				</div>
 				<div class="navDiva">
 					<a id="navExplorer" class="butNav" href="{{ path('app_blog', {slug: user.user.slug}) }}">Explorer</a>

@@ -18,18 +18,19 @@
 						<label for="password">{% trans %}section.newPw{% endtrans %}</label>
 						<input type="password" id="password" name="plainPassword" required>
 					</div>
+					<div class="divProfilEtat">
+						<h3>{% trans %}section.profilPrv{% endtrans %}</h3>
+						<input type="checkbox" name="privateProfile" id="privateProfile" {% if user.user.isPrivate %} checked {% endif %}>
+					</div>
 					<button type="submit">{% trans %}button.change{% endtrans %}</button>
 				</div>
-				<div class="divProfilEtat">
-					<h3>{% trans %}section.profilPrv{% endtrans %}</h3>
-					<input type="checkbox" name="privateProfile" id="privateProfile" {% if user.user.isPrivate %} checked {% endif %}>
-				</div>
+
 			</form>
 		</section>
 
 		<section class="sectionModifCV">
 			<h2 class="h2Parametre">{% trans %}section.changeCv{% endtrans %}</h2>
-			<a href="{{ path('admin_user_index') }}" target="_blank">EasyAdmin</button>
+			<a href="{{ path('admin_user_index') }}" target="_blank">EasyAdmin</a>
 
 
 		</section>

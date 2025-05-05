@@ -1,20 +1,18 @@
 @use "variables" as *;
 
-
 * {
     margin: 0;
     @include text;
-
 }
 
 main {
     background: #f7f7f7;
-    
 }
 
 h1 {
     font-size: 2.5em;
     @include titre;
+    
 }
 
 h2 {
@@ -38,19 +36,32 @@ h4 {
 
 a {
     text-decoration: none;
-    color: black;
+    color:$color-texte;
     font-size: 1.1em;
 }
 
 p {
     width: 100%;
+    color:$color-texte;
 }
 
 li {
     font-size: 1.1em;
     padding: 15px;
+    color:$color-texte;
+
 }
 
 ul {
     margin-top: 20px;
+    color:$color-texte;
+
+}
+
+header,
+footer,
+.sectionIndex2,
+.css-sectionComp2,
+.divExp {
+    background-color: $color-secondaire;
 }
