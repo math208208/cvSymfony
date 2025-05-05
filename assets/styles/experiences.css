@@ -1,0 +1,50 @@
+@charset "UTF-8";
+@font-face {
+  font-family: "Quicksand";
+  src: url("../fonts/Quicksand-VariableFont_wght.ttf") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Exo";
+  src: url("../fonts/Exo-VariableFont_wght.ttf") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+}
+.sectionExperience {
+  overflow: hidden;
+}
+.sectionExperience .h2Experience {
+  margin-top: 50px;
+  text-align: center;
+}
+.sectionExperience .divExp {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  background: rgba(247, 247, 247, 0.968627451);
+  padding: 70px 0;
+  width: 100%;
+}
+.sectionExperience .divExpUni {
+  margin-bottom: 100px;
+}
+.sectionExperience .divExp .exp {
+  margin: 0 100px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  border-radius: 20px;
+  border: 3px solid black;
+  width: 100%;
+  flex: 0 0 80%;
+  min-width: 0; /* Empêche le débordement */
+  padding: 70px 20px;
+  box-sizing: border-box;
+  background: radial-gradient(circle, rgb(126, 195, 247) 0%, rgb(126, 237, 133) 100%);
+}
+.sectionExperience .divExp .exp .blocexp {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}/*# sourceMappingURL=experiences.css.map */

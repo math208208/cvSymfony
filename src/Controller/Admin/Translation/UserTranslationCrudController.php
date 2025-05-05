@@ -11,12 +11,15 @@ use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FilterCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\SearchDto;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use FOS\CKEditorBundle\Form\Type\CKEditorType;
 
 class UserTranslationCrudController extends AbstractCrudController
 {
@@ -117,50 +120,49 @@ class UserTranslationCrudController extends AbstractCrudController
             TextareaField::new('fr')
                 ->setLabel('Francais')
                 ->hideOnForm(),
+                
+            TextEditorField::new('en','Anglais')
+                ->setFormType(CKEditorType::class),
 
-            TextareaField::new('en')->setLabel('Anglais'),
-            TextareaField::new('es')->setLabel('Espagnol'),
+            TextEditorField::new('es','Espagnol')
+                ->setFormType(CKEditorType::class),
         ];
     }
 
+    public function configureCrud(Crud $crud): Crud
+    {
+        return $crud
+            ->addFormTheme('@FOSCKEditor/Form/ckeditor_widget.html.twig');
+    }
+
+    //permet d'avoir comme choix uniquement soit ou alors si le role est admin tout le monde
     private function getUserIds(): array
     {
+        $attributes = array_values($this->getUserAttributs());
+
+        $choices = [];
 
         if (!$this->isGranted('ROLE_ADMIN')) {
             $admin = $this->getUser();
 
-            if ($admin instanceof \App\Entity\Admin) {
-                $adminEmail = $admin->getEmail();
-            } else {
+            if (!$admin instanceof \App\Entity\Admin) {
                 throw new \Exception('Utilisateur non valide.');
             }
 
+            $user = $this->em->getRepository(User::class)->findOneBy(['email' => $admin->getEmail()]);
 
-            $user = $this->em->getRepository(User::class)->findOneBy(['email' => $adminEmail]);
-
-            $choices = [];
-
-            $existingTranslation = $this->em->getRepository(Translation::class)->findOneBy([
-                'entity' => User::class,
-                'entityId' => $user->getId(),
-            ]);
-
-            if (!$existingTranslation) {
-                $choices[$user->getPrenom() . " " . $user->getNom()] = $user->getId();
+            if (!$user) {
+                throw new \Exception('Aucun utilisateur associé à cet administrateur.');
             }
 
-            return $choices;
+            if ($this->hasMissingTranslations($user, $attributes)) {
+                $choices[$user->getPrenom() . " " . $user->getNom()] = $user->getId();
+            }
         } else {
             $users = $this->em->getRepository(User::class)->findAll();
 
-            $choices = [];
             foreach ($users as $user) {
-                $existingTranslation = $this->em->getRepository(Translation::class)->findOneBy([
-                    'entity' => User::class,
-                    'entityId' => $user->getId(),
-                ]);
-
-                if (!$existingTranslation) {
+                if ($this->hasMissingTranslations($user, $attributes)) {
                     $choices[$user->getPrenom() . " " . $user->getNom()] = $user->getId();
                 }
             }
@@ -168,6 +170,24 @@ class UserTranslationCrudController extends AbstractCrudController
 
         return $choices;
     }
+
+    private function hasMissingTranslations(User $user, array $attributes): bool
+    {
+        foreach ($attributes as $attribute) {
+            $existing = $this->em->getRepository(Translation::class)->findOneBy([
+                'entity' => User::class,
+                'entityId' => $user->getId(),
+                'attribute' => $attribute,
+            ]);
+
+            if (!$existing) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
 
     private function getUserAttributs(): array
     {
@@ -177,7 +197,7 @@ class UserTranslationCrudController extends AbstractCrudController
         ];
     }
 
-
+    //Permet d'ajouter le fr automatiquement lors de la créa ou update si l'element existe deja
     public function persistEntity(EntityManagerInterface $entityManager, $entityInstance): void
     {
         if (!$entityInstance instanceof Translation) {
@@ -192,15 +212,39 @@ class UserTranslationCrudController extends AbstractCrudController
 
             if ($user) {
                 $attribute = $entityInstance->getAttribute();
-
                 $getter = 'get' . ucfirst($attribute);
+
                 if (method_exists($user, $getter)) {
                     $value = $user->$getter();
-                    $entityInstance->setFr($value);
+
+                    $existingTranslation = $this->em->getRepository(Translation::class)->findOneBy([
+                        'entity' => User::class,
+                        'entityId' => $user->getId(),
+                        'attribute' => $attribute,
+                    ]);
+
+                    if ($existingTranslation) {
+                        $existingTranslation->setEn($entityInstance->getEn());
+                        $existingTranslation->setEs($entityInstance->getEs());
+
+                        if (empty($existingTranslation->getFr())) {
+                            $existingTranslation->setFr($value);
+                        }
+
+                        $existingTranslation->setPersonne($user->__toString());
+
+                        $entityManager->persist($existingTranslation);
+                        $entityManager->flush();
+
+                        return;
+                    } else {
+                        $entityInstance->setFr($value);
+                    }
                 }
+
+                $entityInstance->setPersonne($user->__toString());
             }
         }
-        $entityInstance->setPersonne($user->__toString());
 
         parent::persistEntity($entityManager, $entityInstance);
     }

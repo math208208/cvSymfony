@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
-
+use App\Entity\Formation;
+use App\Entity\Loisir;
+use App\Entity\User;
 use App\Repository\FormationRepository;
 use App\Repository\LoisirRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -48,12 +50,49 @@ final class AccueilController extends AbstractController
             }
         }
 
+    
+        $translatedProfession = $translator->translate(User::class, $user->getId(), 'profession', $user->getProfession() ?? 'Aucune donnée',$_locale);
+        $translatedDescription = $translator->translate(User::class, $user->getId(), 'description', $user->getDescription() ?? 'Aucune donnée',$_locale);
+
+        $translatedUser = [
+            'user' => $user,
+            'translated_profession' => $translatedProfession,
+            'translated_description' => $translatedDescription
+        ];
+
+        
+
+        $translatedformations = [];
+    
+        foreach ($formations as $formation) {
+            $translatedIntitule = $translator->translate(Formation::class, $formation->getId(), 'intitule', $formation->getIntitule() ?? 'Aucune donnée',$_locale);
+            $translatedLieu = $translator->translate(Formation::class, $formation->getId(), 'lieu', $formation->getLieu() ?? 'Aucune donnée',$_locale);
+
+            $translatedformations[] = [
+                'formation' => $formation,
+                'translated_intitule' => $translatedIntitule,
+                'translated_lieu' => $translatedLieu
+            ];
+        }
+
+        
+        $translatedLoisirs = [];
+    
+        foreach ($loisirs as $loisir) {
+            $translatedName = $translator->translate(Loisir::class, $loisir->getId(), 'nom', $loisir->getNom() ?? 'Aucune donnée' ,$_locale);
+            $translatedLoisirs[] = [
+                'loisir' => $loisir,
+                'translated_nom' => $translatedName
+            ];
+        }
 
 
         return $this->render('accueil/index.html.twig', [
-            'user' => $user,
-            'formations' => $formations,
-            'loisirs' => $loisirs,
+            'user' => $translatedUser,
+            
+            'loisirs' => $translatedLoisirs,
+            'formations' => $translatedformations,
+
         ]);
     }
 }

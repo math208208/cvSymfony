@@ -7,6 +7,7 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Component\Security\Core\User\UserInterface;
 
+//Vérifie si l'utilisateur est admin sinon restreint les droits
 final class EntityOwnerVoter extends Voter
 {
     public const EDIT = 'POST_EDIT';

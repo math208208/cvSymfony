@@ -127,49 +127,61 @@ class FormationTranslationCrudController extends AbstractCrudController
 
     private function getFormationIds(): array
     {
+
+        $attributes = array_values($this->getFormationAttributs());
+
+        $choices = [];
+
+
         if (!$this->isGranted('ROLE_ADMIN')) {
             $admin = $this->getUser();
 
             if (!$admin instanceof \App\Entity\Admin) {
-                return [];
+                throw new \Exception('Utilisateur non valide.');
             }
 
             $adminEmail = $admin->getEmail();
             $user = $this->em->getRepository(User::class)->findOneBy(['email' => $adminEmail]);
 
             if (!$user) {
-                return [];
+                throw new \Exception('Aucun utilisateur associé à cet administrateur.');
             }
 
             $formations = $this->em->getRepository(Formation::class)->findBy(['user' => $user]);
 
-            $choices = [];
             foreach ($formations as $formation) {
-                $existingTranslation = $this->em->getRepository(Translation::class)->findOneBy([
-                    'entity' => Formation::class,
-                    'entityId' => $formation->getId(),
-                ]);
 
-                if (!$existingTranslation) {
+                if ($this->hasMissingTranslations($formation, $attributes)) {
                     $choices[$formation->getUser() . " -> " . $formation->getIntitule()] = $formation->getId();
                 }
             }
         } else {
             $formations = $this->em->getRepository(Formation::class)->findAll();
-
-            $choices = [];
             foreach ($formations as $formation) {
-                $existingTranslation = $this->em->getRepository(Translation::class)->findOneBy([
-                    'entity' => Formation::class,
-                    'entityId' => $formation->getId(),
-                ]);
-
-                if (!$existingTranslation) {
+                if ($this->hasMissingTranslations($formation, $attributes)) {
                     $choices[$formation->getUser() . " -> " . $formation->getIntitule()] = $formation->getId();
                 }
             }
         }
         return $choices;
+    }
+
+
+    private function hasMissingTranslations(Formation $formation, array $attributes): bool
+    {
+        foreach ($attributes as $attribute) {
+            $existing = $this->em->getRepository(Translation::class)->findOneBy([
+                'entity' => Formation::class,
+                'entityId' => $formation->getId(),
+                'attribute' => $attribute,
+            ]);
+
+            if (!$existing) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private function getFormationAttributs(): array
@@ -195,16 +207,39 @@ class FormationTranslationCrudController extends AbstractCrudController
 
             if ($formation) {
                 $attribute = $entityInstance->getAttribute();
-
-                // Vérifie si la méthode getter existe dans l'entité Formation
                 $getter = 'get' . ucfirst($attribute);
+
                 if (method_exists($formation, $getter)) {
                     $value = $formation->$getter();
-                    $entityInstance->setFr($value);
+
+                    $existingTranslation = $this->em->getRepository(Translation::class)->findOneBy([
+                        'entity' => Formation::class,
+                        'entityId' => $formation->getId(),
+                        'attribute' => $attribute,
+                    ]);
+
+                    if ($existingTranslation) {
+                        $existingTranslation->setEn($entityInstance->getEn());
+                        $existingTranslation->setEs($entityInstance->getEs());
+
+                        if (empty($existingTranslation->getFr())) {
+                            $existingTranslation->setFr($value);
+                        }
+
+                        $existingTranslation->setPersonne($formation->getUser());
+
+                        $entityManager->persist($existingTranslation);
+                        $entityManager->flush();
+
+                        return;
+                    } else {
+                        $entityInstance->setFr($value);
+                    }
                 }
+
+                $entityInstance->setPersonne($formation->getUser());
             }
         }
-        $entityInstance->setPersonne($formation->getUser());
 
         parent::persistEntity($entityManager, $entityInstance);
     }

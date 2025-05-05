@@ -12,12 +12,15 @@ use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FilterCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\SearchDto;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use FOS\CKEditorBundle\Form\Type\CKEditorType;
 
 class ExperienceProTranslationCrudController extends AbstractCrudController
 {
@@ -121,51 +124,53 @@ class ExperienceProTranslationCrudController extends AbstractCrudController
                 ->hideOnForm(),
 
 
-            TextareaField::new('en')->setLabel('Anglais'),
-            TextareaField::new('es')->setLabel('Espagnol'),
+            TextEditorField::new('en', 'Anglais')
+                ->setFormType(CKEditorType::class),
+
+            TextEditorField::new('es', 'Espagnol')
+                ->setFormType(CKEditorType::class),
         ];
     }
 
+    public function configureCrud(Crud $crud): Crud
+    {
+        return $crud
+            ->addFormTheme('@FOSCKEditor/Form/ckeditor_widget.html.twig');
+    }
+
+
     private function getExperienceProIds(): array
     {
+        $attributes = array_values($this->getExperienceProAttributs());
+
+        $choices = [];
+
         if (!$this->isGranted('ROLE_ADMIN')) {
             $admin = $this->getUser();
 
             if (!$admin instanceof \App\Entity\Admin) {
-                return [];
+                throw new \Exception('Utilisateur non valide.');
             }
 
             $adminEmail = $admin->getEmail();
             $user = $this->em->getRepository(User::class)->findOneBy(['email' => $adminEmail]);
 
             if (!$user) {
-                return [];
+                throw new \Exception('Aucun utilisateur associé à cet administrateur.');
             }
 
             $experiencesPro = $this->em->getRepository(ExperiencePro::class)->findBy(['user' => $user]);
 
-            $choices = [];
             foreach ($experiencesPro as $experiencePro) {
-                $existingTranslation = $this->em->getRepository(Translation::class)->findOneBy([
-                    'entity' => ExperiencePro::class,
-                    'entityId' => $experiencePro->getId(),
-                ]);
-
-                if (!$existingTranslation) {
+                if ($this->hasMissingTranslations($experiencePro, $attributes)) {
                     $choices[$experiencePro->getUser() . " -> " . $experiencePro->getPoste()] = $experiencePro->getId();
                 }
             }
         } else {
             $experiencesPro = $this->em->getRepository(ExperiencePro::class)->findAll();
 
-            $choices = [];
             foreach ($experiencesPro as $experiencePro) {
-                $existingTranslation = $this->em->getRepository(Translation::class)->findOneBy([
-                    'entity' => ExperiencePro::class,
-                    'entityId' => $experiencePro->getId(),
-                ]);
-
-                if (!$existingTranslation) {
+                if ($this->hasMissingTranslations($experiencePro, $attributes)) {
                     $choices[$experiencePro->getUser() . " -> " . $experiencePro->getPoste()] = $experiencePro->getId();
                 }
             }
@@ -173,11 +178,27 @@ class ExperienceProTranslationCrudController extends AbstractCrudController
         return $choices;
     }
 
+    private function hasMissingTranslations(ExperiencePro $experiencePro, array $attributes): bool
+    {
+        foreach ($attributes as $attribute) {
+            $existing = $this->em->getRepository(Translation::class)->findOneBy([
+                'entity' => ExperiencePro::class,
+                'entityId' => $experiencePro->getId(),
+                'attribute' => $attribute,
+            ]);
+
+            if (!$existing) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     private function getExperienceProAttributs(): array
     {
         return [
             'Poste' => 'poste',
-            'Entreprise' => 'entreprise',
             'Description' => 'description',
         ];
     }
@@ -197,15 +218,40 @@ class ExperienceProTranslationCrudController extends AbstractCrudController
 
             if ($experiencePro) {
                 $attribute = $entityInstance->getAttribute();
-
                 $getter = 'get' . ucfirst($attribute);
+
+
                 if (method_exists($experiencePro, $getter)) {
                     $value = $experiencePro->$getter();
-                    $entityInstance->setFr($value);
+
+                    $existingTranslation = $this->em->getRepository(Translation::class)->findOneBy([
+                        'entity' => ExperiencePro::class,
+                        'entityId' => $experiencePro->getId(),
+                        'attribute' => $attribute,
+                    ]);
+
+                    if ($existingTranslation) {
+                        $existingTranslation->setEn($entityInstance->getEn());
+                        $existingTranslation->setEs($entityInstance->getEs());
+
+                        if (empty($existingTranslation->getFr())) {
+                            $existingTranslation->setFr($value);
+                        }
+
+                        $existingTranslation->setPersonne($experiencePro->getUser());
+
+                        $entityManager->persist($existingTranslation);
+                        $entityManager->flush();
+
+                        return;
+                    } else {
+                        $entityInstance->setFr($value);
+                    }
                 }
+
+                $entityInstance->setPersonne($experiencePro->getUser());
             }
         }
-        $entityInstance->setPersonne($experiencePro->getUser());
 
         parent::persistEntity($entityManager, $entityInstance);
     }

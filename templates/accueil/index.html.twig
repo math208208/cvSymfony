@@ -1,21 +1,22 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{% trans %}header.home{% endtrans %}
+{% block title %}
+	{% trans %}header.home{% endtrans %}
 {% endblock %}
 
 {% block body %}
 	<main>
 		<!-- photo moi et description|raw -->
 		<section class="sectionIndex1">
-			<img id="imgmoi" src="{{ user.imageName ? asset('uploads/images/' ~ user.imageName) : asset('build/images/default.png') }}" alt="Photo personne"/>
+			<img id="imgmoi" src="{{ user.user.imageName ? asset('uploads/images/' ~ user.user.imageName) : asset('build/images/default.png') }}" alt="Photo personne"/>
 
 			<div class="divInfo">
-				<h1>{{user.prenom}}
-					{{user.nom}}</h1>
-				<h3>{{user.profession}}</h3>
+				<h1>{{user.user.prenom}}
+					{{user.user.nom}}</h1>
+				<h3>{{user.translated_profession|raw}}</h3>
 
 				<p>
-					{{user.description|raw}}
+					{{user.translated_description|raw}}
 				</p>
 
 				<button class="aBoutton" id="aBoutton">{% trans %}button.aboutMe{% endtrans %}</button>
@@ -29,11 +30,11 @@
 				<ul>
 					{% for formation in formations %}
 						<li>
-							<em class="italic">{{ formation.annee }}</em>,
-							{{ formation.intitule }}<br/>
-							<em class="italic">{{ formation.lieu }}</em>
+							<em class="italic">{{ formation.formation.annee }}</em>,
+							{{ formation.translated_intitule }}<br/>
+							<em class="italic">{{ formation.translated_lieu }}</em>
 						</li>
-						
+
 					{% else %}
 						<li>{% trans %}nodata{% endtrans %}</li>
 					{% endfor %}
@@ -41,39 +42,39 @@
 			</div>
 			<div class="imagesParcours">
 				{% for formation in formations %}
-					{% if formation.imageName != null %}
-					<img src="{{ asset('uploads/images/' ~ formation.imageName) }}" alt="Image formation" class="imgParcours"/>
+					{% if formation.formation.imageName != null %}
+						<img src="{{ asset('uploads/images/' ~ formation.formation.imageName) }}" alt="Image formation" class="imgParcours"/>
 					{% endif %}
 
 				{% else %}
 					<li>{% trans %}nodata{% endtrans %}</li>
 				{% endfor %}
-			
+
 			</div>
-					
-			
+
+
 		</section>
 
 		<!-- Loisirs et photos -->
 		<section class="sectionIndex3">
 			<div class="imagesLoisirs">
-			{% for loisir in loisirs %}
+				{% for loisir in loisirs %}
 
-				{% if loisir.imageName != null %}
+					{% if loisir.loisir.imageName != null %}
 
-				<img id="idgym" src="{{ asset('uploads/images/' ~ loisir.imageName) }}" alt="Image loisir" class="imgLoisirs"/>
+						<img id="idgym" src="{{ asset('uploads/images/' ~ loisir.loisir.imageName) }}" alt="Image loisir" class="imgLoisirs"/>
 
-				{% endif %}
-			{% else %}
-				<li>{% trans %}nodata{% endtrans %}</li>
-			{% endfor %}
+					{% endif %}
+				{% else %}
+					<li>{% trans %}nodata{% endtrans %}</li>
+				{% endfor %}
 			</div>
 			<div class="loisirs divLoisirs">
 				<h2>{% trans %}section.hobbies{% endtrans %}</h2>
 				<ul>
 					{% for loisir in loisirs %}
 						<li>
-							{{loisir.nom}}
+							{{ loisir.translated_nom }}
 						</li>
 					{% else %}
 						<li>{% trans %}nodata{% endtrans %}</li>

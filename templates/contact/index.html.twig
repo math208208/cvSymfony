@@ -8,18 +8,18 @@
       <section class="sectionContact">
         <h2 class="h2Contact">{% trans %}contact{% endtrans %}</h2>
         <ul>
-          <li>Email : {{user.email}}</li>
-          <li>Tel : {{user.telephone}}</li>
+          <li>Email : {{user.user.email}}</li>
+          <li>Tel : {{user.user.telephone}}</li>
           <li>
             <a
-              href="{{user.linkdin}}"
+              href="{{user.user.linkdin}}"
               target="_blank"
               >LinkdIn</a
             >
           </li>
           <li>
             <a
-              href="{{user.github}}"
+              href="{{user.user.github}}"
               target="_blank"
               >GitHub</a
             >
@@ -28,7 +28,6 @@
       </section>
 
       <section>
-        <!-- Formulaire avec php -->
       </section>
     </main>
 {% endblock %}

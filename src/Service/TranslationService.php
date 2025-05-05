@@ -1,23 +1,39 @@
 <?php
 namespace App\Service;
-use Doctrine\ORM\EntityManagerInterface;
 
+use App\Repository\TranslationRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 class TranslationService
 {
-    public function __construct(
-        private EntityManagerInterface $em
-    ) {}
+    private string $locale;
 
-    public function translate(
-        object $entity,
-        string $locale,
-        string $translationClass
-    ): ?object {
-        return $this->em->getRepository($translationClass)
-            ->findOneBy([
-                'translatable' => $entity,
-                'locale' => $locale
-            ]);
+    public function __construct(
+        private TranslationRepository $repo,
+        private RequestStack $requestStack
+    ) {
+        $this->locale = $requestStack->getCurrentRequest()?->getLocale() ?? 'fr';
+    }
+
+    public function translate(string $entityName, int $entityId, string $attribute,string $default,  string $locale): string
+    {
+        $translation = $this->repo->findOneBy([
+            'entity' => $entityName,
+            'entityId' => $entityId,
+            'attribute' => $attribute,
+        ]);
+
+        if (!$translation) {
+            return $default;
+        }
+
+        $getter = 'get' . ucfirst($locale);
+
+        if (method_exists($translation, $getter)) {
+            return $translation->$getter() ;
+        }
+    
+        return $default;
     }
 }

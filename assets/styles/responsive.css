@@ -1,0 +1,188 @@
+@font-face {
+  font-family: "Quicksand";
+  src: url("../fonts/Quicksand-VariableFont_wght.ttf") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Exo";
+  src: url("../fonts/Exo-VariableFont_wght.ttf") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+}
+@media (max-width: 1023px) {
+  .sectionIndex1 {
+    flex-direction: column;
+    padding: 25px;
+    justify-content: space-between;
+  }
+  .sectionIndex1 #imgmoi {
+    width: 50%;
+    margin: auto;
+    margin-bottom: 15px;
+  }
+  .sectionIndex1 .divInfo {
+    width: 100%;
+  }
+  .sectionIndex1 .divInfo h1 {
+    text-align: center;
+    margin-bottom: 10px;
+  }
+  .sectionIndex1 .divInfo h3 {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  .sectionIndex1 .divInfo p {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  .sectionIndex1 .divInfo button {
+    background-color: #fd9630;
+  }
+  .sectionIndex2 {
+    padding: 15px;
+  }
+  .sectionIndex2 h2 {
+    text-align: center;
+  }
+  .sectionIndex2 .parcours {
+    padding: 20px;
+    margin: auto;
+  }
+  .sectionIndex2 .imgParcours {
+    display: none;
+  }
+  .sectionIndex3 {
+    padding: 40px;
+  }
+  .sectionIndex3 h2 {
+    text-align: center;
+  }
+  .sectionIndex3 .imagesLoisirs {
+    display: none;
+  }
+  .sectionIndex3 .loisirs {
+    padding: 0;
+    margin: auto;
+  }
+  .titreSection {
+    text-align: center;
+    padding-left: 0px;
+  }
+  .css-sectionComp1 {
+    padding: 25px;
+  }
+  .css-sectionComp1 .langages {
+    flex-direction: column;
+  }
+  .css-sectionComp1 .langages__langage {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 50px;
+  }
+  .css-sectionComp1 .langages__titre {
+    width: 20%;
+  }
+  .css-sectionComp1 .langages__progress {
+    background-color: rgba(255, 155, 55, 0.652);
+    height: 20px;
+    width: 125px;
+  }
+  .css-sectionComp1 .langages__progress--bar {
+    height: 100% !important;
+    background-color: radial-gradient(circle, rgb(126, 195, 247) 0%, rgb(126, 237, 133) 100%);
+  }
+  .css-sectionComp1 .langages__progress #java {
+    width: 80%;
+  }
+  .css-sectionComp1 .langages__progress #python {
+    width: 70%;
+  }
+  .css-sectionComp1 .langages__progress #htmlcss {
+    width: 70%;
+  }
+  .css-sectionComp1 .langages__progress #plsql {
+    width: 60%;
+  }
+  .css-sectionComp1 .langages__progress #js {
+    width: 50%;
+  }
+  .css-sectionComp1 .langages__progress #php {
+    width: 60%;
+  }
+  .css-sectionComp1 .langages__progress #c {
+    width: 50%;
+  }
+  @keyframes progressup {
+    from {
+      width: 0%;
+    }
+  }
+  .css-sectionComp1 .langages__pourcentage {
+    width: auto;
+  }
+  .css-sectionComp2 {
+    margin: 25px;
+    padding: 25px;
+  }
+  .css-sectionComp2 .zoneOutils {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 100px 100px;
+    gap: 20px;
+  }
+  .css-sectionComp2 .zoneOutils .outil {
+    justify-content: space-around;
+  }
+  .css-sectionComp2 .zoneOutils .outil h3 {
+    font-size: 1.1em;
+  }
+  .css-sectionComp2 .zoneOutils .outil .outilImage {
+    width: 20%;
+  }
+  .css-sectionComp3 .zoneLangues {
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+  }
+  .css-sectionComp3 .zoneLangues .langue {
+    width: 40%;
+    background-color: #fd9630;
+    margin-bottom: 30px;
+    border-radius: 20px;
+  }
+  .css-sectionComp3 .zoneLangues .langue h3 {
+    text-align: center;
+  }
+  .sectionExperience {
+    padding: 25px;
+  }
+  .sectionExperience .h2Experience {
+    padding: 20px;
+    text-align: center;
+    margin: 10px;
+  }
+  .sectionExperience .h2ExperienceUni {
+    margin-top: 30px;
+  }
+  .sectionExperience .divExp .exp {
+    flex-direction: column-reverse;
+    margin: 15px;
+    padding: 20px 20px;
+    box-sizing: initial;
+    justify-content: space-evenly;
+  }
+  .sectionExperience .divExp .exp ul {
+    margin-bottom: 25px;
+  }
+  .sectionExperience .divExp .exp em {
+    margin-bottom: 10px;
+  }
+  header,
+  footer,
+  .sectionIndex2,
+  .css-sectionComp2,
+  .divExp {
+    background-color: #2dbdb4;
+  }
+}/*# sourceMappingURL=responsive.css.map */

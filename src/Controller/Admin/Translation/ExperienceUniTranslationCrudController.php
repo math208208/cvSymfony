@@ -12,12 +12,15 @@ use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FilterCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\SearchDto;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use FOS\CKEditorBundle\Form\Type\CKEditorType;
 
 class ExperienceUniTranslationCrudController extends AbstractCrudController
 {
@@ -123,56 +126,75 @@ class ExperienceUniTranslationCrudController extends AbstractCrudController
 
 
 
-            TextareaField::new('en')->setLabel('Anglais'),
-            TextareaField::new('es')->setLabel('Espagnol'),
+            TextEditorField::new('en', 'Anglais')
+                ->setFormType(CKEditorType::class),
+
+            TextEditorField::new('es', 'Espagnol')
+                ->setFormType(CKEditorType::class),
         ];
+    }
+
+    public function configureCrud(Crud $crud): Crud
+    {
+        return $crud
+            ->addFormTheme('@FOSCKEditor/Form/ckeditor_widget.html.twig');
     }
 
     private function getExperienceUniIds(): array
     {
+        $attributes = array_values($this->getExperienceUniAttributs());
+
+        $choices = [];
         if (!$this->isGranted('ROLE_ADMIN')) {
             $admin = $this->getUser();
 
             if (!$admin instanceof \App\Entity\Admin) {
-                return [];
+                throw new \Exception('Utilisateur non valide.');
             }
 
             $adminEmail = $admin->getEmail();
             $user = $this->em->getRepository(User::class)->findOneBy(['email' => $adminEmail]);
 
             if (!$user) {
-                return [];
+                throw new \Exception('Aucun utilisateur associé à cet administrateur.');
             }
 
             $experiencesUni = $this->em->getRepository(ExperienceUni::class)->findBy(['user' => $user]);
 
-            $choices = [];
             foreach ($experiencesUni as $experienceUni) {
-                $existingTranslation = $this->em->getRepository(Translation::class)->findOneBy([
-                    'entity' => ExperienceUni::class,
-                    'entityId' => $experienceUni->getId(),
-                ]);
 
-                if (!$existingTranslation) {
+                if ($this->hasMissingTranslations($experienceUni, $attributes)) {
                     $choices[$experienceUni->getUser() . " -> " . $experienceUni->getTitre()] = $experienceUni->getId();
                 }
             }
         } else {
             $experiencesUni = $this->em->getRepository(ExperienceUni::class)->findAll();
 
-            $choices = [];
             foreach ($experiencesUni as $experienceUni) {
-                $existingTranslation = $this->em->getRepository(Translation::class)->findOneBy([
-                    'entity' => ExperienceUni::class,
-                    'entityId' => $experienceUni->getId(),
-                ]);
 
-                if (!$existingTranslation) {
-                    $choices[$experienceUni->getUser() . " -> " . $experienceUni->getTitre()] = $experienceUni->getId();
+                if ($this->hasMissingTranslations($experienceUni, $attributes)) {
+                    $choices[$experienceUni->getUser() . " -> " . $experienceUni->getTitre()."-> id :".$experienceUni->getId()] = $experienceUni->getId();
                 }
             }
         }
         return $choices;
+    }
+
+    private function hasMissingTranslations(ExperienceUni $experienceUni, array $attributes): bool
+    {
+        foreach ($attributes as $attribute) {
+            $existing = $this->em->getRepository(Translation::class)->findOneBy([
+                'entity' => ExperienceUni::class,
+                'entityId' => $experienceUni->getId(),
+                'attribute' => $attribute,
+            ]);
+
+            if (!$existing) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private function getExperienceUniAttributs(): array
@@ -183,6 +205,8 @@ class ExperienceUniTranslationCrudController extends AbstractCrudController
             'Description' => 'description',
         ];
     }
+
+
 
 
     public function persistEntity(EntityManagerInterface $entityManager, $entityInstance): void
@@ -199,15 +223,40 @@ class ExperienceUniTranslationCrudController extends AbstractCrudController
 
             if ($experienceUni) {
                 $attribute = $entityInstance->getAttribute();
-
                 $getter = 'get' . ucfirst($attribute);
+
+
                 if (method_exists($experienceUni, $getter)) {
                     $value = $experienceUni->$getter();
-                    $entityInstance->setFr($value);
+
+                    $existingTranslation = $this->em->getRepository(Translation::class)->findOneBy([
+                        'entity' => ExperienceUni::class,
+                        'entityId' => $experienceUni->getId(),
+                        'attribute' => $attribute,
+                    ]);
+
+                    if ($existingTranslation) {
+                        $existingTranslation->setEn($entityInstance->getEn());
+                        $existingTranslation->setEs($entityInstance->getEs());
+
+                        if (empty($existingTranslation->getFr())) {
+                            $existingTranslation->setFr($value);
+                        }
+
+                        $existingTranslation->setPersonne($experienceUni->getUser());
+
+                        $entityManager->persist($existingTranslation);
+                        $entityManager->flush();
+
+                        return;
+                    } else {
+                        $entityInstance->setFr($value);
+                    }
                 }
+
+                $entityInstance->setPersonne($experienceUni->getUser());
             }
         }
-        $entityInstance->setPersonne($experienceUni->getUser());
 
         parent::persistEntity($entityManager, $entityInstance);
     }

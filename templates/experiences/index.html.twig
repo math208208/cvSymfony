@@ -12,18 +12,18 @@
 				{% for experiencePro in experiencesPro %}
 					<div class="exp expPro">
 						<div class="blocexp blocexpPro">
-							<h2>{{experiencePro.poste}}</h2>
-							<h4>{{experiencePro.entreprise}}</h4>
+							<h2>{{experiencePro.translated_poste|raw }}</h2>
+							<h4>{{experiencePro.experiencePro.entreprise|raw }}</h4>
 							<ul>
-								{{ experiencePro.description|raw }}
+								{{ experiencePro.translated_description|raw }}
 							</ul>
 						</div>
 						<div>
 							<p>
 								<em>
-									{{experiencePro.dateDebut}}
+									{{experiencePro.experiencePro.dateDebut}}
 									-
-									{{experiencePro.dateFin}}</em>
+									{{experiencePro.experiencePro.dateFin}}</em>
 							</p>
 						</div>
 					</div>
@@ -44,16 +44,16 @@
 				{% for experienceUni in experiencesUni %}
 					<div class="exp expUni">
 						<div class="blocexp blocexpUni">
-							<h2>{{experienceUni.titre}}</h2>
-							<h4>{{experienceUni.sousTitre}}</h4>
+							<h2>{{experienceUni.translated_titre|raw  }}</h2>
+							<h4>{{experienceUni.translated_sousTitre|raw }}</h4>
 							<ul>
-								{{ experienceUni.description|raw }}
+								{{ experienceUni.translated_description|raw }}
 							</ul>
 						</div>
 						<div>
 							<p>
 								<em>
-									{{experienceUni.annee}}</em>
+									{{experienceUni.experienceUni.annee}}</em>
 							</p>
 						</div>
 					</div>

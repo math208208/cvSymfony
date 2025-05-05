@@ -1,0 +1,782 @@
+@charset "UTF-8";
+@font-face {
+  font-family: "Quicksand";
+  src: url("../fonts/Quicksand-VariableFont_wght.ttf") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Exo";
+  src: url("../fonts/Exo-VariableFont_wght.ttf") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+}
+header {
+  background: radial-gradient(circle, rgb(126, 195, 247) 0%, rgb(126, 237, 133) 100%);
+  border-bottom: 3px solid black;
+  position: sticky;
+  top: 0;
+  z-index: 8;
+}
+@media (max-width: 1023px) {
+  header {
+    padding: 0;
+    background: radial-gradient(circle, rgb(126, 195, 247) 0%, rgb(126, 237, 133) 100%);
+  }
+}
+header nav {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+@media (max-width: 1023px) {
+  header nav {
+    display: flex;
+    flex-direction: column;
+  }
+}
+header nav .navMenu {
+  width: 15%;
+}
+@media (max-width: 1023px) {
+  header nav .navMenu {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+  }
+}
+header nav .navMenu .imgLogo {
+  height: auto;
+  width: 35%;
+  padding-top: 10px;
+  padding-left: 50px;
+}
+@media (max-width: 1023px) {
+  header nav .navMenu .imgLogo {
+    height: auto;
+    width: 13%;
+    padding-left: 10px;
+  }
+}
+header nav .navMenu .imgMenu {
+  background: radial-gradient(circle, rgb(126, 195, 247) 0%, rgb(126, 237, 133) 100%);
+  display: none;
+}
+@media (max-width: 1023px) {
+  header nav .navMenu .imgMenu {
+    display: block;
+    width: 10%;
+    margin-top: auto;
+    margin-bottom: auto;
+    background: #2dbdb4;
+  }
+}
+@media (max-width: 1023px) {
+  header nav h2 {
+    padding: 15px;
+    font-size: 1.3em;
+  }
+}
+header nav .underline {
+  text-decoration: underline;
+}
+header nav .navDiva {
+  margin-top: auto;
+  margin-bottom: auto;
+  margin-right: 15px;
+  display: flex;
+  justify-content: space-between;
+}
+@media (max-width: 1023px) {
+  header nav .navDiva {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease-out;
+  }
+}
+header nav .navDiva .butNav {
+  margin: auto 10px;
+  position: relative;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: 0.5s;
+}
+@media (max-width: 1023px) {
+  header nav .navDiva .butNav {
+    position: sticky;
+    top: 0;
+    z-index: 8;
+    padding: auto;
+    margin: auto;
+    margin-bottom: 10px;
+  }
+}
+header nav .navDiva .butNav::after {
+  position: absolute;
+  content: "";
+  top: 100%;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: radial-gradient(circle, rgb(252, 222, 121) 36%, rgb(250, 174, 162) 100%);
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform 0.5s;
+}
+header nav .navDiva .butNav:hover {
+  background: radial-gradient(circle, rgb(252, 222, 121) 36%, rgb(250, 174, 162) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  font-weight: bold;
+  color: transparent;
+  cursor: pointer;
+}
+header nav .navDiva .butNav:hover::after {
+  transform: scaleX(1);
+  transform-origin: center;
+}
+header nav .navDiva .actionA {
+  margin: 0;
+  width: 10%;
+  height: 10%;
+  margin-left: 5px;
+}
+header nav .navDiva .actionA .imgAction {
+  height: auto;
+  width: 70%;
+}
+@media (max-width: 1023px) {
+  header nav .menu-ouvert {
+    max-height: 500px;
+  }
+}
+
+footer {
+  background: radial-gradient(circle, rgb(126, 195, 247) 0%, rgb(126, 237, 133) 100%);
+  padding: 20px 50px;
+  display: flex;
+  flex-direction: row;
+  justify-content: right;
+  border-top: 3px solid black;
+}
+footer a {
+  margin: 15px;
+  position: relative;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: 0.5s;
+}
+footer a::after {
+  position: absolute;
+  content: "";
+  top: 100%;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: radial-gradient(circle, rgb(252, 222, 121) 36%, rgb(250, 174, 162) 100%);
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform 0.5s;
+}
+footer a:hover {
+  background: radial-gradient(circle, rgb(252, 222, 121) 36%, rgb(250, 174, 162) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  font-weight: bold;
+  color: transparent;
+}
+footer a:hover::after {
+  transform: scaleX(1);
+  transform-origin: center;
+}
+
+* {
+  margin: 0;
+  font-family: "Quicksand", sans-serif;
+}
+
+main {
+  background: #f7f7f7;
+}
+
+h1 {
+  font-size: 2.5em;
+  font-family: "Exo", sans-serif;
+}
+
+h2 {
+  font-size: 1.5em;
+  font-family: "Exo", sans-serif;
+}
+
+h3 {
+  font-size: 1.3em;
+  font-style: italic;
+  font-family: "Exo", sans-serif;
+}
+
+h4 {
+  font-size: 1.3em;
+  font-style: italic;
+  font-weight: normal;
+  font-style: italic;
+  font-family: "Exo", sans-serif;
+}
+
+a {
+  text-decoration: none;
+  color: black;
+  font-size: 1.1em;
+}
+
+p {
+  width: 100%;
+}
+
+li {
+  font-size: 1.1em;
+  padding: 15px;
+}
+
+ul {
+  margin-top: 20px;
+}
+
+.bodymain {
+  background: radial-gradient(circle, rgb(126, 195, 247) 0%, rgb(126, 237, 133) 100%);
+}
+.bodymain .headMain {
+  background: rgba(255, 255, 255, 0);
+  border: 0px;
+}
+.bodymain main {
+  background: radial-gradient(circle, rgb(126, 195, 247) 0%, rgb(126, 237, 133) 100%);
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.bodymain main .h1main {
+  margin-top: 80px;
+  margin-bottom: 40px;
+}
+.bodymain main form {
+  display: flex;
+  flex-direction: column;
+}
+.bodymain main .formNom {
+  margin-left: 15px;
+}
+.bodymain main .formAttr {
+  margin-top: 10px;
+  margin-left: 15px;
+}
+.bodymain main .buttonMain {
+  display: flex;
+  margin: auto;
+  padding: 15px 30px;
+  margin-top: 60px;
+  background-image: linear-gradient(to right, #16222a 0%, #3a6073 51%, #16222a 100%);
+  text-align: center;
+  text-transform: uppercase;
+  transition: 0.5s;
+  background-size: 200% auto;
+  color: white;
+  box-shadow: 0 0 20px #eee;
+  border-radius: 10px;
+  display: block;
+}
+.bodymain main .buttonMain:hover {
+  background-position: right center; /* change the direction of the change here */
+  color: #fff;
+  text-decoration: none;
+}
+.bodymain main .formA {
+  font-size: 0.9em;
+  margin-top: 5px;
+}
+
+.italic {
+  color: rgb(105, 105, 105);
+}
+
+.sectionIndex1 {
+  display: flex;
+  flex-direction: row;
+  width: 70%;
+  justify-content: space-between;
+  margin: auto;
+  padding: 150px;
+}
+.sectionIndex1 #imgmoi {
+  height: 35%;
+  width: 35%;
+  box-shadow: 3px 3px 3px rgba(120, 120, 120, 0.495);
+  border-radius: 20px;
+}
+.sectionIndex1 div {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 45%;
+}
+.sectionIndex1 div .aBoutton {
+  background: radial-gradient(circle, rgb(252, 222, 121) 36%, rgb(250, 174, 162) 100%);
+  padding: 15px;
+  border-radius: 30px;
+  text-align: center;
+  width: 60%;
+  margin: 0px auto;
+  text-transform: uppercase;
+  transition: 0.5s;
+  background-size: 200% auto;
+  display: block;
+}
+.sectionIndex1 div .aBoutton:hover {
+  background-position: right center; /* change the direction of the change here */
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.sectionIndex2 {
+  background: radial-gradient(circle, rgb(126, 195, 247) 0%, rgb(126, 237, 133) 100%);
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 50px;
+  margin: 30px;
+  border: 3px solid black;
+  border-radius: 20px;
+}
+.sectionIndex2 .parcours {
+  padding-left: 50px;
+}
+.sectionIndex2 .imagesParcours .imgParcours {
+  border-radius: 20px;
+  box-shadow: 3px 3px 3px rgba(120, 120, 120, 0.495);
+}
+.sectionIndex2 .imagesParcours .imgParcours:nth-child(1) {
+  right: 7%;
+  margin-top: 4em;
+}
+.sectionIndex2 .imagesParcours .imgParcours:nth-child(2) {
+  right: 29%;
+}
+
+.sectionIndex3 {
+  background: #f7f7f7;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 100px 50px;
+}
+.sectionIndex3 .imgLoisirs {
+  height: 30%;
+  position: absolute;
+  border-radius: 20px;
+  box-shadow: 3px 3px 3px rgba(120, 120, 120, 0.495);
+}
+.sectionIndex3 .imgLoisirs:nth-child(3) {
+  left: 45%;
+  z-index: 3;
+}
+.sectionIndex3 .imgLoisirs:nth-child(2) {
+  left: 33%;
+  margin-top: 50px;
+  z-index: 2;
+}
+.sectionIndex3 .imgLoisirs:nth-child(2) :hover {
+  z-index: 4;
+}
+.sectionIndex3 .imgLoisirs:nth-child(1) {
+  z-index: 3;
+}
+
+.sectionContact {
+  padding: 70px;
+}
+.sectionContact .h2Contact {
+  padding-bottom: 30px;
+}
+
+.sectionExperience {
+  overflow: hidden;
+}
+.sectionExperience .h2Experience {
+  margin-top: 50px;
+  text-align: center;
+}
+.sectionExperience .divExp {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  background: rgba(247, 247, 247, 0.968627451);
+  padding: 70px 0;
+  width: 100%;
+}
+.sectionExperience .divExpUni {
+  margin-bottom: 100px;
+}
+.sectionExperience .divExp .exp {
+  margin: 0 100px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  border-radius: 20px;
+  border: 3px solid black;
+  width: 100%;
+  flex: 0 0 80%;
+  min-width: 0; /* Empêche le débordement */
+  padding: 70px 20px;
+  box-sizing: border-box;
+  background: radial-gradient(circle, rgb(126, 195, 247) 0%, rgb(126, 237, 133) 100%);
+}
+.sectionExperience .divExp .exp .blocexp {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+section {
+  padding: 100px;
+}
+section h2 {
+  margin-bottom: 30px;
+  font-size: 2.3em;
+}
+section .divChange {
+  display: flex;
+  flex-direction: row;
+}
+section .divChange div {
+  margin-right: 75px;
+  margin-bottom: 30px;
+}
+section .divChange div label {
+  font-size: 1.2em;
+  margin-right: 20px;
+}
+section .divProfilEtat {
+  display: flex;
+  flex-direction: row;
+}
+section .divProfilEtat h3 {
+  margin-right: 15px;
+}
+
+.sectionModifCV {
+  padding-top: 0;
+}
+
+.css-sectionComp1 {
+  background: #f7f7f7;
+  padding: 50px 50px;
+}
+.css-sectionComp1 .titreSection {
+  padding-bottom: 40px;
+  padding-left: 50px;
+}
+.css-sectionComp1 .langages {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+.css-sectionComp1 .langages__langage {
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  display: flex;
+}
+.css-sectionComp1 .langages__titre {
+  visibility: hidden;
+}
+.css-sectionComp1 .langages__progress {
+  margin-top: 15px;
+  margin-bottom: 15px;
+  height: 200px;
+  width: 20px;
+  background: #fff5c6;
+  display: flex;
+  flex-direction: column-reverse;
+  visibility: hidden;
+}
+.css-sectionComp1 .langages__progress--bar {
+  width: 100%;
+  background: radial-gradient(circle, rgb(252, 222, 121) 36%, rgb(250, 174, 162) 100%);
+  animation-duration: 2s;
+  animation-name: progressup;
+}
+.css-sectionComp1 .langages__progress #java {
+  height: 80%;
+}
+.css-sectionComp1 .langages__progress #python {
+  height: 70%;
+}
+.css-sectionComp1 .langages__progress #htmlcss {
+  height: 70%;
+}
+.css-sectionComp1 .langages__progress #plsql {
+  height: 60%;
+}
+.css-sectionComp1 .langages__progress #js {
+  height: 50%;
+}
+.css-sectionComp1 .langages__progress #php {
+  height: 60%;
+}
+.css-sectionComp1 .langages__progress #c {
+  height: 50%;
+}
+.css-sectionComp1 .langages__pourcentage {
+  visibility: hidden;
+  text-align: center;
+}
+
+@keyframes progressup {
+  from {
+    height: 0%;
+  }
+}
+.css-sectionComp2 {
+  background: radial-gradient(circle, rgb(126, 195, 247) 0%, rgb(126, 237, 133) 100%);
+  padding: 75px;
+  margin: 70px;
+  border: 3px solid black;
+  border-radius: 20px;
+}
+.css-sectionComp2 h2 {
+  margin-bottom: 35px;
+}
+.css-sectionComp2 .zoneOutils {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 50px;
+}
+.css-sectionComp2 .zoneOutils .outil {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+.css-sectionComp2 .zoneOutils .outil h3 {
+  margin-bottom: 15px;
+}
+.css-sectionComp2 .zoneOutils .outil .outilImage {
+  width: 30%;
+  border-radius: 20px;
+  box-shadow: 3px 3px 3px rgba(120, 120, 120, 0.495);
+}
+
+.css-sectionComp3 {
+  background: #f7f7f7;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 70px 50px;
+}
+.css-sectionComp3 .zoneLangues {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 50px 200px;
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+.css-sectionComp3 .zoneLangues .langue {
+  background: #2dbdb4;
+  box-shadow: 7px 5px 5px rgba(192, 240, 238, 0.9490196078);
+  padding: 20px;
+  border-radius: 100%;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 120px;
+  height: 120px;
+}
+.css-sectionComp3 .zoneLangues .langue p {
+  text-align: center;
+  margin-top: 10px;
+}
+
+@media (max-width: 1023px) {
+  .sectionIndex1 {
+    flex-direction: column;
+    padding: 25px;
+    justify-content: space-between;
+  }
+  .sectionIndex1 #imgmoi {
+    width: 50%;
+    margin: auto;
+    margin-bottom: 15px;
+  }
+  .sectionIndex1 .divInfo {
+    width: 100%;
+  }
+  .sectionIndex1 .divInfo h1 {
+    text-align: center;
+    margin-bottom: 10px;
+  }
+  .sectionIndex1 .divInfo h3 {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  .sectionIndex1 .divInfo p {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  .sectionIndex1 .divInfo button {
+    background-color: #fd9630;
+  }
+  .sectionIndex2 {
+    padding: 15px;
+  }
+  .sectionIndex2 h2 {
+    text-align: center;
+  }
+  .sectionIndex2 .parcours {
+    padding: 20px;
+    margin: auto;
+  }
+  .sectionIndex2 .imgParcours {
+    display: none;
+  }
+  .sectionIndex3 {
+    padding: 40px;
+  }
+  .sectionIndex3 h2 {
+    text-align: center;
+  }
+  .sectionIndex3 .imagesLoisirs {
+    display: none;
+  }
+  .sectionIndex3 .loisirs {
+    padding: 0;
+    margin: auto;
+  }
+  .titreSection {
+    text-align: center;
+    padding-left: 0px;
+  }
+  .css-sectionComp1 {
+    padding: 25px;
+  }
+  .css-sectionComp1 .langages {
+    flex-direction: column;
+  }
+  .css-sectionComp1 .langages__langage {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 50px;
+  }
+  .css-sectionComp1 .langages__titre {
+    width: 20%;
+  }
+  .css-sectionComp1 .langages__progress {
+    background-color: rgba(255, 155, 55, 0.652);
+    height: 20px;
+    width: 125px;
+  }
+  .css-sectionComp1 .langages__progress--bar {
+    height: 100% !important;
+    background-color: radial-gradient(circle, rgb(126, 195, 247) 0%, rgb(126, 237, 133) 100%);
+  }
+  .css-sectionComp1 .langages__progress #java {
+    width: 80%;
+  }
+  .css-sectionComp1 .langages__progress #python {
+    width: 70%;
+  }
+  .css-sectionComp1 .langages__progress #htmlcss {
+    width: 70%;
+  }
+  .css-sectionComp1 .langages__progress #plsql {
+    width: 60%;
+  }
+  .css-sectionComp1 .langages__progress #js {
+    width: 50%;
+  }
+  .css-sectionComp1 .langages__progress #php {
+    width: 60%;
+  }
+  .css-sectionComp1 .langages__progress #c {
+    width: 50%;
+  }
+  @keyframes progressup {
+    from {
+      width: 0%;
+    }
+  }
+  .css-sectionComp1 .langages__pourcentage {
+    width: auto;
+  }
+  .css-sectionComp2 {
+    margin: 25px;
+    padding: 25px;
+  }
+  .css-sectionComp2 .zoneOutils {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 100px 100px;
+    gap: 20px;
+  }
+  .css-sectionComp2 .zoneOutils .outil {
+    justify-content: space-around;
+  }
+  .css-sectionComp2 .zoneOutils .outil h3 {
+    font-size: 1.1em;
+  }
+  .css-sectionComp2 .zoneOutils .outil .outilImage {
+    width: 20%;
+  }
+  .css-sectionComp3 .zoneLangues {
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+  }
+  .css-sectionComp3 .zoneLangues .langue {
+    width: 40%;
+    background-color: #fd9630;
+    margin-bottom: 30px;
+    border-radius: 20px;
+  }
+  .css-sectionComp3 .zoneLangues .langue h3 {
+    text-align: center;
+  }
+  .sectionExperience {
+    padding: 25px;
+  }
+  .sectionExperience .h2Experience {
+    padding: 20px;
+    text-align: center;
+    margin: 10px;
+  }
+  .sectionExperience .h2ExperienceUni {
+    margin-top: 30px;
+  }
+  .sectionExperience .divExp .exp {
+    flex-direction: column-reverse;
+    margin: 15px;
+    padding: 20px 20px;
+    box-sizing: initial;
+    justify-content: space-evenly;
+  }
+  .sectionExperience .divExp .exp ul {
+    margin-bottom: 25px;
+  }
+  .sectionExperience .divExp .exp em {
+    margin-bottom: 10px;
+  }
+  header,
+  footer,
+  .sectionIndex2,
+  .css-sectionComp2,
+  .divExp {
+    background-color: #2dbdb4;
+  }
+}/*# sourceMappingURL=app.css.map */

@@ -5,6 +5,7 @@ header:
 
 button:
   aboutMe: "Sobre mí"
+  change: "Cambiar"
 
 section:
   training: "Formación"
@@ -14,6 +15,13 @@ section:
   languages: "Idiomas"
   proExperience: "Experiencias profesionales"
   acaExperience: "Experiencias académicas"
+  seettings: "Parámetros"
+  newPw: "Nueva contraseña :"
+  newEmail: "Nuevo correo electrónico :"
+  changeCv: "Modificar CV"
+  profilPrv: "Perfil privado"
+
 
 contact: "Contacto"
 nodata: "Sin datos"
+
