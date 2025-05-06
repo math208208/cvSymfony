@@ -12,12 +12,14 @@ use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FilterCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\SearchDto;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use Symfony\Component\Validator\Constraints\Choice;
 
 class LangageTranslationCrudController extends AbstractCrudController
 {
@@ -92,6 +94,11 @@ class LangageTranslationCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
+        $selectedLangageId = null;
+
+        if ($pageName === Crud::PAGE_EDIT) {
+            $selectedLangageId = $this->getContext()?->getEntity()?->getInstance()?->getEntityId();
+        }
 
         return [
             ChoiceField::new('entity')
@@ -109,7 +116,7 @@ class LangageTranslationCrudController extends AbstractCrudController
 
             ChoiceField::new('entityId')
                 ->setLabel('ID du langage')
-                ->setChoices($this->getLangageIds())
+                ->setChoices($this->getLangageIds($selectedLangageId))
                 ->onlyOnForms(),
 
             ChoiceField::new('attribute')
@@ -125,50 +132,45 @@ class LangageTranslationCrudController extends AbstractCrudController
         ];
     }
 
-    private function getLangageIds(): array
+    private function getLangageIds(?int $selectedLangageId = null): array
     {
-        if (!$this->isGranted('ROLE_ADMIN')) {
-            $admin = $this->getUser();
-
-            if (!$admin instanceof \App\Entity\Admin) {
-                return [];
-            }
-
-            $adminEmail = $admin->getEmail();
-            $user = $this->em->getRepository(User::class)->findOneBy(['email' => $adminEmail]);
-
-            if (!$user) {
-                return [];
-            }
-
-            $langages = $this->em->getRepository(Langage::class)->findBy(['user' => $user]);
-
-            $choices = [];
-            foreach ($langages as $langage) {
-                $existingTranslation = $this->em->getRepository(Translation::class)->findOneBy([
-                    'entity' => Langage::class,
-                    'entityId' => $langage->getId(),
-                ]);
-
-                if (!$existingTranslation) {
-                    $choices[$langage->getUser() . " -> " . $langage->getNomLangue()] = $langage->getId();
+        $choices = [];
+        if($selectedLangageId!==null){
+            $langage = $this->em->getRepository(Langage::class)->findOneBy(['id' => $selectedLangageId]);
+            $choices[$langage->getUser() . " -> " . $langage->getNomLangue()] = $langage->getId();
+        }else{
+            if (!$this->isGranted('ROLE_ADMIN')) {
+                $admin = $this->getUser();
+    
+                if (!$admin instanceof \App\Entity\Admin) {
+                    return [];
                 }
+    
+                $adminEmail = $admin->getEmail();
+                $user = $this->em->getRepository(User::class)->findOneBy(['email' => $adminEmail]);
+    
+                if (!$user) {
+                    return [];
+                }
+    
+                $langages = $this->em->getRepository(Langage::class)->findBy(['user' => $user]);
+            } else {
+                $langages = $this->em->getRepository(Langage::class)->findAll();
             }
-        } else {
-            $langages = $this->em->getRepository(Langage::class)->findAll();
-
-            $choices = [];
+    
             foreach ($langages as $langage) {
                 $existingTranslation = $this->em->getRepository(Translation::class)->findOneBy([
                     'entity' => Langage::class,
                     'entityId' => $langage->getId(),
                 ]);
-
-                if (!$existingTranslation) {
+    
+                if (!$existingTranslation ) {
                     $choices[$langage->getUser() . " -> " . $langage->getNomLangue()] = $langage->getId();
                 }
             }
         }
+        
+        
         return $choices;
     }
 

@@ -2,7 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\Langage;
+use App\Entity\Outil;
 use App\Entity\User;
+use App\Form\LangueType;
+use App\Form\OutilType;
 use App\Repository\AdminRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,13 +24,15 @@ final class ProfilController extends AbstractController
 
     #[Route('/{slug}/profil', name: 'app_profil')]
     public function show(
+        Request $request,
         string $slug,
+        EntityManagerInterface $em,
         UserRepository $userRepository,
         TranslationService $translator,
         string $_locale,
     ): Response {
         $this->denyAccessUnlessGranted('VIEW_PROFILE', $slug);
-
+       
         $user = $userRepository->findOneBySlug($slug);
         if (!$user) {
             throw $this->createNotFoundException('Utilisateur non trouvé.');
@@ -41,10 +47,75 @@ final class ProfilController extends AbstractController
             'translated_description' => $translatedDescription
         ];
 
+
+
+        $formOutil = $this->createForm(OutilType::class);
+        $formOutil->handleRequest($request);
+
+        if ($formOutil->isSubmitted() && $formOutil->isValid()) {
+            $newOutil = $formOutil->get('newOutil')->getData();
+            if ($newOutil!==null) {
+                $outil = new Outil();
+                $uploadedFile = $formOutil->get('newOutilImage')->getData();
+                $outil->setNom($newOutil);
+                $outil->setImageFile($uploadedFile);
+
+                $user = $userRepository->findOneBySlug($slug);
+                $outil->setUser($user);
+            } else {
+                $outil = new Outil();
+                $selectOutil = $formOutil->get('existeOutil')->getData();
+                $outil->setNom($selectOutil->getNom());
+                $outil->setImageName($selectOutil->getImageName());
+
+                $user = $userRepository->findOneBySlug($slug);
+                $outil->setUser($user);
+
+            }
+
+            $em->persist($outil);
+            $em->flush();
+            
+
+            return $this->redirectToRoute('app_profil', ['slug' => $user->getSlug()]);
+        }
+
+
+
+        $formLangue = $this->createForm(LangueType::class);
+        $formLangue->handleRequest($request);
+
+        if ($formLangue->isSubmitted() && $formLangue->isValid()) {
+            $niveauLangue = $formLangue->get('niveau')->getData();
+            $nomLangue = $formLangue->get('nomLangue')->getData();
+
+            if ($niveauLangue!==null && $nomLangue!==null) {
+                $langue = new Langage();
+                $langue->setNomLangue($nomLangue);
+                $langue->setNiveau($niveauLangue);
+
+                $user = $userRepository->findOneBySlug($slug);
+                $langue->setUser($user);
+            }
+
+            $em->persist($langue);
+            $em->flush();
+            
+
+            return $this->redirectToRoute('app_profil', ['slug' => $user->getSlug()]);
+        }
+
         return $this->render('profil/index.html.twig', [
-            'user' => $translatedUser
+            'user' => $translatedUser,
+            'addOutilForm' => $formOutil->createView(),
+            'addLangueForm' => $formLangue->createView()
         ]);
     }
+
+
+
+
+
 
     #[Route('/{slug}/profil/update', name: 'app_update_profil', methods: ['POST'])]
     public function update(

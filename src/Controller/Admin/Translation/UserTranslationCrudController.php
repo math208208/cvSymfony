@@ -94,6 +94,12 @@ class UserTranslationCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
 
+        $selectedUserId = null;
+
+        if ($pageName === Crud::PAGE_EDIT) {
+            $selectedUserId = $this->getContext()?->getEntity()?->getInstance()?->getEntityId();
+        }
+
         return [
             ChoiceField::new('entity')
                 ->setLabel('Entité')
@@ -110,7 +116,7 @@ class UserTranslationCrudController extends AbstractCrudController
 
             ChoiceField::new('entityId')
                 ->setLabel('ID du user')
-                ->setChoices($this->getUserIds())
+                ->setChoices($this->getUserIds($selectedUserId))
                 ->onlyOnForms(),
 
             ChoiceField::new('attribute')
@@ -120,11 +126,11 @@ class UserTranslationCrudController extends AbstractCrudController
             TextareaField::new('fr')
                 ->setLabel('Francais')
                 ->hideOnForm(),
-                
-            TextEditorField::new('en','Anglais')
+
+            TextEditorField::new('en', 'Anglais')
                 ->setFormType(CKEditorType::class),
 
-            TextEditorField::new('es','Espagnol')
+            TextEditorField::new('es', 'Espagnol')
                 ->setFormType(CKEditorType::class),
         ];
     }
@@ -136,40 +142,49 @@ class UserTranslationCrudController extends AbstractCrudController
     }
 
     //permet d'avoir comme choix uniquement soit ou alors si le role est admin tout le monde
-    private function getUserIds(): array
+    private function getUserIds(?int $selectedUserId = null): array
     {
         $attributes = array_values($this->getUserAttributs());
-
         $choices = [];
-
-        if (!$this->isGranted('ROLE_ADMIN')) {
-            $admin = $this->getUser();
-
-            if (!$admin instanceof \App\Entity\Admin) {
-                throw new \Exception('Utilisateur non valide.');
-            }
-
-            $user = $this->em->getRepository(User::class)->findOneBy(['email' => $admin->getEmail()]);
-
-            if (!$user) {
-                throw new \Exception('Aucun utilisateur associé à cet administrateur.');
-            }
-
-            if ($this->hasMissingTranslations($user, $attributes)) {
-                $choices[$user->getPrenom() . " " . $user->getNom()] = $user->getId();
-            }
+        if ($selectedUserId !== null) {
+            $user = $this->em->getRepository(User::class)->findOneBy(['id' => $selectedUserId]);
+            $choices[$user->getPrenom() . " " . $user->getNom()] = $user->getId();
         } else {
-            $users = $this->em->getRepository(User::class)->findAll();
+            if (!$this->isGranted('ROLE_ADMIN')) {
+                $admin = $this->getUser();
 
-            foreach ($users as $user) {
-                if ($this->hasMissingTranslations($user, $attributes)) {
+                if (!$admin instanceof \App\Entity\Admin) {
+                    throw new \Exception('Utilisateur non valide.');
+                }
+
+                $user = $this->em->getRepository(User::class)->findOneBy(['email' => $admin->getEmail()]);
+
+                if (!$user) {
+                    throw new \Exception('Aucun utilisateur associé à cet administrateur.');
+                }
+
+                $hasMissingTranslations = $this->hasMissingTranslations($user, $attributes);
+                $isSelected = $user->getId() === $selectedUserId;
+
+                if ($hasMissingTranslations || $isSelected) {
                     $choices[$user->getPrenom() . " " . $user->getNom()] = $user->getId();
+                }
+            } else {
+                $users = $this->em->getRepository(User::class)->findAll();
+
+                foreach ($users as $user) {
+                    $hasMissingTranslations = $this->hasMissingTranslations($user, $attributes);
+
+                    if ($hasMissingTranslations) {
+                        $choices[$user->getPrenom() . " " . $user->getNom()] = $user->getId();
+                    }
                 }
             }
         }
 
         return $choices;
     }
+
 
     private function hasMissingTranslations(User $user, array $attributes): bool
     {

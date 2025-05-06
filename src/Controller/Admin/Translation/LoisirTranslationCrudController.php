@@ -12,6 +12,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FilterCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\SearchDto;
@@ -93,6 +94,13 @@ class LoisirTranslationCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
 
+        //permet d'afficher dans edit l'element car sinon il saffiche pas vu qu'il est deja traduit
+        $selectedLoisirId = null;
+
+        if ($pageName === Crud::PAGE_EDIT) {
+            $selectedLoisirId = $this->getContext()?->getEntity()?->getInstance()?->getEntityId();
+        }
+
         return [
             ChoiceField::new('entity')
                 ->setLabel('Entité')
@@ -108,7 +116,7 @@ class LoisirTranslationCrudController extends AbstractCrudController
 
             ChoiceField::new('entityId')
                 ->setLabel('ID du loisir')
-                ->setChoices($this->getLoisirIds())
+                ->setChoices($this->getLoisirIds($selectedLoisirId))
                 ->onlyOnForms(),
 
             ChoiceField::new('attribute')
@@ -124,39 +132,32 @@ class LoisirTranslationCrudController extends AbstractCrudController
         ];
     }
 
-    private function getLoisirIds(): array
+    private function getLoisirIds(?int $selectedLoisirId = null): array
     {
-        if (!$this->isGranted('ROLE_ADMIN')) {
-            $admin = $this->getUser();
-
-            if (!$admin instanceof \App\Entity\Admin) {
-                return [];
-            }
-
-            $adminEmail = $admin->getEmail();
-            $user = $this->em->getRepository(User::class)->findOneBy(['email' => $adminEmail]);
-
-            if (!$user) {
-                return [];
-            }
-
-            $loisirs = $this->em->getRepository(Loisir::class)->findBy(['user' => $user]);
-
-            $choices = [];
-            foreach ($loisirs as $loisir) {
-                $existingTranslation = $this->em->getRepository(Translation::class)->findOneBy([
-                    'entity' => Loisir::class,
-                    'entityId' => $loisir->getId(),
-                ]);
-
-                if (!$existingTranslation) {
-                    $choices[$loisir->getUser() . " -> " . $loisir->getNom()] = $loisir->getId();
-                }
-            }
+        $choices = [];
+        if ($selectedLoisirId !== null) {
+            $loisir = $this->em->getRepository(Loisir::class)->findOneBy(['id' => $selectedLoisirId]);
+            $choices[$loisir->getUser() . " -> " . $loisir->getNom()] = $loisir->getId();
         } else {
-            $loisirs = $this->em->getRepository(Loisir::class)->findAll();
+            if (!$this->isGranted('ROLE_ADMIN')) {
+                $admin = $this->getUser();
 
-            $choices = [];
+                if (!$admin instanceof \App\Entity\Admin) {
+                    return [];
+                }
+
+                $adminEmail = $admin->getEmail();
+                $user = $this->em->getRepository(User::class)->findOneBy(['email' => $adminEmail]);
+
+                if (!$user) {
+                    return [];
+                }
+
+                $loisirs = $this->em->getRepository(Loisir::class)->findBy(['user' => $user]);
+            } else {
+                $loisirs = $this->em->getRepository(Loisir::class)->findAll();
+            }
+
             foreach ($loisirs as $loisir) {
                 $existingTranslation = $this->em->getRepository(Translation::class)->findOneBy([
                     'entity' => Loisir::class,
@@ -168,7 +169,6 @@ class LoisirTranslationCrudController extends AbstractCrudController
                 }
             }
         }
-
         return $choices;
     }
 

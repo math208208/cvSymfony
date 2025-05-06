@@ -12,6 +12,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FilterCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\SearchDto;
@@ -91,6 +92,11 @@ class FormationTranslationCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
+        $selectedFormationId = null;
+
+        if ($pageName === Crud::PAGE_EDIT) {
+            $selectedFormationId = $this->getContext()?->getEntity()?->getInstance()?->getEntityId();
+        }
 
         return [
             ChoiceField::new('entity')
@@ -108,7 +114,7 @@ class FormationTranslationCrudController extends AbstractCrudController
 
             ChoiceField::new('entityId')
                 ->setLabel('ID de la Formation')
-                ->setChoices($this->getFormationIds())
+                ->setChoices($this->getFormationIds($selectedFormationId))
                 ->onlyOnForms(),
 
             ChoiceField::new('attribute')
@@ -125,44 +131,42 @@ class FormationTranslationCrudController extends AbstractCrudController
         ];
     }
 
-    private function getFormationIds(): array
+    private function getFormationIds(?int $selectedFormationId = null): array
     {
-
         $attributes = array_values($this->getFormationAttributs());
-
         $choices = [];
-
-
-        if (!$this->isGranted('ROLE_ADMIN')) {
-            $admin = $this->getUser();
-
-            if (!$admin instanceof \App\Entity\Admin) {
-                throw new \Exception('Utilisateur non valide.');
-            }
-
-            $adminEmail = $admin->getEmail();
-            $user = $this->em->getRepository(User::class)->findOneBy(['email' => $adminEmail]);
-
-            if (!$user) {
-                throw new \Exception('Aucun utilisateur associé à cet administrateur.');
-            }
-
-            $formations = $this->em->getRepository(Formation::class)->findBy(['user' => $user]);
-
-            foreach ($formations as $formation) {
-
-                if ($this->hasMissingTranslations($formation, $attributes)) {
-                    $choices[$formation->getUser() . " -> " . $formation->getIntitule()] = $formation->getId();
-                }
-            }
+        if ($selectedFormationId !== null) {
+            $formation = $this->em->getRepository(Formation::class)->findOneBy(['id' => $selectedFormationId]);
+            $choices[$formation->getUser() . " -> " . $formation->getIntitule()] = $formation->getId();
         } else {
-            $formations = $this->em->getRepository(Formation::class)->findAll();
+            if (!$this->isGranted('ROLE_ADMIN')) {
+                $admin = $this->getUser();
+
+                if (!$admin instanceof \App\Entity\Admin) {
+                    throw new \Exception('Utilisateur non valide.');
+                }
+
+                $adminEmail = $admin->getEmail();
+                $user = $this->em->getRepository(User::class)->findOneBy(['email' => $adminEmail]);
+
+                if (!$user) {
+                    throw new \Exception('Aucun utilisateur associé à cet administrateur.');
+                }
+
+                $formations = $this->em->getRepository(Formation::class)->findBy(['user' => $user]);
+            } else {
+                $formations = $this->em->getRepository(Formation::class)->findAll();
+            }
+
             foreach ($formations as $formation) {
-                if ($this->hasMissingTranslations($formation, $attributes)) {
+                $hasMissingTranslations = $this->hasMissingTranslations($formation, $attributes);
+
+                if ($hasMissingTranslations) {
                     $choices[$formation->getUser() . " -> " . $formation->getIntitule()] = $formation->getId();
                 }
             }
         }
+
         return $choices;
     }
 

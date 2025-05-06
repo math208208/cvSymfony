@@ -23,7 +23,12 @@ migration:
 contphp:
 		docker compose exec php-fpm bash
 
+openCypress:
+		npx cypress open
 
+
+startCypress:
+		npx cypress run
 
 
 # Probleme cache nav (pas de changement fait) ctrl + shift + R

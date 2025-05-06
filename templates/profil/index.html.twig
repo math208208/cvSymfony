@@ -33,6 +33,23 @@
 			<a href="{{ path('admin_user_index') }}" target="_blank">EasyAdmin</a>
 
 
+			<h3>Ajout d'outils</h3>
+
+			{{ form_start(addOutilForm) }}
+			{{ form_row(addOutilForm.existeOutil  ) }}
+			{{ form_row(addOutilForm.newOutil  ) }}
+			{{ form_row(addOutilForm.newOutilImage  ) }}
+			{{ form_row(addOutilForm.submitOutil  ) }}
+			{{ form_end(addOutilForm) }}
+
+			<h3>Ajout langues</h3>
+
+			{{ form_start(addLangueForm) }}
+			{{ form_row(addLangueForm.nomLangue  ) }}
+			{{ form_row(addLangueForm.niveau  ) }}
+			{{ form_row(addLangueForm.submitLangue  ) }}
+			{{ form_end(addLangueForm) }}
+
 		</section>
 	</main>
 {% endblock %}

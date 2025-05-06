@@ -95,6 +95,11 @@ class ExperienceUniTranslationCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
+        $selectedExpUniId = null;
+
+        if ($pageName === Crud::PAGE_EDIT) {
+            $selectedExpUniId = $this->getContext()?->getEntity()?->getInstance()?->getEntityId();
+        }
 
         return [
             ChoiceField::new('entity')
@@ -113,12 +118,13 @@ class ExperienceUniTranslationCrudController extends AbstractCrudController
 
             ChoiceField::new('entityId')
                 ->setLabel('ID de ExperienceUni')
-                ->setChoices($this->getExperienceUniIds())
+                ->setChoices($this->getExperienceUniIds($selectedExpUniId))
                 ->onlyOnForms(),
 
             ChoiceField::new('attribute')
                 ->setLabel('Attribut')
                 ->setChoices($this->getExperienceUniAttributs()),
+                
 
             TextareaField::new('fr')
                 ->setLabel('Francais')
@@ -140,43 +146,44 @@ class ExperienceUniTranslationCrudController extends AbstractCrudController
             ->addFormTheme('@FOSCKEditor/Form/ckeditor_widget.html.twig');
     }
 
-    private function getExperienceUniIds(): array
+
+    private function getExperienceUniIds(?int $selectedExpUniId = null): array
     {
         $attributes = array_values($this->getExperienceUniAttributs());
-
         $choices = [];
-        if (!$this->isGranted('ROLE_ADMIN')) {
-            $admin = $this->getUser();
 
-            if (!$admin instanceof \App\Entity\Admin) {
-                throw new \Exception('Utilisateur non valide.');
-            }
-
-            $adminEmail = $admin->getEmail();
-            $user = $this->em->getRepository(User::class)->findOneBy(['email' => $adminEmail]);
-
-            if (!$user) {
-                throw new \Exception('Aucun utilisateur associé à cet administrateur.');
-            }
-
-            $experiencesUni = $this->em->getRepository(ExperienceUni::class)->findBy(['user' => $user]);
-
-            foreach ($experiencesUni as $experienceUni) {
-
-                if ($this->hasMissingTranslations($experienceUni, $attributes)) {
-                    $choices[$experienceUni->getUser() . " -> " . $experienceUni->getTitre()] = $experienceUni->getId();
-                }
-            }
+        if ($selectedExpUniId !== null) {
+            $experienceUni = $this->em->getRepository(ExperienceUni::class)->findOneBy(['id' => $selectedExpUniId]);
+            $choices[$experienceUni->getUser() . " -> " . $experienceUni->getTitre() . " -> id : " . $experienceUni->getId()] = $experienceUni->getId();
         } else {
-            $experiencesUni = $this->em->getRepository(ExperienceUni::class)->findAll();
+            if (!$this->isGranted('ROLE_ADMIN')) {
+                $admin = $this->getUser();
+
+                if (!$admin instanceof \App\Entity\Admin) {
+                    throw new \Exception('Utilisateur non valide.');
+                }
+
+                $adminEmail = $admin->getEmail();
+                $user = $this->em->getRepository(User::class)->findOneBy(['email' => $adminEmail]);
+
+                if (!$user) {
+                    throw new \Exception('Aucun utilisateur associé à cet administrateur.');
+                }
+
+                $experiencesUni = $this->em->getRepository(ExperienceUni::class)->findBy(['user' => $user]);
+            } else {
+                $experiencesUni = $this->em->getRepository(ExperienceUni::class)->findAll();
+            }
 
             foreach ($experiencesUni as $experienceUni) {
+                $hasMissingTranslations = $this->hasMissingTranslations($experienceUni, $attributes);
 
-                if ($this->hasMissingTranslations($experienceUni, $attributes)) {
-                    $choices[$experienceUni->getUser() . " -> " . $experienceUni->getTitre()."-> id :".$experienceUni->getId()] = $experienceUni->getId();
+                if ($hasMissingTranslations ) {
+                    $choices[$experienceUni->getUser() . " -> " . $experienceUni->getTitre() . " -> id : " . $experienceUni->getId()] = $experienceUni->getId();
                 }
             }
         }
+
         return $choices;
     }
 

@@ -12,7 +12,11 @@ use Doctrine\Common\Collections\Collection;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Vich\UploaderBundle\Mapping\Annotation\Uploadable;
 
-#[Uploadable] 
+
+/**
+ * @UniqueEntity(fields={"email"}, message="Cet email est déjà utilisé.")
+ */
+#[Uploadable]
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
 #[ORM\HasLifecycleCallbacks]
@@ -41,7 +45,7 @@ class User
     #[ORM\Column(length: 255, nullable: false, unique: true)]
     private ?string $email = null;
 
-    #[ORM\Column(nullable: true , length: 20)]
+    #[ORM\Column(nullable: true, length: 20)]
     private ?string $telephone = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
@@ -76,14 +80,14 @@ class User
     #[ORM\Column(type: "string", length: 255, unique: true)]
     private ?string $slug = null;
 
-    #[ORM\Column(type: 'boolean', nullable:true)]
-    private bool $isPrivate = true; 
-    
+    #[ORM\Column(type: 'boolean', nullable: true)]
+    private bool $isPrivate = true;
+
     public function isPrivate(): bool
     {
         return $this->isPrivate;
     }
-    
+
     public function setIsPrivate(bool $isPrivate): self
     {
         $this->isPrivate = $isPrivate;
@@ -101,21 +105,24 @@ class User
         return $this;
     }
 
-    #[ORM\PrePersist]  
+    #[ORM\PrePersist]
     public function generateSlug(): void
     {
-        // Générer le slug à partir du nom et prénom si ce n'est pas déjà fait
-        if (empty($this->slug)) {
-            $slugTemp = $this->prenom . '-' . $this->nom;
+        $slugTemp = $this->prenom . '-' . $this->nom;
+        $slugTemp = strtolower($slugTemp);
 
-            $slugTemp = strtolower($slugTemp);
+        $slugTemp = str_replace(
+            ['á', 'à', 'â', 'ä', 'ã', 'å', 'ç', 'é', 'è', 'ê', 'ë', 'í', 'ï', 'î', 'ì', 'ñ', 'ó', 'ò', 'ô', 'ö', 'õ', 'ú', 'ù', 'û', 'ü', 'ý'],
+            ['a', 'a', 'a', 'a', 'a', 'a', 'c', 'e', 'e', 'e', 'e', 'i', 'i', 'i', 'i', 'n', 'o', 'o', 'o', 'o', 'o', 'u', 'u', 'u', 'u', 'y'],
+            $slugTemp
+        );
 
-            $this->slug = str_replace(
-                ['á', 'à', 'â', 'ä', 'ã', 'å', 'ç', 'é', 'è', 'ê', 'ë', 'í', 'ï', 'î', 'ì', 'ñ', 'ó', 'ò', 'ô', 'ö', 'õ', 'ú', 'ù', 'û', 'ü', 'ý'],
-                ['a', 'a', 'a', 'a', 'a', 'a', 'c', 'e', 'e', 'e', 'e', 'i', 'i', 'i', 'i', 'n', 'o', 'o', 'o', 'o', 'o', 'u', 'u', 'u', 'u', 'y'],
-                $slugTemp
-            );
-        }
+        // Remplacer les espaces, caractères spéciaux, etc.
+        $slugTemp = preg_replace('/[^a-z0-9\-]/', '-', $slugTemp);
+        $slugTemp = preg_replace('/-+/', '-', $slugTemp);
+        $slugTemp = trim($slugTemp, '-');
+
+        $this->slug = $slugTemp;
     }
 
 
@@ -128,7 +135,13 @@ class User
         $this->langues = new ArrayCollection();
         $this->competences = new ArrayCollection();
         $this->outils = new ArrayCollection();
+    }
 
+
+    #[ORM\PreUpdate]
+    public function updateSlug(): void
+    {
+        $this->generateSlug();
     }
 
     public function getId(): ?int
@@ -186,7 +199,7 @@ class User
     }
 
 
-   
+
 
 
 

@@ -96,6 +96,13 @@ class ExperienceProTranslationCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
 
+        $selectedExpProId = null;
+
+        if ($pageName === Crud::PAGE_EDIT) {
+            $selectedExpProId = $this->getContext()?->getEntity()?->getInstance()?->getEntityId();
+        }
+
+
         return [
             ChoiceField::new('entity')
                 ->setLabel('Entité')
@@ -139,42 +146,43 @@ class ExperienceProTranslationCrudController extends AbstractCrudController
     }
 
 
-    private function getExperienceProIds(): array
+    private function getExperienceProIds(?int $selectedExpProId = null): array
     {
         $attributes = array_values($this->getExperienceProAttributs());
-
         $choices = [];
 
-        if (!$this->isGranted('ROLE_ADMIN')) {
-            $admin = $this->getUser();
-
-            if (!$admin instanceof \App\Entity\Admin) {
-                throw new \Exception('Utilisateur non valide.');
-            }
-
-            $adminEmail = $admin->getEmail();
-            $user = $this->em->getRepository(User::class)->findOneBy(['email' => $adminEmail]);
-
-            if (!$user) {
-                throw new \Exception('Aucun utilisateur associé à cet administrateur.');
-            }
-
-            $experiencesPro = $this->em->getRepository(ExperiencePro::class)->findBy(['user' => $user]);
-
-            foreach ($experiencesPro as $experiencePro) {
-                if ($this->hasMissingTranslations($experiencePro, $attributes)) {
-                    $choices[$experiencePro->getUser() . " -> " . $experiencePro->getPoste()] = $experiencePro->getId();
-                }
-            }
+        if ($selectedExpProId !== null) {
+            $experiencePro = $this->em->getRepository(ExperiencePro::class)->findOneBy(['id' => $selectedExpProId]);
+            $choices[$experiencePro->getUser() . " -> " . $experiencePro->getPoste() . " -> id : " . $experiencePro->getId()] = $experiencePro->getId();
         } else {
-            $experiencesPro = $this->em->getRepository(ExperiencePro::class)->findAll();
+            if (!$this->isGranted('ROLE_ADMIN')) {
+                $admin = $this->getUser();
+
+                if (!$admin instanceof \App\Entity\Admin) {
+                    throw new \Exception('Utilisateur non valide.');
+                }
+
+                $adminEmail = $admin->getEmail();
+                $user = $this->em->getRepository(User::class)->findOneBy(['email' => $adminEmail]);
+
+                if (!$user) {
+                    throw new \Exception('Aucun utilisateur associé à cet administrateur.');
+                }
+
+                $experiencesPro = $this->em->getRepository(ExperiencePro::class)->findBy(['user' => $user]);
+            } else {
+                $experiencesPro = $this->em->getRepository(ExperiencePro::class)->findAll();
+            }
 
             foreach ($experiencesPro as $experiencePro) {
-                if ($this->hasMissingTranslations($experiencePro, $attributes)) {
-                    $choices[$experiencePro->getUser() . " -> " . $experiencePro->getPoste()] = $experiencePro->getId();
+                $hasMissingTranslations = $this->hasMissingTranslations($experiencePro, $attributes);
+
+                if ($hasMissingTranslations) {
+                    $choices[$experiencePro->getUser() . " -> " . $experiencePro->getPoste() . " -> id : " . $experiencePro->getId()] = $experiencePro->getId();
                 }
             }
         }
+
         return $choices;
     }
 

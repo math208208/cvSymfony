@@ -10,19 +10,18 @@
     .h2Parametre {
         margin-bottom: 30px;
         font-size: 2.3em;
-        
     }
     .divChange {
         display: flex;
         flex-direction: column;
-        
+
         @include small {
             flex-direction: column;
             text-align: center;
         }
         div {
             margin-bottom: 30px;
-            
+
             @include small {
                 display: flex;
                 flex-direction: column;
@@ -37,7 +36,6 @@
                     margin-bottom: 10px;
                 }
             }
-
         }
         .divProfilEtat {
             display: flex;
@@ -64,7 +62,7 @@
             background-size: 200% auto;
             display: block;
             margin: 0px auto;
-            
+
             &:hover {
                 background-position: right center; /* change the direction of the change here */
                 text-decoration: none;
@@ -80,8 +78,21 @@
     @include small {
         text-align: center;
         padding: 30px;
-        
     }
+    h3 {
+        margin-top: 30px;
+        margin-bottom: 30px;
+    }
+
+    label {
+        margin-top: 10px;
+        margin-bottom: 5px;
+        margin-left: 20px;
+    }
+    input {
+        margin-bottom: 10px;
+    }
+
     .h2Parametre {
         font-size: 2.3em;
         margin-bottom: 30px;

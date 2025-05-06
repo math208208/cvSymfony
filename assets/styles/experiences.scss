@@ -40,7 +40,7 @@
             width: 100%;
             flex: 0 0 80%; // @todo prend 80% du cont
             min-width: 0; /* Empêche le débordement */
-            padding: 70px 90px;
+            padding: 50px 80px;
             box-sizing: border-box;
             background: $color-primaire;
 
@@ -88,11 +88,12 @@
                     margin: 0;
                 }
                 ul {
-                    text-align: center;
+                    
                     @include small {
                         margin-bottom: 25px;
                     }
                     li {
+                        list-style: none;
                         font-size: 1.3em;
                         @include small {
                             padding: 10px ;
