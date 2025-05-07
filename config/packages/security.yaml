@@ -10,6 +10,23 @@ security:
             algorithm: auto
 
     firewalls:
+
+        login:
+            pattern: ^/api/login
+            stateless: true
+            json_login:
+                check_path: /api/login
+                username_path: email
+                password_path: password
+                success_handler: lexik_jwt_authentication.handler.authentication_success
+                failure_handler: lexik_jwt_authentication.handler.authentication_failure
+
+        api:
+            pattern: ^(/(fr|en|es))?/api
+            stateless: true
+            jwt: ~  # Protège les routes avec JWT
+
+
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
@@ -23,27 +40,19 @@ security:
                 path: app_logout
                 target: /login
             
-            
+        
 
 
-        api:
-            pattern: ^/api
-            stateless: true
-            provider: app_user_provider
-            json_login:
-                check_path: /api/login
-                username_path: email
-                password_path: password
-                success_handler: lexik_jwt_authentication.handler.authentication_success
-                failure_handler: lexik_jwt_authentication.handler.authentication_failure
-            jwt: ~
+        
+
 
     access_control:
         - { path: ^/api/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^(/(fr|en|es))?/api, roles: IS_AUTHENTICATED_FULLY }
+
         - { path: ^/(fr|en|es)/register, roles: PUBLIC_ACCESS }
         - { path: ^/login, roles: PUBLIC_ACCESS }
         
-        - { path: ^/api, roles: IS_AUTHENTICATED_FULLY }
         - { path: ^/admin, roles: ROLE_USER }
         - { path: ^/(fr|en|es)/([a-z0-9-]+)$, roles: ROLE_USER }
 

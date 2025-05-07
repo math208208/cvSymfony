@@ -7,13 +7,15 @@ use Symfony\Component\Routing\Attribute\Route;
 use App\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 final class CvController extends AbstractController
 {
-
     #[Route('/api/cv', name: 'app_api_cv', methods: ['GET'])]
     public function getCv(Request $request, UserRepository $userRepository): JsonResponse
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+
         $email = $request->query->get('email');
         
         if (!$email) {
