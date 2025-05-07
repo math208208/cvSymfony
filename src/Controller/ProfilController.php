@@ -2,10 +2,14 @@
 
 namespace App\Controller;
 
+use App\Entity\Competence;
 use App\Entity\Langage;
+use App\Entity\Loisir;
 use App\Entity\Outil;
 use App\Entity\User;
+use App\Form\CompetencesType;
 use App\Form\LangueType;
+use App\Form\LoisirType;
 use App\Form\OutilType;
 use App\Repository\AdminRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -48,7 +52,7 @@ final class ProfilController extends AbstractController
         ];
 
 
-
+        //formulaire outil
         $formOutil = $this->createForm(OutilType::class);
         $formOutil->handleRequest($request);
 
@@ -80,8 +84,7 @@ final class ProfilController extends AbstractController
             return $this->redirectToRoute('app_profil', ['slug' => $user->getSlug()]);
         }
 
-
-
+        //form langue
         $formLangue = $this->createForm(LangueType::class);
         $formLangue->handleRequest($request);
 
@@ -105,10 +108,96 @@ final class ProfilController extends AbstractController
             return $this->redirectToRoute('app_profil', ['slug' => $user->getSlug()]);
         }
 
+
+
+        //formulaire loisir
+        $formLoisir = $this->createForm(LoisirType::class);
+        $formLoisir->handleRequest($request);
+
+        if ($formLoisir->isSubmitted() && $formLoisir->isValid()) {
+            
+            $newLoisir = $formLoisir->get('newLoisir')->getData();
+            if ($newLoisir!==null) {
+                $loisir = new Loisir();
+                $uploadedFile = $formLoisir->get('newLoisirImage')->getData();
+                $loisir->setNom($newLoisir);
+                $loisir->setImageFile($uploadedFile);
+
+                $user = $userRepository->findOneBySlug($slug);
+                $loisir->setUser($user);
+            } else {
+                $loisir = new Loisir();
+                $selectLoisir = $formLoisir->get('existeLoisir')->getData();
+                $loisir->setNom($selectLoisir->getNom());
+                $loisir->setImageName($selectLoisir->getImageName());
+
+                $user = $userRepository->findOneBySlug($slug);
+                $loisir->setUser($user);
+
+            }
+
+            $em->persist($loisir);
+            $em->flush();
+            
+
+            return $this->redirectToRoute('app_profil', ['slug' => $user->getSlug()]);
+        }
+
+
+        //formulaire competence
+        $formCompetence = $this->createForm(CompetencesType::class);
+        $formCompetence->handleRequest($request);
+
+        if ($formCompetence->isSubmitted() && $formCompetence->isValid()) {
+            $newCompetence = $formCompetence->get('newCompetence')->getData();
+            if ($newCompetence!==null) {
+                $competence = new Competence();
+                $niveau = $formCompetence->get('niveauComp')->getData();
+                $competence->setNom($newCompetence);
+                $competence->setPourcentageMetrise($niveau);
+
+
+                $user = $userRepository->findOneBySlug($slug);
+                $competence->setUser($user);
+            } else {
+                $competence = new Competence();
+                $selectCompetence = $formCompetence->get('existeCompetence')->getData();
+                $niveau = $formCompetence->get('niveauComp')->getData();
+                $competence->setNom($selectCompetence->getNom());
+                $competence->setPourcentageMetrise($niveau);
+
+                $user = $userRepository->findOneBySlug($slug);
+                $competence->setUser($user);
+
+            }
+
+            $em->persist($competence);
+            $em->flush();
+            
+
+            return $this->redirectToRoute('app_profil', ['slug' => $user->getSlug()]);
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         return $this->render('profil/index.html.twig', [
             'user' => $translatedUser,
             'addOutilForm' => $formOutil->createView(),
-            'addLangueForm' => $formLangue->createView()
+            'addLangueForm' => $formLangue->createView(),
+            'addLoisirForm' => $formLoisir->createView(),
+            'addCompetenceForm' => $formCompetence->createView()
+
         ]);
     }
 

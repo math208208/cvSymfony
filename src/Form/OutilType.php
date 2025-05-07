@@ -33,7 +33,7 @@ class OutilType extends AbstractType
 
             ])
             ->add('newOutilImage', FileType::class, [
-                'label' => 'Image de l’outil',
+                'label' => 'Image de l’outil (optionnel)',
                 'required' => false,
                 'mapped' => false,
                 'constraints' => [

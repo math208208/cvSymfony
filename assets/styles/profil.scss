@@ -79,25 +79,54 @@
         text-align: center;
         padding: 30px;
     }
-    h3 {
-        margin-top: 30px;
-        margin-bottom: 30px;
-    }
-
-    label {
-        margin-top: 10px;
-        margin-bottom: 5px;
-        margin-left: 20px;
-    }
-    input {
-        margin-bottom: 10px;
-    }
-
     .h2Parametre {
         font-size: 2.3em;
         margin-bottom: 30px;
     }
     a {
         margin-bottom: 30px;
+    }
+    .gridForm {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 50px;
+        @include small {
+            display: flex;
+            flex-direction: column;
+            gap: 0px;
+        }
+        
+        .divForm {
+            background: radial-gradient(circle, rgba(252, 222, 121, 1) 36%, rgba(250, 174, 162, 1) 100%);
+            margin-top: 30px;
+            border-radius: 30px;
+            border: 2px solid rgb(9, 9, 9);
+            padding-bottom: 15px;
+            h3 {
+                margin-top: 30px;
+                margin-bottom: 15px;
+            }
+
+            form {
+                display: flex;
+                flex-direction: column;
+                justify-content: space-around;
+                div {
+                    margin: 7px 0px;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: space-around;
+                    label {
+                        margin-bottom: 5px;
+                    }
+                    select,
+                    input,
+                    button {
+                        width: fit-content;
+                        align-self: center;
+                    }
+                }
+            }
+        }
     }
 }

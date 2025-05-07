@@ -50,4 +50,5 @@ class LoisirRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
 }

@@ -1,5 +1,5 @@
 describe('Smoke Test', () => {
-  const slugs = ['matheo-moiron', 'jean-dupont'];
+  const slugs = ['matheo-moiron', 'jean-a'];
   const urls = [
     '/{slug}',
     '/{slug}/blog',

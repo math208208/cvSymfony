@@ -28,6 +28,7 @@ class LangueType extends AbstractType
                     'Allemand' => 'allemand',
                     'Japonais' => 'japonais',
                 ],
+                'required' => true,
                 'label' => 'Sélectionnez une langue :' ,
             ])
             ->add('niveau', TextType::class, [

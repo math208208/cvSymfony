@@ -6,7 +6,37 @@
 {% block body %}
 	<main>
 		<section class="">
-			
+			<h2>Experiences Professionnel des utilisateurs</h2>
+			<div>
+
+				{% for experiencePro in exploExpPro %}
+					<div>
+						<div>
+							<h3>{{experiencePro.translated_poste|raw  }}</h3>
+							<h4>{{experiencePro.experiencePro.entreprise|raw }}</h4>
+
+						</div>
+						<p>
+							<em>
+								{{experiencePro.experiencePro.dateDebut}}
+								-
+								{{experiencePro.experiencePro.dateFin}}</em>
+						</p>
+						<div>
+
+
+							{{ experiencePro.translated_description|raw }}
+
+						</div>
+						{{ experiencePro.experiencePro.user|raw }}
+					</div>
+
+				{% else %}
+					<li>{% trans %}nodata{% endtrans %}</li>
+				{% endfor %}
+
+			</div>
+
 		</section>
 
 	</main>

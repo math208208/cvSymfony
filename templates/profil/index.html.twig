@@ -32,24 +32,49 @@
 			<h2 class="h2Parametre">{% trans %}section.changeCv{% endtrans %}</h2>
 			<a href="{{ path('admin_user_index') }}" target="_blank">EasyAdmin</a>
 
+			<div class="gridForm">
+				<div class="divForm">
+					<h3>Ajout d'outil</h3>
 
-			<h3>Ajout d'outils</h3>
+					{{ form_start(addOutilForm) }}
+					{{ form_row(addOutilForm.existeOutil  ) }}
+					{{ form_row(addOutilForm.newOutil  ) }}
+					{{ form_row(addOutilForm.newOutilImage  ) }}
+					{{ form_row(addOutilForm.submitOutil  ) }}
+					{{ form_end(addOutilForm) }}
+				</div>
+				<div class="divForm">
+					<h3>Ajout langue</h3>
 
-			{{ form_start(addOutilForm) }}
-			{{ form_row(addOutilForm.existeOutil  ) }}
-			{{ form_row(addOutilForm.newOutil  ) }}
-			{{ form_row(addOutilForm.newOutilImage  ) }}
-			{{ form_row(addOutilForm.submitOutil  ) }}
-			{{ form_end(addOutilForm) }}
+					{{ form_start(addLangueForm) }}
+					{{ form_row(addLangueForm.nomLangue  ) }}
+					{{ form_row(addLangueForm.niveau  ) }}
+					{{ form_row(addLangueForm.submitLangue  ) }}
+					{{ form_end(addLangueForm) }}
+				</div>
+				<div class="divForm">
+					<h3>Ajout loisir</h3>
 
-			<h3>Ajout langues</h3>
+					{{ form_start(addLoisirForm) }}
+					{{ form_row(addLoisirForm.existeLoisir  ) }}
+					{{ form_row(addLoisirForm.newLoisir  ) }}
+					{{ form_row(addLoisirForm.newLoisirImage  ) }}
+					{{ form_row(addLoisirForm.submitLoisir  ) }}
+					{{ form_end(addLoisirForm) }}
+				</div>
+				<div class="divForm">
+					<h3>Ajout competence</h3>
 
-			{{ form_start(addLangueForm) }}
-			{{ form_row(addLangueForm.nomLangue  ) }}
-			{{ form_row(addLangueForm.niveau  ) }}
-			{{ form_row(addLangueForm.submitLangue  ) }}
-			{{ form_end(addLangueForm) }}
+					{{ form_start(addCompetenceForm) }}
+					{{ form_row(addCompetenceForm.existeCompetence  ) }}
+					{{ form_row(addCompetenceForm.newCompetence ) }}
+					{{ form_row(addCompetenceForm.niveauComp  ) }}
+					{{ form_row(addCompetenceForm.submitCompetence ) }}
+					{{ form_end(addCompetenceForm) }}
+				</div>
 
+
+			</div>
 		</section>
 	</main>
 {% endblock %}
