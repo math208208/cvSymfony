@@ -2,7 +2,6 @@
 
 namespace App\Controller\Admin\Translation;
 
-
 use App\Entity\Formation;
 use App\Entity\Translation\Translation;
 use App\Entity\User;
@@ -47,7 +46,6 @@ class FormationTranslationCrudController extends AbstractCrudController
         $admin = $this->getUser();
 
         if (!$this->isGranted('ROLE_ADMIN') && $admin !== null) {
-
             if ($admin instanceof \App\Entity\Admin) {
                 $adminEmail = $admin->getEmail();
             } else {
@@ -78,9 +76,11 @@ class FormationTranslationCrudController extends AbstractCrudController
     {
         $test = Action::new('test')
             ->setLabel('Detail')
-            ->linkToUrl(function (Translation $translation) {
-                return 'http://localhost:8001/admin/formation-translation/' . $translation->getId();
-            });
+            ->linkToUrl(
+                function (Translation $translation) {
+                    return 'http://localhost:8001/admin/formation-translation/' . $translation->getId();
+                }
+            );
 
 
         $actions = $actions
@@ -101,9 +101,11 @@ class FormationTranslationCrudController extends AbstractCrudController
         return [
             ChoiceField::new('entity')
                 ->setLabel('Entité')
-                ->setChoices([
+                ->setChoices(
+                    [
                     'Formation' => Formation::class,
-                ])
+                    ]
+                )
                 ->setFormTypeOption('data', Formation::class)
                 ->setRequired(true),
 
@@ -174,11 +176,13 @@ class FormationTranslationCrudController extends AbstractCrudController
     private function hasMissingTranslations(Formation $formation, array $attributes): bool
     {
         foreach ($attributes as $attribute) {
-            $existing = $this->em->getRepository(Translation::class)->findOneBy([
+            $existing = $this->em->getRepository(Translation::class)->findOneBy(
+                [
                 'entity' => Formation::class,
                 'entityId' => $formation->getId(),
                 'attribute' => $attribute,
-            ]);
+                ]
+            );
 
             if (!$existing) {
                 return true;
@@ -204,8 +208,8 @@ class FormationTranslationCrudController extends AbstractCrudController
         }
 
         if (
-            $entityInstance->getEntity() === Formation::class &&
-            $entityInstance->getEntityId()
+            $entityInstance->getEntity() === Formation::class
+            && $entityInstance->getEntityId()
         ) {
             $formation = $this->em->getRepository(Formation::class)->find($entityInstance->getEntityId());
 
@@ -216,11 +220,13 @@ class FormationTranslationCrudController extends AbstractCrudController
                 if (method_exists($formation, $getter)) {
                     $value = $formation->$getter();
 
-                    $existingTranslation = $this->em->getRepository(Translation::class)->findOneBy([
+                    $existingTranslation = $this->em->getRepository(Translation::class)->findOneBy(
+                        [
                         'entity' => Formation::class,
                         'entityId' => $formation->getId(),
                         'attribute' => $attribute,
-                    ]);
+                        ]
+                    );
 
                     if ($existingTranslation) {
                         $existingTranslation->setEn($entityInstance->getEn());

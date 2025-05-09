@@ -17,13 +17,16 @@ class ApiLoginController extends AbstractController
     private $jwtManager;
     private $entityManager;
 
-    public function __construct(UserPasswordHasherInterface $passwordHasher, JWTTokenManagerInterface $jwtManager, EntityManagerInterface $entityManager)
-    {
+    public function __construct(
+        UserPasswordHasherInterface $passwordHasher,
+        JWTTokenManagerInterface $jwtManager,
+        EntityManagerInterface $entityManager
+    ) {
         $this->passwordHasher = $passwordHasher;
         $this->jwtManager = $jwtManager;
         $this->entityManager = $entityManager;
     }
-    
+
     #[Route(path: '/api/login', name: 'api_login', methods: "POST")]
     public function login(Request $request)
     {

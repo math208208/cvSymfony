@@ -2,7 +2,6 @@
 
 namespace App\Controller\Admin\Translation;
 
-
 use App\Entity\User;
 use App\Entity\Translation\Translation;
 use Doctrine\ORM\EntityManagerInterface;
@@ -48,7 +47,6 @@ class UserTranslationCrudController extends AbstractCrudController
         $admin = $this->getUser();
 
         if (!$this->isGranted('ROLE_ADMIN') && $admin !== null) {
-
             if ($admin instanceof \App\Entity\Admin) {
                 $adminEmail = $admin->getEmail();
             } else {
@@ -79,9 +77,11 @@ class UserTranslationCrudController extends AbstractCrudController
     {
         $test = Action::new('test')
             ->setLabel('Detail')
-            ->linkToUrl(function (Translation $translation) {
-                return 'http://localhost:8001/admin/user-translation/' . $translation->getId();
-            });
+            ->linkToUrl(
+                function (Translation $translation) {
+                    return 'http://localhost:8001/admin/user-translation/' . $translation->getId();
+                }
+            );
 
 
         $actions = $actions
@@ -103,9 +103,11 @@ class UserTranslationCrudController extends AbstractCrudController
         return [
             ChoiceField::new('entity')
                 ->setLabel('Entité')
-                ->setChoices([
+                ->setChoices(
+                    [
                     'User' => User::class,
-                ])
+                    ]
+                )
                 ->setFormTypeOption('data', User::class)
                 ->setRequired(true),
 
@@ -189,11 +191,13 @@ class UserTranslationCrudController extends AbstractCrudController
     private function hasMissingTranslations(User $user, array $attributes): bool
     {
         foreach ($attributes as $attribute) {
-            $existing = $this->em->getRepository(Translation::class)->findOneBy([
+            $existing = $this->em->getRepository(Translation::class)->findOneBy(
+                [
                 'entity' => User::class,
                 'entityId' => $user->getId(),
                 'attribute' => $attribute,
-            ]);
+                ]
+            );
 
             if (!$existing) {
                 return true;
@@ -220,8 +224,8 @@ class UserTranslationCrudController extends AbstractCrudController
         }
 
         if (
-            $entityInstance->getEntity() === User::class &&
-            $entityInstance->getEntityId()
+            $entityInstance->getEntity() === User::class
+            && $entityInstance->getEntityId()
         ) {
             $user = $this->em->getRepository(User::class)->find($entityInstance->getEntityId());
 
@@ -232,11 +236,13 @@ class UserTranslationCrudController extends AbstractCrudController
                 if (method_exists($user, $getter)) {
                     $value = $user->$getter();
 
-                    $existingTranslation = $this->em->getRepository(Translation::class)->findOneBy([
+                    $existingTranslation = $this->em->getRepository(Translation::class)->findOneBy(
+                        [
                         'entity' => User::class,
                         'entityId' => $user->getId(),
                         'attribute' => $attribute,
-                    ]);
+                        ]
+                    );
 
                     if ($existingTranslation) {
                         $existingTranslation->setEn($entityInstance->getEn());

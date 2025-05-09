@@ -17,7 +17,7 @@ class Admin implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $id = null;
+    private $id = null;
 
     #[ORM\Column(length: 180)]
     private ?string $email = null;
@@ -71,12 +71,12 @@ class Admin implements UserInterface, PasswordAuthenticatedUserInterface
         $roles = $this->roles;
         // Ajoute ROLE_USER par défaut
         $roles[] = 'ROLE_USER';
-    
+
         // Si l'utilisateur a le rôle admin, ajoute ROLE_ADMIN
         if (in_array('ROLE_ADMIN', $this->roles)) {
             $roles[] = 'ROLE_ADMIN';
         }
-    
+
         return array_unique($roles);
     }
 
@@ -113,6 +113,4 @@ class Admin implements UserInterface, PasswordAuthenticatedUserInterface
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
     }
-
-    
 }

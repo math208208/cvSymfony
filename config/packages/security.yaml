@@ -26,20 +26,19 @@ security:
             stateless: true
             jwt: ~  # Protège les routes avec JWT
 
-
-        dev:
-            pattern: ^/(_(profiler|wdt)|css|images|js)/
-            security: false
-
         main:
-            pattern: ^/(?!api)  # Exclut toutes les routes /api du firewall main
-            lazy: true
+            pattern: ^/(?!api)
             provider: app_user_provider
             custom_authenticator: App\Security\AdminAuthenticator
             logout:
                 path: app_logout
                 target: /login
-            
+
+    
+
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
         
 
 
@@ -47,8 +46,10 @@ security:
 
 
     access_control:
-        - { path: ^/api/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^(/(fr|en|es))?/api, roles: IS_AUTHENTICATED_FULLY }
+        # - { path: ^/api/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        # - { path: ^(/(fr|en|es))?/api, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/api, roles: IS_AUTHENTICATED_FULLY }
+
 
         - { path: ^/(fr|en|es)/register, roles: PUBLIC_ACCESS }
         - { path: ^/login, roles: PUBLIC_ACCESS }

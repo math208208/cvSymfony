@@ -11,21 +11,19 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class SlugCheckerListener
 {
-
     private $security;
 
     public function __construct(
         Security $security,
         private UserRepository $userRepository,
         private UrlGeneratorInterface $urlGenerator,
-
     ) {
         $this->security = $security;
     }
 
     public function onKernelRequest(RequestEvent $event)
     {
-        
+
         $request = $event->getRequest();
         $slug = $request->attributes->get('slug');
 
@@ -47,10 +45,15 @@ class SlugCheckerListener
 
         if (in_array('ROLE_ADMIN', $admin->getRoles(), true)) {
             return;
-        } else if ($user && $user->getSlug() !== $slug) {
-            $response = new RedirectResponse($this->urlGenerator->generate('app_accueil', [
-                'slug' => $user->getSlug()
-            ]));
+        } elseif ($user && $user->getSlug() !== $slug) {
+            $response = new RedirectResponse(
+                $this->urlGenerator->generate(
+                    'app_accueil',
+                    [
+                    'slug' => $user->getSlug()
+                    ]
+                )
+            );
             $event->setResponse($response);
             return;
         }

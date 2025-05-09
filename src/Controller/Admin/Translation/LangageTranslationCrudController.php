@@ -2,7 +2,6 @@
 
 namespace App\Controller\Admin\Translation;
 
-
 use App\Entity\Langage;
 use App\Entity\Translation\Translation;
 use App\Entity\User;
@@ -48,7 +47,6 @@ class LangageTranslationCrudController extends AbstractCrudController
         $admin = $this->getUser();
 
         if (!$this->isGranted('ROLE_ADMIN') && $admin !== null) {
-
             if ($admin instanceof \App\Entity\Admin) {
                 $adminEmail = $admin->getEmail();
             } else {
@@ -80,9 +78,11 @@ class LangageTranslationCrudController extends AbstractCrudController
     {
         $test = Action::new('test')
             ->setLabel('Detail')
-            ->linkToUrl(function (Translation $translation) {
-                return 'http://localhost:8001/admin/langage-translation/' . $translation->getId();
-            });
+            ->linkToUrl(
+                function (Translation $translation) {
+                    return 'http://localhost:8001/admin/langage-translation/' . $translation->getId();
+                }
+            );
 
 
         $actions = $actions
@@ -103,9 +103,11 @@ class LangageTranslationCrudController extends AbstractCrudController
         return [
             ChoiceField::new('entity')
                 ->setLabel('Entité')
-                ->setChoices([
+                ->setChoices(
+                    [
                     'Langage' => Langage::class,
-                ])
+                    ]
+                )
                 ->setFormTypeOption('data', Langage::class)
                 ->setRequired(true),
 
@@ -135,42 +137,44 @@ class LangageTranslationCrudController extends AbstractCrudController
     private function getLangageIds(?int $selectedLangageId = null): array
     {
         $choices = [];
-        if($selectedLangageId!==null){
+        if ($selectedLangageId !== null) {
             $langage = $this->em->getRepository(Langage::class)->findOneBy(['id' => $selectedLangageId]);
             $choices[$langage->getUser() . " -> " . $langage->getNomLangue()] = $langage->getId();
-        }else{
+        } else {
             if (!$this->isGranted('ROLE_ADMIN')) {
                 $admin = $this->getUser();
-    
+
                 if (!$admin instanceof \App\Entity\Admin) {
                     return [];
                 }
-    
+
                 $adminEmail = $admin->getEmail();
                 $user = $this->em->getRepository(User::class)->findOneBy(['email' => $adminEmail]);
-    
+
                 if (!$user) {
                     return [];
                 }
-    
+
                 $langages = $this->em->getRepository(Langage::class)->findBy(['user' => $user]);
             } else {
                 $langages = $this->em->getRepository(Langage::class)->findAll();
             }
-    
+
             foreach ($langages as $langage) {
-                $existingTranslation = $this->em->getRepository(Translation::class)->findOneBy([
+                $existingTranslation = $this->em->getRepository(Translation::class)->findOneBy(
+                    [
                     'entity' => Langage::class,
                     'entityId' => $langage->getId(),
-                ]);
-    
-                if (!$existingTranslation ) {
+                    ]
+                );
+
+                if (!$existingTranslation) {
                     $choices[$langage->getUser() . " -> " . $langage->getNomLangue()] = $langage->getId();
                 }
             }
         }
-        
-        
+
+
         return $choices;
     }
 
@@ -189,8 +193,8 @@ class LangageTranslationCrudController extends AbstractCrudController
         }
 
         if (
-            $entityInstance->getEntity() === Langage::class &&
-            $entityInstance->getEntityId()
+            $entityInstance->getEntity() === Langage::class
+            && $entityInstance->getEntityId()
         ) {
             $langage = $this->em->getRepository(Langage::class)->find($entityInstance->getEntityId());
 
@@ -203,8 +207,8 @@ class LangageTranslationCrudController extends AbstractCrudController
                     $entityInstance->setFr($value);
                 }
             }
+            $entityInstance->setPersonne($langage->getUser());
         }
-        $entityInstance->setPersonne($langage->getUser());
 
         parent::persistEntity($entityManager, $entityInstance);
     }

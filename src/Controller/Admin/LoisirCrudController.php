@@ -35,24 +35,29 @@ class LoisirCrudController extends AbstractCrudController
     public function __construct(
         private EntityManagerInterface $entityManager,
         private AdminUrlGenerator $adminUrlGenerator
-    ) {}
+    ) {
+    }
 
     public function configureActions(Actions $actions): Actions
     {
         $redirectAction = Action::new('redirectToExternalPage')
             ->setLabel('Go to Website')
             ->setIcon('fa fa-external-link-alt')
-            ->linkToUrl(function (Loisir $loisir) {
-                $user = $loisir->getUser();
-                return 'http://localhost:8001/' . $user->getSlug();
-            })
+            ->linkToUrl(
+                function (Loisir $loisir) {
+                    $user = $loisir->getUser();
+                    return 'http://localhost:8001/' . $user->getSlug();
+                }
+            )
             ->setHtmlAttributes(['target' => '_blank']);
 
         $test = Action::new('test')
             ->setLabel('Detail')
-            ->linkToUrl(function (Loisir $loisir) {
-                return 'http://localhost:8001/admin/loisir/' . $loisir->getId();
-            });
+            ->linkToUrl(
+                function (Loisir $loisir) {
+                    return 'http://localhost:8001/admin/loisir/' . $loisir->getId();
+                }
+            );
 
 
 
@@ -108,7 +113,7 @@ class LoisirCrudController extends AbstractCrudController
 
         ];
 
-        
+
 
         return $fields;
     }
@@ -116,12 +121,14 @@ class LoisirCrudController extends AbstractCrudController
     public function configureCrud(Crud $crud): Crud
     {
         return $crud
-            ->setSearchFields([
+            ->setSearchFields(
+                [
                 'id',
                 'nom',
                 'user.prenom',
                 'user.nom',
-            ]);
+                ]
+            );
     }
 
 

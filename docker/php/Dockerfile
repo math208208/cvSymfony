@@ -37,7 +37,7 @@ RUN mkdir -p /var/www/.composer /tmp/phpstan/ && \
 
 # Paramètres PHP
 RUN { \
-    echo 'memory_limit = 512M'; \
+    echo 'memory_limit = 5G'; \
     echo 'post_max_size = 100M'; \
     echo 'upload_max_filesize = 100M'; \
     echo 'opcache.enable=1'; \

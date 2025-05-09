@@ -16,7 +16,7 @@ class ExperiencePro
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $id = null;
+    private $id = null;
 
     #[ORM\Column(length: 255)]
     private ?string $poste = null;
@@ -41,12 +41,12 @@ class ExperiencePro
 
     #[ORM\Column(type: 'boolean')]
     private bool $archived = false;
-    
+
     public function isArchived(): bool
     {
         return $this->archived;
     }
-    
+
     public function setArchived(bool $archived): self
     {
         $this->archived = $archived;
@@ -135,9 +135,9 @@ class ExperiencePro
         return $this;
     }
 
-    
+
     public function __toString(): string
     {
-        return $this->user." -> ".$this->poste ?? 'Expérience';
+        return $this->user . " -> " . ($this->poste ?? 'Expérience');
     }
 }

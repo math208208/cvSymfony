@@ -2,7 +2,6 @@
 
 namespace App\Controller\Admin\Translation;
 
-
 use App\Entity\Loisir;
 use App\Entity\Translation\Translation;
 use App\Entity\User;
@@ -47,7 +46,6 @@ class LoisirTranslationCrudController extends AbstractCrudController
         $admin = $this->getUser();
 
         if (!$this->isGranted('ROLE_ADMIN') && $admin !== null) {
-
             if ($admin instanceof \App\Entity\Admin) {
                 $adminEmail = $admin->getEmail();
             } else {
@@ -79,9 +77,11 @@ class LoisirTranslationCrudController extends AbstractCrudController
     {
         $test = Action::new('test')
             ->setLabel('Detail')
-            ->linkToUrl(function (Translation $translation) {
-                return 'http://localhost:8001/admin/loisir-translation/' . $translation->getId();
-            });
+            ->linkToUrl(
+                function (Translation $translation) {
+                    return 'http://localhost:8001/admin/loisir-translation/' . $translation->getId();
+                }
+            );
 
 
         $actions = $actions
@@ -104,9 +104,11 @@ class LoisirTranslationCrudController extends AbstractCrudController
         return [
             ChoiceField::new('entity')
                 ->setLabel('Entité')
-                ->setChoices([
+                ->setChoices(
+                    [
                     'Loisir' => Loisir::class,
-                ])
+                    ]
+                )
                 ->setFormTypeOption('data', Loisir::class)
                 ->setRequired(true),
 
@@ -159,10 +161,12 @@ class LoisirTranslationCrudController extends AbstractCrudController
             }
 
             foreach ($loisirs as $loisir) {
-                $existingTranslation = $this->em->getRepository(Translation::class)->findOneBy([
+                $existingTranslation = $this->em->getRepository(Translation::class)->findOneBy(
+                    [
                     'entity' => Loisir::class,
                     'entityId' => $loisir->getId(),
-                ]);
+                    ]
+                );
 
                 if (!$existingTranslation) {
                     $choices[$loisir->getUser() . " -> " . $loisir->getNom()] = $loisir->getId();
@@ -187,8 +191,8 @@ class LoisirTranslationCrudController extends AbstractCrudController
         }
 
         if (
-            $entityInstance->getEntity() === Loisir::class &&
-            $entityInstance->getEntityId()
+            $entityInstance->getEntity() === Loisir::class
+            && $entityInstance->getEntityId()
         ) {
             $loisir = $this->em->getRepository(Loisir::class)->find($entityInstance->getEntityId());
 
@@ -201,8 +205,8 @@ class LoisirTranslationCrudController extends AbstractCrudController
                     $entityInstance->setFr($value);
                 }
             }
+            $entityInstance->setPersonne($loisir->getUser());
         }
-        $entityInstance->setPersonne($loisir->getUser());
 
         parent::persistEntity($entityManager, $entityInstance);
     }

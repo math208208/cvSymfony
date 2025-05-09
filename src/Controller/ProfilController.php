@@ -25,7 +25,6 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 final class ProfilController extends AbstractController
 {
-
     #[Route('/{slug}/profil', name: 'app_profil')]
     public function show(
         Request $request,
@@ -36,14 +35,26 @@ final class ProfilController extends AbstractController
         string $_locale,
     ): Response {
         $this->denyAccessUnlessGranted('VIEW_PROFILE', $slug);
-       
+
         $user = $userRepository->findOneBySlug($slug);
         if (!$user) {
             throw $this->createNotFoundException('Utilisateur non trouvé.');
         }
 
-        $translatedProfession = $translator->translate(User::class, $user->getId(), 'profession', $user->getProfession() ?? 'Aucune donnée', $_locale);
-        $translatedDescription = $translator->translate(User::class, $user->getId(), 'description', $user->getDescription() ?? 'Aucune donnée', $_locale);
+        $translatedProfession = $translator->translate(
+            User::class,
+            $user->getId(),
+            'profession',
+            $user->getProfession() ?? 'Aucune donnée',
+            $_locale
+        );
+        $translatedDescription = $translator->translate(
+            User::class,
+            $user->getId(),
+            'description',
+            $user->getDescription() ?? 'Aucune donnée',
+            $_locale
+        );
 
         $translatedUser = [
             'user' => $user,
@@ -58,7 +69,7 @@ final class ProfilController extends AbstractController
 
         if ($formOutil->isSubmitted() && $formOutil->isValid()) {
             $newOutil = $formOutil->get('newOutil')->getData();
-            if ($newOutil!==null) {
+            if ($newOutil !== null) {
                 $outil = new Outil();
                 $uploadedFile = $formOutil->get('newOutilImage')->getData();
                 $outil->setNom($newOutil);
@@ -74,12 +85,11 @@ final class ProfilController extends AbstractController
 
                 $user = $userRepository->findOneBySlug($slug);
                 $outil->setUser($user);
-
             }
 
             $em->persist($outil);
             $em->flush();
-            
+
 
             return $this->redirectToRoute('app_profil', ['slug' => $user->getSlug()]);
         }
@@ -92,18 +102,18 @@ final class ProfilController extends AbstractController
             $niveauLangue = $formLangue->get('niveau')->getData();
             $nomLangue = $formLangue->get('nomLangue')->getData();
 
-            if ($niveauLangue!==null && $nomLangue!==null) {
+            if ($niveauLangue !== null && $nomLangue !== null) {
                 $langue = new Langage();
                 $langue->setNomLangue($nomLangue);
                 $langue->setNiveau($niveauLangue);
 
                 $user = $userRepository->findOneBySlug($slug);
                 $langue->setUser($user);
+                $em->persist($langue);
             }
 
-            $em->persist($langue);
             $em->flush();
-            
+
 
             return $this->redirectToRoute('app_profil', ['slug' => $user->getSlug()]);
         }
@@ -115,9 +125,8 @@ final class ProfilController extends AbstractController
         $formLoisir->handleRequest($request);
 
         if ($formLoisir->isSubmitted() && $formLoisir->isValid()) {
-            
             $newLoisir = $formLoisir->get('newLoisir')->getData();
-            if ($newLoisir!==null) {
+            if ($newLoisir !== null) {
                 $loisir = new Loisir();
                 $uploadedFile = $formLoisir->get('newLoisirImage')->getData();
                 $loisir->setNom($newLoisir);
@@ -133,12 +142,11 @@ final class ProfilController extends AbstractController
 
                 $user = $userRepository->findOneBySlug($slug);
                 $loisir->setUser($user);
-
             }
 
             $em->persist($loisir);
             $em->flush();
-            
+
 
             return $this->redirectToRoute('app_profil', ['slug' => $user->getSlug()]);
         }
@@ -150,7 +158,7 @@ final class ProfilController extends AbstractController
 
         if ($formCompetence->isSubmitted() && $formCompetence->isValid()) {
             $newCompetence = $formCompetence->get('newCompetence')->getData();
-            if ($newCompetence!==null) {
+            if ($newCompetence !== null) {
                 $competence = new Competence();
                 $niveau = $formCompetence->get('niveauComp')->getData();
                 $competence->setNom($newCompetence);
@@ -168,12 +176,11 @@ final class ProfilController extends AbstractController
 
                 $user = $userRepository->findOneBySlug($slug);
                 $competence->setUser($user);
-
             }
 
             $em->persist($competence);
             $em->flush();
-            
+
 
             return $this->redirectToRoute('app_profil', ['slug' => $user->getSlug()]);
         }
@@ -191,14 +198,17 @@ final class ProfilController extends AbstractController
 
 
 
-        return $this->render('profil/index.html.twig', [
+        return $this->render(
+            'profil/index.html.twig',
+            [
             'user' => $translatedUser,
             'addOutilForm' => $formOutil->createView(),
             'addLangueForm' => $formLangue->createView(),
             'addLoisirForm' => $formLoisir->createView(),
             'addCompetenceForm' => $formCompetence->createView()
 
-        ]);
+            ]
+        );
     }
 
 

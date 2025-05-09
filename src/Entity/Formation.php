@@ -14,13 +14,12 @@ use Vich\UploaderBundle\Mapping\Annotation\Uploadable;
 #[ORM\Entity(repositoryClass: FormationRepository::class)]
 class Formation
 {
-
     use Images;
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $id = null;
+    private $id = null;
 
     #[ORM\Column(length: 255)]
     private ?string $intitule = null;
@@ -43,12 +42,12 @@ class Formation
 
     #[ORM\Column(type: 'boolean')]
     private bool $archived = false;
-    
+
     public function isArchived(): bool
     {
         return $this->archived;
     }
-    
+
     public function setArchived(bool $archived): self
     {
         $this->archived = $archived;
@@ -58,7 +57,7 @@ class Formation
 
     public function __toString(): string
     {
-        return $this->user." -> ".$this->intitule ?? 'Formation';
+        return $this->user . " -> " . ($this->intitule ?? 'Formation');
     }
 
 
@@ -120,12 +119,10 @@ class Formation
         return $this->photo;
     }
 
-    public function SetPhoto(?string $photo): static
+    public function setPhoto(?string $photo): static
     {
         $this->photo = $photo;
 
         return $this;
     }
-
-
 }

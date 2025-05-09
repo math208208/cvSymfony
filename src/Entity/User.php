@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiResource;
 use App\Entity\Trait\Images;
 use App\Entity\Translation\UserTranslation;
 use App\Repository\UserRepository;
@@ -12,11 +13,11 @@ use Doctrine\Common\Collections\Collection;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Vich\UploaderBundle\Mapping\Annotation\Uploadable;
 
-
 /**
  * @UniqueEntity(fields={"email"}, message="Cet email est déjà utilisé.")
  */
 #[Uploadable]
+#[ApiResource]
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
 #[ORM\HasLifecycleCallbacks]
@@ -24,6 +25,7 @@ use Vich\UploaderBundle\Mapping\Annotation\Uploadable;
 class User
 {
     use Images;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -112,8 +114,10 @@ class User
         $slugTemp = strtolower($slugTemp);
 
         $slugTemp = str_replace(
-            ['á', 'à', 'â', 'ä', 'ã', 'å', 'ç', 'é', 'è', 'ê', 'ë', 'í', 'ï', 'î', 'ì', 'ñ', 'ó', 'ò', 'ô', 'ö', 'õ', 'ú', 'ù', 'û', 'ü', 'ý'],
-            ['a', 'a', 'a', 'a', 'a', 'a', 'c', 'e', 'e', 'e', 'e', 'i', 'i', 'i', 'i', 'n', 'o', 'o', 'o', 'o', 'o', 'u', 'u', 'u', 'u', 'y'],
+            ['á', 'à', 'â', 'ä', 'ã', 'å', 'ç', 'é', 'è', 'ê', 'ë', 'í', 'ï', 'î', 'ì', 'ñ',
+            'ó', 'ò', 'ô', 'ö', 'õ', 'ú', 'ù', 'û', 'ü', 'ý'],
+            ['a', 'a', 'a', 'a', 'a', 'a', 'c', 'e', 'e', 'e', 'e', 'i', 'i', 'i', 'i', 'n',
+            'o', 'o', 'o', 'o', 'o', 'u', 'u', 'u', 'u', 'y'],
             $slugTemp
         );
 

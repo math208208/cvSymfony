@@ -32,8 +32,20 @@ final class BlogController extends AbstractController
         }
 
 
-        $translatedProfession = $translator->translate(User::class, $user->getId(), 'profession', $user->getProfession() ?? 'Aucune donnée', $_locale);
-        $translatedDescription = $translator->translate(User::class, $user->getId(), 'description', $user->getDescription() ?? 'Aucune donnée', $_locale);
+        $translatedProfession = $translator->translate(
+            User::class,
+            $user->getId(),
+            'profession',
+            $user->getProfession() ?? 'Aucune donnée',
+            $_locale
+        );
+        $translatedDescription = $translator->translate(
+            User::class,
+            $user->getId(),
+            'description',
+            $user->getDescription() ?? 'Aucune donnée',
+            $_locale
+        );
 
         $translatedUser = [
             'user' => $user,
@@ -46,7 +58,10 @@ final class BlogController extends AbstractController
         $experiencesProAll = $repoExpPro->findAll();
 
         foreach ($experiencesProAll as $key => $experiencePro) {
-            if ($experiencePro->isArchived() || $experiencePro->getUser()->getSlug() === $slug || $experiencePro->getUser()->isPrivate() === true) {
+            if (
+                $experiencePro->isArchived() || $experiencePro->getUser()->getSlug() === $slug
+                || $experiencePro->getUser()->isPrivate() === true
+            ) {
                 unset($experiencesProAll[$key]);
             }
         }
@@ -55,7 +70,10 @@ final class BlogController extends AbstractController
         $experiencesUniAll = $repoExpUni->findAll();
 
         foreach ($experiencesUniAll as $key => $experienceUni) {
-            if ($experienceUni->isArchived() || $experienceUni->getUser()->getSlug() === $slug || $experienceUni->getUser()->isPrivate() === true) {
+            if (
+                $experienceUni->isArchived() || $experienceUni->getUser()->getSlug() === $slug
+                || $experienceUni->getUser()->isPrivate() === true
+            ) {
                 unset($experiencesUniAll[$key]);
             }
         }
@@ -63,12 +81,24 @@ final class BlogController extends AbstractController
 
 
         $translatedExperiencesProAll = [];
-    
-        foreach ($experiencesProAll as $experiencePro) {
-            $translatedPoste = $translator->translate(ExperiencePro::class, $experiencePro->getId(), 'poste', $experiencePro->getPoste(),$_locale);
-            $translatedDescription = $translator->translate(ExperiencePro::class, $experiencePro->getId(), 'description', $experiencePro->getDescription(),$_locale);
 
-            
+        foreach ($experiencesProAll as $experiencePro) {
+            $translatedPoste = $translator->translate(
+                ExperiencePro::class,
+                $experiencePro->getId(),
+                'poste',
+                $experiencePro->getPoste(),
+                $_locale
+            );
+            $translatedDescription = $translator->translate(
+                ExperiencePro::class,
+                $experiencePro->getId(),
+                'description',
+                $experiencePro->getDescription(),
+                $_locale
+            );
+
+
             $translatedExperiencesProAll[] = [
                 'experiencePro' => $experiencePro,
                 'translated_poste' => $translatedPoste,
@@ -77,13 +107,31 @@ final class BlogController extends AbstractController
         }
 
         $translatedExperiencesUniAll = [];
-    
-        foreach ($experiencesUniAll as $experienceUni) {
-            $translatedTitre = $translator->translate(ExperienceUni::class, $experienceUni->getId(), 'titre', $experienceUni->getTitre(),$_locale);
-            $translatedSousTitre = $translator->translate(ExperienceUni::class, $experienceUni->getId(), 'sousTitre', $experienceUni->getSousTitre(),$_locale);
-            $translatedDescription = $translator->translate(ExperienceUni::class, $experienceUni->getId(), 'description', $experienceUni->getDescription(),$_locale);
 
-            
+        foreach ($experiencesUniAll as $experienceUni) {
+            $translatedTitre = $translator->translate(
+                ExperienceUni::class,
+                $experienceUni->getId(),
+                'titre',
+                $experienceUni->getTitre(),
+                $_locale
+            );
+            $translatedSousTitre = $translator->translate(
+                ExperienceUni::class,
+                $experienceUni->getId(),
+                'sousTitre',
+                $experienceUni->getSousTitre(),
+                $_locale
+            );
+            $translatedDescription = $translator->translate(
+                ExperienceUni::class,
+                $experienceUni->getId(),
+                'description',
+                $experienceUni->getDescription(),
+                $_locale
+            );
+
+
             $translatedExperiencesUniAll[] = [
                 'experienceUni' => $experienceUni,
                 'translated_titre' => $translatedTitre,
@@ -93,11 +141,14 @@ final class BlogController extends AbstractController
         }
 
 
-        return $this->render('blog/index.html.twig', [
+        return $this->render(
+            'blog/index.html.twig',
+            [
             'user' => $translatedUser,
             'exploExpPro' => $translatedExperiencesProAll,
             'exploExpUni' => $translatedExperiencesUniAll
 
-        ]);
+            ]
+        );
     }
 }

@@ -27,8 +27,20 @@ final class ContactController extends AbstractController
         }
 
 
-        $translatedProfession = $translator->translate(User::class, $user->getId(), 'profession', $user->getProfession() ?? 'Aucune donnée', $_locale);
-        $translatedDescription = $translator->translate(User::class, $user->getId(), 'description', $user->getDescription() ?? 'Aucune donnée', $_locale);
+        $translatedProfession = $translator->translate(
+            User::class,
+            $user->getId(),
+            'profession',
+            $user->getProfession() ?? 'Aucune donnée',
+            $_locale
+        );
+        $translatedDescription = $translator->translate(
+            User::class,
+            $user->getId(),
+            'description',
+            $user->getDescription() ?? 'Aucune donnée',
+            $_locale
+        );
 
         $translatedUser = [
             'user' => $user,
@@ -37,8 +49,11 @@ final class ContactController extends AbstractController
         ];
 
 
-        return $this->render('contact/index.html.twig', [
+        return $this->render(
+            'contact/index.html.twig',
+            [
             'user' => $translatedUser
-        ]);
+            ]
+        );
     }
 }

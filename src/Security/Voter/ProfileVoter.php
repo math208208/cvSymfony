@@ -10,22 +10,22 @@ use Symfony\Component\Security\Core\User\UserInterface;
 //permet de restreindre l'accé au autres page au non admin
 final class ProfileVoter extends Voter
 {
-
     public function __construct(
         private UserRepository $userRepository
-    ) {}
+    ) {
+    }
 
     protected function supports(string $attribute, $subject): bool
     {
         return in_array($attribute, ['VIEW_PROFILE'])
-            && is_string($subject); 
+            && is_string($subject);
     }
 
     protected function voteOnAttribute(string $attribute, $slug, TokenInterface $token): bool
     {
         $admin = $token->getUser();
-        
-        if(!$admin){
+
+        if (!$admin) {
             return false;
         }
         $email = $admin->getUserIdentifier();
@@ -39,8 +39,5 @@ final class ProfileVoter extends Voter
         $slug = $user->getSlug();
 
         return $user->getSlug() === $slug;
-
-
-        
     }
 }

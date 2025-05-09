@@ -26,7 +26,7 @@ final class AccueilController extends AbstractController
         Request $request,
         string $_locale
     ): Response {
-        
+
         $this->denyAccessUnlessGranted('VIEW_PROFILE', $slug);
 
         $user = $userRepository->findOneBySlug($slug);
@@ -39,20 +39,32 @@ final class AccueilController extends AbstractController
         $formations = $repoformations->findByUser($user);
         foreach ($formations as $key => $formation) {
             if ($formation->isArchived()) {
-                unset($formations[$key]); 
-            }
-        }
-        
-        $loisirs = $repoloisirs->findByUser($user);
-        foreach ($loisirs as $key => $loisir) {
-            if ($loisir->isArchived()) {
-                unset($loisirs[$key]); 
+                unset($formations[$key]);
             }
         }
 
-    
-        $translatedProfession = $translator->translate(User::class, $user->getId(), 'profession', $user->getProfession() ?? 'Aucune donnée',$_locale);
-        $translatedDescription = $translator->translate(User::class, $user->getId(), 'description', $user->getDescription() ?? 'Aucune donnée',$_locale);
+        $loisirs = $repoloisirs->findByUser($user);
+        foreach ($loisirs as $key => $loisir) {
+            if ($loisir->isArchived()) {
+                unset($loisirs[$key]);
+            }
+        }
+
+
+        $translatedProfession = $translator->translate(
+            User::class,
+            $user->getId(),
+            'profession',
+            $user->getProfession() ?? 'Aucune donnée',
+            $_locale
+        );
+        $translatedDescription = $translator->translate(
+            User::class,
+            $user->getId(),
+            'description',
+            $user->getDescription() ?? 'Aucune donnée',
+            $_locale
+        );
 
         $translatedUser = [
             'user' => $user,
@@ -60,13 +72,25 @@ final class AccueilController extends AbstractController
             'translated_description' => $translatedDescription
         ];
 
-        
+
 
         $translatedformations = [];
-    
+
         foreach ($formations as $formation) {
-            $translatedIntitule = $translator->translate(Formation::class, $formation->getId(), 'intitule', $formation->getIntitule() ?? 'Aucune donnée',$_locale);
-            $translatedLieu = $translator->translate(Formation::class, $formation->getId(), 'lieu', $formation->getLieu() ?? 'Aucune donnée',$_locale);
+            $translatedIntitule = $translator->translate(
+                Formation::class,
+                $formation->getId(),
+                'intitule',
+                $formation->getIntitule() ?? 'Aucune donnée',
+                $_locale
+            );
+            $translatedLieu = $translator->translate(
+                Formation::class,
+                $formation->getId(),
+                'lieu',
+                $formation->getLieu() ?? 'Aucune donnée',
+                $_locale
+            );
 
             $translatedformations[] = [
                 'formation' => $formation,
@@ -75,11 +99,17 @@ final class AccueilController extends AbstractController
             ];
         }
 
-        
+
         $translatedLoisirs = [];
-    
+
         foreach ($loisirs as $loisir) {
-            $translatedName = $translator->translate(Loisir::class, $loisir->getId(), 'nom', $loisir->getNom() ?? 'Aucune donnée' ,$_locale);
+            $translatedName = $translator->translate(
+                Loisir::class,
+                $loisir->getId(),
+                'nom',
+                $loisir->getNom() ?? 'Aucune donnée',
+                $_locale
+            );
             $translatedLoisirs[] = [
                 'loisir' => $loisir,
                 'translated_nom' => $translatedName
@@ -87,12 +117,15 @@ final class AccueilController extends AbstractController
         }
 
 
-        return $this->render('accueil/index.html.twig', [
+        return $this->render(
+            'accueil/index.html.twig',
+            [
             'user' => $translatedUser,
-            
+
             'loisirs' => $translatedLoisirs,
             'formations' => $translatedformations,
 
-        ]);
+            ]
+        );
     }
 }

@@ -55,5 +55,5 @@ class UserRepository extends ServiceEntityRepository
             ->setParameter('slug', $slug)
             ->getQuery()
             ->getOneOrNullResult();
-    }   
+    }
 }

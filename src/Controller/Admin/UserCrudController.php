@@ -35,16 +35,20 @@ class UserCrudController extends AbstractCrudController
         $redirectAction = Action::new('redirectToExternalPage')
             ->setLabel('Go to Website')
             ->setIcon('fa fa-external-link-alt')
-            ->linkToUrl(function (User $user) {
-                return 'http://localhost:8001/' . $user->getSlug();
-            })
+            ->linkToUrl(
+                function (User $user) {
+                    return 'http://localhost:8001/' . $user->getSlug();
+                }
+            )
             ->setHtmlAttributes(['target' => '_blank']);
 
         $test = Action::new('test')
             ->setLabel('Detail')
-            ->linkToUrl(function (User $user) {
-                return 'http://localhost:8001/admin/user/' . $user->getId();
-            });
+            ->linkToUrl(
+                function (User $user) {
+                    return 'http://localhost:8001/admin/user/' . $user->getId();
+                }
+            );
 
         $actions
             ->add('index', $test)
@@ -80,7 +84,7 @@ class UserCrudController extends AbstractCrudController
             TextareaField::new('github')->setRequired(false),
             TextField::new('slug')->onlyOnIndex(),
             BooleanField::new('isPrivate', 'Privé')
-            ->renderAsSwitch()
+                ->renderAsSwitch()
         ];
 
         if (!$this->isGranted('ROLE_ADMIN')) {

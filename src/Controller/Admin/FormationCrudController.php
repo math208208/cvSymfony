@@ -34,17 +34,21 @@ class FormationCrudController extends AbstractCrudController
         $redirectAction = Action::new('redirectToExternalPage')
             ->setLabel('Go to Website')
             ->setIcon('fa fa-external-link-alt')
-            ->linkToUrl(function (Formation $formation) {
-                $user = $formation->getUser();
-                return 'http://localhost:8001/' . $user->getSlug();
-            })
+            ->linkToUrl(
+                function (Formation $formation) {
+                    $user = $formation->getUser();
+                    return 'http://localhost:8001/' . $user->getSlug();
+                }
+            )
             ->setHtmlAttributes(['target' => '_blank']);
 
         $test = Action::new('test')
             ->setLabel('Detail')
-            ->linkToUrl(function (Formation $formation) {
-                return 'http://localhost:8001/admin/formation/' . $formation->getId();
-            });
+            ->linkToUrl(
+                function (Formation $formation) {
+                    return 'http://localhost:8001/admin/formation/' . $formation->getId();
+                }
+            );
 
 
         $actions = $actions
@@ -97,7 +101,7 @@ class FormationCrudController extends AbstractCrudController
                 ->renderAsSwitch()
         ];
 
-       
+
 
         return $fields;
     }
@@ -105,13 +109,15 @@ class FormationCrudController extends AbstractCrudController
     public function configureCrud(Crud $crud): Crud
     {
         return $crud
-            ->setSearchFields([
+            ->setSearchFields(
+                [
                 'id',
                 'intitule',
                 'annee',
                 'lieu',
                 'user.prenom',
                 'user.nom',
-            ]);
+                ]
+            );
     }
 }

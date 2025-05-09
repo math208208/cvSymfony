@@ -17,8 +17,16 @@ use Symfony\Component\HttpFoundation\Request;
 final class CompetencesController extends AbstractController
 {
     #[Route('/{slug}/competences', name: 'app_competences')]
-    public function show(string $slug, UserRepository $userRepository, CompetenceRepository $repoCompetences,OutilRepository $repoOutils,LangageRepository $repolangages,TranslationService $translator,Request $request, string $_locale): Response
-    {
+    public function show(
+        string $slug,
+        UserRepository $userRepository,
+        CompetenceRepository $repoCompetences,
+        OutilRepository $repoOutils,
+        LangageRepository $repolangages,
+        TranslationService $translator,
+        Request $request,
+        string $_locale
+    ): Response {
         $this->denyAccessUnlessGranted('VIEW_PROFILE', $slug);
 
         $user = $userRepository->findOneBySlug($slug);
@@ -29,27 +37,39 @@ final class CompetencesController extends AbstractController
         $langages = $repolangages->findByUser($user);
         foreach ($langages as $key => $langage) {
             if ($langage->isArchived()) {
-                unset($langages[$key]); 
+                unset($langages[$key]);
             }
         }
 
         $outils = $repoOutils->findByUser($user);
         foreach ($outils as $key => $outil) {
             if ($outil->isArchived()) {
-                unset($outils[$key]); 
+                unset($outils[$key]);
             }
         }
-        
+
         $competences = $repoCompetences->findByUser($user);
         foreach ($competences as $key => $competence) {
             if ($competence->isArchived()) {
-                unset($competences[$key]); 
+                unset($competences[$key]);
             }
         }
 
 
-        $translatedProfession = $translator->translate(User::class, $user->getId(), 'profession', $user->getProfession() ?? 'Aucune donnée', $_locale);
-        $translatedDescription = $translator->translate(User::class, $user->getId(), 'description', $user->getDescription() ?? 'Aucune donnée', $_locale);
+        $translatedProfession = $translator->translate(
+            User::class,
+            $user->getId(),
+            'profession',
+            $user->getProfession() ?? 'Aucune donnée',
+            $_locale
+        );
+        $translatedDescription = $translator->translate(
+            User::class,
+            $user->getId(),
+            'description',
+            $user->getDescription() ?? 'Aucune donnée',
+            $_locale
+        );
 
         $translatedUser = [
             'user' => $user,
@@ -59,21 +79,30 @@ final class CompetencesController extends AbstractController
 
 
         $translatedLangages = [];
-    
+
         foreach ($langages as $langage) {
-            $translatedNameLangage = $translator->translate(Langage::class, $langage->getId(), 'nomLangue', $langage->getNomLangue() ?? 'Aucune donnée',$_locale);
+            $translatedNameLangage = $translator->translate(
+                Langage::class,
+                $langage->getId(),
+                'nomLangue',
+                $langage->getNomLangue() ?? 'Aucune donnée',
+                $_locale
+            );
             $translatedLangages[] = [
                 'langue' => $langage,
                 'translated_nom' => $translatedNameLangage
             ];
         }
 
-        
-        return $this->render('competences/index.html.twig', [
+
+        return $this->render(
+            'competences/index.html.twig',
+            [
             'user' => $translatedUser,
             'langues' => $translatedLangages,
             'competences' => $competences,
             'outils' => $outils,
-        ]);
+            ]
+        );
     }
 }

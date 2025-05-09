@@ -14,7 +14,7 @@ class Langage
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $id = null;
+    private $id = null;
 
     #[ORM\Column(length: 255)]
     private ?string $nomLangue = null;
@@ -23,18 +23,18 @@ class Langage
     private ?string $niveau = null;
 
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'langues')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?User $user;
+    #[ORM\JoinColumn(nullable: true)]
+    private ?User $user = null;
 
 
     #[ORM\Column(type: 'boolean')]
     private bool $archived = false;
-    
+
     public function isArchived(): bool
     {
         return $this->archived;
     }
-    
+
     public function setArchived(bool $archived): self
     {
         $this->archived = $archived;
@@ -44,7 +44,7 @@ class Langage
 
     public function __toString(): string
     {
-        return $this->user." -> ".$this->nomLangue ?? 'Langage';
+        return $this->user . " -> " . ($this->nomLangue ?? 'Langage');
     }
 
 

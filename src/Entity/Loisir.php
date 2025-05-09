@@ -19,7 +19,7 @@ class Loisir
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $id = null;
+    private $id = null;
 
     #[ORM\Column(length: 255)]
     private ?string $nom = null;
@@ -31,21 +31,21 @@ class Loisir
 
     #[ORM\Column(type: 'boolean')]
     private bool $archived = false;
-    
+
     public function isArchived(): bool
     {
         return $this->archived;
     }
-    
+
     public function setArchived(bool $archived): self
     {
         $this->archived = $archived;
         return $this;
     }
-    
+
     public function __toString(): string
     {
-        return $this->user." -> ".$this->nom ?? 'Loisir';
+        return $this->user . " -> " . ($this->nom ?? 'Loisir');
     }
 
 
@@ -78,5 +78,4 @@ class Loisir
 
         return $this;
     }
-
 }

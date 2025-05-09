@@ -16,13 +16,12 @@ use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
-
 #[AdminDashboard(routePath: '/admin', routeName: 'admin')]
 class DashboardController extends AbstractDashboardController
 {
     public function index(): Response
     {
-        $url = $this->generateUrl('admin_user_index'); 
+        $url = $this->generateUrl('admin_user_index');
         return new RedirectResponse($url);
     }
 
@@ -62,7 +61,7 @@ class DashboardController extends AbstractDashboardController
 
         yield MenuItem::linkToCrud('Trad Formation', 'fas fa-language', Translation::class)
         ->setController(FormationTranslationCrudController::class);
-        
+
         yield MenuItem::linkToCrud('Trad ExperienceUni', 'fas fa-language', Translation::class)
         ->setController(ExperienceUniTranslationCrudController::class);
 
@@ -71,12 +70,5 @@ class DashboardController extends AbstractDashboardController
 
         yield MenuItem::linkToCrud('Trad Langage', 'fas fa-language', Translation::class)
         ->setController(LangageTranslationCrudController::class);
-
-        
-        
-        
-
-
-
     }
 }

@@ -2,7 +2,6 @@
 
 namespace App\Controller\Admin\Translation;
 
-
 use App\Entity\ExperienceUni;
 use App\Entity\Translation\Translation;
 use App\Entity\User;
@@ -49,7 +48,6 @@ class ExperienceUniTranslationCrudController extends AbstractCrudController
         $admin = $this->getUser();
 
         if (!$this->isGranted('ROLE_ADMIN') && $admin !== null) {
-
             if ($admin instanceof \App\Entity\Admin) {
                 $adminEmail = $admin->getEmail();
             } else {
@@ -81,9 +79,11 @@ class ExperienceUniTranslationCrudController extends AbstractCrudController
     {
         $test = Action::new('test')
             ->setLabel('Detail')
-            ->linkToUrl(function (Translation $translation) {
-                return 'http://localhost:8001/admin/experience-uni-translation/' . $translation->getId();
-            });
+            ->linkToUrl(
+                function (Translation $translation) {
+                    return 'http://localhost:8001/admin/experience-uni-translation/' . $translation->getId();
+                }
+            );
 
 
         $actions = $actions
@@ -104,9 +104,11 @@ class ExperienceUniTranslationCrudController extends AbstractCrudController
         return [
             ChoiceField::new('entity')
                 ->setLabel('Entité')
-                ->setChoices([
-                    'ExperienceUni' => ExperienceUni::class,
-                ])
+                ->setChoices(
+                    [
+                        'ExperienceUni' => ExperienceUni::class,
+                    ]
+                )
                 ->setFormTypeOption('data', ExperienceUni::class)
                 ->setRequired(true),
 
@@ -124,7 +126,6 @@ class ExperienceUniTranslationCrudController extends AbstractCrudController
             ChoiceField::new('attribute')
                 ->setLabel('Attribut')
                 ->setChoices($this->getExperienceUniAttributs()),
-                
 
             TextareaField::new('fr')
                 ->setLabel('Francais')
@@ -154,7 +155,8 @@ class ExperienceUniTranslationCrudController extends AbstractCrudController
 
         if ($selectedExpUniId !== null) {
             $experienceUni = $this->em->getRepository(ExperienceUni::class)->findOneBy(['id' => $selectedExpUniId]);
-            $choices[$experienceUni->getUser() . " -> " . $experienceUni->getTitre() . " -> id : " . $experienceUni->getId()] = $experienceUni->getId();
+            $choices[$experienceUni->getUser() . " -> " . $experienceUni->getTitre() . " 
+            -> id : " . $experienceUni->getId()] = $experienceUni->getId();
         } else {
             if (!$this->isGranted('ROLE_ADMIN')) {
                 $admin = $this->getUser();
@@ -178,8 +180,9 @@ class ExperienceUniTranslationCrudController extends AbstractCrudController
             foreach ($experiencesUni as $experienceUni) {
                 $hasMissingTranslations = $this->hasMissingTranslations($experienceUni, $attributes);
 
-                if ($hasMissingTranslations ) {
-                    $choices[$experienceUni->getUser() . " -> " . $experienceUni->getTitre() . " -> id : " . $experienceUni->getId()] = $experienceUni->getId();
+                if ($hasMissingTranslations) {
+                    $choices[$experienceUni->getUser() . " -> " . $experienceUni->getTitre() . " 
+                    -> id : " . $experienceUni->getId()] = $experienceUni->getId();
                 }
             }
         }
@@ -190,11 +193,13 @@ class ExperienceUniTranslationCrudController extends AbstractCrudController
     private function hasMissingTranslations(ExperienceUni $experienceUni, array $attributes): bool
     {
         foreach ($attributes as $attribute) {
-            $existing = $this->em->getRepository(Translation::class)->findOneBy([
-                'entity' => ExperienceUni::class,
-                'entityId' => $experienceUni->getId(),
-                'attribute' => $attribute,
-            ]);
+            $existing = $this->em->getRepository(Translation::class)->findOneBy(
+                [
+                    'entity' => ExperienceUni::class,
+                    'entityId' => $experienceUni->getId(),
+                    'attribute' => $attribute,
+                ]
+            );
 
             if (!$existing) {
                 return true;
@@ -223,8 +228,8 @@ class ExperienceUniTranslationCrudController extends AbstractCrudController
         }
 
         if (
-            $entityInstance->getEntity() === ExperienceUni::class &&
-            $entityInstance->getEntityId()
+            $entityInstance->getEntity() === ExperienceUni::class
+            && $entityInstance->getEntityId()
         ) {
             $experienceUni = $this->em->getRepository(ExperienceUni::class)->find($entityInstance->getEntityId());
 
@@ -236,11 +241,13 @@ class ExperienceUniTranslationCrudController extends AbstractCrudController
                 if (method_exists($experienceUni, $getter)) {
                     $value = $experienceUni->$getter();
 
-                    $existingTranslation = $this->em->getRepository(Translation::class)->findOneBy([
-                        'entity' => ExperienceUni::class,
-                        'entityId' => $experienceUni->getId(),
-                        'attribute' => $attribute,
-                    ]);
+                    $existingTranslation = $this->em->getRepository(Translation::class)->findOneBy(
+                        [
+                            'entity' => ExperienceUni::class,
+                            'entityId' => $experienceUni->getId(),
+                            'attribute' => $attribute,
+                        ]
+                    );
 
                     if ($existingTranslation) {
                         $existingTranslation->setEn($entityInstance->getEn());

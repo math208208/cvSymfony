@@ -26,7 +26,8 @@ class AdminAuthenticator extends AbstractLoginFormAuthenticator
     public function __construct(
         private UrlGeneratorInterface $urlGenerator,
         private UserRepository $userRepository
-    ) {}
+    ) {
+    }
 
     public function authenticate(Request $request): Passport
     {
@@ -58,10 +59,15 @@ class AdminAuthenticator extends AbstractLoginFormAuthenticator
 
         $slug = $user->getSlug();
 
-        return new RedirectResponse($this->urlGenerator->generate('app_accueil', [
-            '_locale' => 'fr',
-            'slug' => $slug,
-        ]));
+        return new RedirectResponse(
+            $this->urlGenerator->generate(
+                'app_accueil',
+                [
+                '_locale' => 'fr',
+                'slug' => $slug,
+                ]
+            )
+        );
     }
 
     protected function getLoginUrl(Request $request): string

@@ -24,7 +24,6 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 
 class ExperienceProCrudController extends AbstractCrudController
 {
-
     public static function getEntityFqcn(): string
     {
         return ExperiencePro::class;
@@ -35,17 +34,21 @@ class ExperienceProCrudController extends AbstractCrudController
         $redirectAction = Action::new('redirectToExternalPage')
             ->setLabel('Go to Website')
             ->setIcon('fa fa-external-link-alt')
-            ->linkToUrl(function (ExperiencePro $experiencePro) {
-                $user = $experiencePro->getUser();
-                return 'http://localhost:8001/' . $user->getSlug() . "/experiences";
-            })
+            ->linkToUrl(
+                function (ExperiencePro $experiencePro) {
+                    $user = $experiencePro->getUser();
+                    return 'http://localhost:8001/' . $user->getSlug() . "/experiences";
+                }
+            )
             ->setHtmlAttributes(['target' => '_blank']);
 
         $test = Action::new('test')
             ->setLabel('Detail')
-            ->linkToUrl(function (ExperiencePro $experiencePro) {
-                return 'http://localhost:8001/admin/experience-pro/' . $experiencePro->getId();
-            });
+            ->linkToUrl(
+                function (ExperiencePro $experiencePro) {
+                    return 'http://localhost:8001/admin/experience-pro/' . $experiencePro->getId();
+                }
+            );
 
 
         $actions = $actions
@@ -95,7 +98,7 @@ class ExperienceProCrudController extends AbstractCrudController
                 ->renderAsSwitch()
         ];
 
-        
+
 
         return $fields;
     }
@@ -103,7 +106,8 @@ class ExperienceProCrudController extends AbstractCrudController
     public function configureCrud(Crud $crud): Crud
     {
         return $crud
-            ->setSearchFields([
+            ->setSearchFields(
+                [
                 'id',
                 'poste',
                 'entreprise',
@@ -112,7 +116,8 @@ class ExperienceProCrudController extends AbstractCrudController
                 'dateFin',
                 'user.prenom',
                 'user.nom',
-            ])
+                ]
+            )
             ->setPageTitle('index', 'Experiences Pro')
             ->setEntityLabelInSingular('Experience Pro')
             ->setEntityLabelInPlural('Experiences Pro')

@@ -31,17 +31,21 @@ class LangageCrudController extends AbstractCrudController
         $redirectAction = Action::new('redirectToExternalPage')
             ->setLabel('Go to Website')
             ->setIcon('fa fa-external-link-alt')
-            ->linkToUrl(function (Langage $langage) {
-                $user = $langage->getUser();
-                return 'http://localhost:8001/' . $user->getSlug() . "/competences";
-            })
+            ->linkToUrl(
+                function (Langage $langage) {
+                    $user = $langage->getUser();
+                    return 'http://localhost:8001/' . $user->getSlug() . "/competences";
+                }
+            )
             ->setHtmlAttributes(['target' => '_blank']);
 
         $test = Action::new('test')
             ->setLabel('Detail')
-            ->linkToUrl(function (Langage $langage) {
-                return 'http://localhost:8001/admin/langage/' . $langage->getId();
-            });
+            ->linkToUrl(
+                function (Langage $langage) {
+                    return 'http://localhost:8001/admin/langage/' . $langage->getId();
+                }
+            );
 
 
         $actions = $actions
@@ -88,7 +92,7 @@ class LangageCrudController extends AbstractCrudController
 
         ];
 
-        
+
 
         return $fields;
     }
@@ -96,12 +100,14 @@ class LangageCrudController extends AbstractCrudController
     public function configureCrud(Crud $crud): Crud
     {
         return $crud
-            ->setSearchFields([
+            ->setSearchFields(
+                [
                 'id',
                 'nomLangue',
                 'niveau',
                 'user.prenom',
                 'user.nom',
-            ]);
+                ]
+            );
     }
 }

@@ -26,7 +26,6 @@ class RegisterController extends AbstractController
         UserPasswordHasherInterface $passwordHasher,
         TokenStorageInterface $tokenStorage,
         SessionInterface $session
-
     ): Response {
         $form = $this->createForm(RegisterType::class);
         $form->handleRequest($request);
@@ -44,7 +43,7 @@ class RegisterController extends AbstractController
                 $user->setEmail($data['email']);
                 $user->setTelephone($data['telephone']);
                 $user->setIsPrivate($data['private']);
-                
+
                 $admin = new Admin();
                 $admin->setEmail($data['email']);
                 $admin->setRoles(['ROLE_USER']);
@@ -62,8 +61,11 @@ class RegisterController extends AbstractController
                 return $this->redirectToRoute('app_accueil', ['slug' => $user->getSlug()]);
             }
         }
-        return $this->render('register/index.html.twig', [
+        return $this->render(
+            'register/index.html.twig',
+            [
             'registerForm' => $form->createView()
-        ]);
+            ]
+        );
     }
 }

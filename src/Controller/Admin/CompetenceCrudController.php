@@ -30,17 +30,21 @@ class CompetenceCrudController extends AbstractCrudController
         $redirectAction = Action::new('redirectToExternalPage')
             ->setLabel('Go to Website')
             ->setIcon('fa fa-external-link-alt')
-            ->linkToUrl(function (Competence $competence) {
-                $user = $competence->getUser();
-                return 'http://localhost:8001/' . $user->getSlug() . "/competences";
-            })
+            ->linkToUrl(
+                function (Competence $competence) {
+                    $user = $competence->getUser();
+                    return 'http://localhost:8001/' . $user->getSlug() . "/competences";
+                }
+            )
             ->setHtmlAttributes(['target' => '_blank']);
 
         $test = Action::new('test')
             ->setLabel('Detail')
-            ->linkToUrl(function (Competence $competence) {
-                return 'http://localhost:8001/admin/competence/' . $competence->getId();
-            });
+            ->linkToUrl(
+                function (Competence $competence) {
+                    return 'http://localhost:8001/admin/competence/' . $competence->getId();
+                }
+            );
 
 
         $actions = $actions
@@ -90,12 +94,14 @@ class CompetenceCrudController extends AbstractCrudController
     public function configureCrud(Crud $crud): Crud
     {
         return $crud
-            ->setSearchFields([
+            ->setSearchFields(
+                [
                 'id',
                 'nom',
                 'pourcentageMetrise',
                 'user.prenom',
                 'user.nom',
-            ]);
+                ]
+            );
     }
 }

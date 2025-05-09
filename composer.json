@@ -8,6 +8,8 @@
         "ext-ctype": "*",
         "ext-iconv": "*",
         "a2lix/translation-form-bundle": "^3.2.4",
+        "api-platform/doctrine-orm": "*",
+        "api-platform/symfony": "*",
         "ckeditor/ckeditor": "4.22.0",
         "doctrine/dbal": "^3.9.4",
         "doctrine/doctrine-bundle": "^2.14",
@@ -18,7 +20,8 @@
         "friendsofsymfony/ckeditor-bundle": "^2.6",
         "knplabs/doctrine-behaviors": "^1.4.1",
         "lcobucci/jwt": "^5.5",
-        "lexik/jwt-authentication-bundle": "^3.1.1",
+        "lexik/jwt-authentication-bundle": "^3.1",
+        "nelmio/cors-bundle": "^2.5",
         "phpdocumentor/reflection-docblock": "^5.6.2",
         "phpstan/phpdoc-parser": "^2.1",
         "stof/doctrine-extensions-bundle": ">=1.13",
@@ -112,6 +115,7 @@
     },
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "^4.1",
+        "phpstan/phpstan": "^2.1",
         "phpunit/phpunit": "^9.6.22",
         "symfony/browser-kit": "7.2.*",
         "symfony/css-selector": "7.2.*",
@@ -120,5 +124,5 @@
         "symfony/phpunit-bridge": "^7.2",
         "symfony/stopwatch": "7.2.*",
         "symfony/web-profiler-bundle": "7.2.*"
-    }
+        }
 }

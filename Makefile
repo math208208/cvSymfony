@@ -30,5 +30,7 @@ openCypress:
 startCypress:
 		npx cypress run
 
+# verifsrc:
+#  		phpcs --standard=PSR12 src
 
 # Probleme cache nav (pas de changement fait) ctrl + shift + R

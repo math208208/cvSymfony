@@ -3,20 +3,19 @@
 namespace App\Entity\Trait;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\HttpFoundation\File\File; 
+use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation\Uploadable;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 #[Uploadable]
 trait Images
 {
-    
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $imageName = null;
 
-   
+
     #[Vich\UploadableField(
-        mapping: "images", 
+        mapping: "images",
         fileNameProperty: "imageName",
     )]
     private ?File $imageFile = null;
@@ -53,7 +52,6 @@ trait Images
         if ($imageFile !== null) {
             $this->updatedAt = new \DateTimeImmutable();
         }
-       
     }
 
     public function getImageFile(): ?File

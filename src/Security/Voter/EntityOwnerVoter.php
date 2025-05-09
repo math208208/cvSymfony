@@ -18,7 +18,7 @@ final class EntityOwnerVoter extends Voter
     protected function supports(string $attribute, mixed $subject): bool
     {
         return in_array($attribute, [self::VIEW, self::EDIT, self::DELETE])
-            && method_exists($subject, 'getUser'); 
+            && method_exists($subject, 'getUser');
     }
 
     protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token): bool
