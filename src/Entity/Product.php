@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Category;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity]
@@ -9,8 +10,8 @@ class Product
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(type: "integer")]
-    private int $id;
+    #[ORM\Column]
+    private $id = null;
 
     #[ORM\Column(type: "string", length: 255)]
     private string $name;
@@ -18,13 +19,29 @@ class Product
     #[ORM\Column(type: "integer")]
     private int $price;
 
+    #[ORM\ManyToOne(targetEntity: Category::class)]
+    private $category;
+
+    public function getCategory(): ?Category
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?Category $category): self
+    {
+        $this->category = $category;
+
+        return $this;
+    }
+
     public function getId(): ?int
     {
         return $this->id;
     }
 
 
-    public function getName(): ?string{
+    public function getName(): ?string
+    {
         return $this->name;
     }
 
@@ -36,7 +53,8 @@ class Product
     }
 
 
-    public function getPrice(): ?int{
+    public function getPrice(): ?int
+    {
         return $this->price;
     }
 
@@ -46,7 +64,4 @@ class Product
 
         return $this;
     }
-
-
-    
 }

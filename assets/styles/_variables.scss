@@ -4,8 +4,9 @@ $color-terciaire: #fd9630;
 $color-secondaire: #2dbdb4;
 $color-titre: #000000;
 $color-texte: #4b4a4a;
-$shadow: rgba(120, 120, 120, 0.495);
+$shadow: rgba(157, 157, 157, 0.495);
 
+$color-button: linear-gradient(to right, #16222a 0%, #3a6073 51%, #16222a 100%);
 @font-face {
     font-family: "Quicksand";
     src: url("../fonts/Quicksand-VariableFont_wght.ttf") format("woff2");

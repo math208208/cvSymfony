@@ -48,11 +48,16 @@ final class ContactController extends AbstractController
             'translated_description' => $translatedDescription
         ];
 
+        $layout = $this->isGranted('ROLE_PRO')
+            ? 'base/pro/index.html.twig'
+            : 'base/user/index.html.twig';
+
 
         return $this->render(
             'contact/index.html.twig',
             [
-            'user' => $translatedUser
+                'layout' => $layout,
+                'user' => $translatedUser
             ]
         );
     }

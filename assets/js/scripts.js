@@ -20,8 +20,10 @@ window.MyApp = {
     accueil,
     experiences,
     contact,
-    afficherCompetencesJQuery
+    afficherCompetencesJQuery,
+    toggleDivs
 };
+
 
 
 window.addEventListener('load', () => {
@@ -66,23 +68,48 @@ window.addEventListener('load', () => {
             $(".imgMenu").attr("src", menu);
         }
     })
+
+
+    if (document.getElementById('option1') && document.getElementById('option2')) {
+        document.getElementById('option1').onclick = toggleDivs;
+        document.getElementById('option2').onclick = toggleDivs;
+    }
+
+
+
 });
 
+function toggleDivs() {
+    var divOption1 = document.getElementById('divOption1');
+    var divOption2 = document.getElementById('divOption2');
+
+    if (document.getElementById('option1').checked) {
+        divOption1.style.display = 'block';
+        divOption2.style.display = 'none';
+    } else if (document.getElementById('option2').checked) {
+        divOption1.style.display = 'none';
+        divOption2.style.display = 'block';
+    }
+}
+
 function navMenu(titreDoc) {
+
     switch (titreDoc) {
-        case "CV - Compétences" :
+
+        case "CV - Compétences":
         case "CV - Skills":
         case "CV - Competencias":
             competences();
             break;
-        case "CV - Accueil" :
-        case "CV - Home":
-        case "CV - Inicio":
+        case "CV - Profil":
+        case "CV - Profile":
+        case "CV - Perfil":
             accueil();
             break;
-        case "CV - Expériences" :
+        case "CV - Expériences":
         case "CV - Experiences":
         case "CV - Experiencias":
+
             experiences();
             break;
         case "CV - Contact":
@@ -90,6 +117,7 @@ function navMenu(titreDoc) {
             contact();
             break;
         default:
+
             break;
     }
 }
@@ -101,6 +129,25 @@ function competences() {
     $("#navAccueil").removeClass("underline");
     setPourcentage();
     afficherCompetencesJQuery();
+
+    const progressBars = document.querySelectorAll('.progress-bar');
+    progressBars.forEach(bar => {
+        const valeurFinale = parseInt(bar.getAttribute('data-pourcent'), 10);
+        let valeurActuelle = 0;
+
+        const interval = setInterval(() => {
+            valeurActuelle++;
+            bar.style.background = `
+                radial-gradient(closest-side, white 79%, transparent 80% 100%),
+                conic-gradient(rgb(249, 154, 77) ${valeurActuelle}%,rgb(255, 243, 203)  0)
+            `;
+            bar.setAttribute('data-pourcent', valeurActuelle);
+
+            if (valeurActuelle >= valeurFinale) {
+                clearInterval(interval);
+            }
+        }, 30);
+    });
 
     var widthIcon = $(".outilImage").width();
     gsap.set($(".outilImage"), { width: 0, opacity: 0 });
@@ -290,8 +337,8 @@ function experiences() {
     const coef = window.innerWidth < 768 ? 400 : window.innerWidth < 1024 ? 850 : 850;
 
     // Calcul dynamique basé sur le nombre d'éléments
-    const endValue1 = `+=${coef * expPro.length/1.5}`;
-    const endValue2 = `+=${coef * expUni.length/1.5}`;
+    const endValue1 = `+=${coef * expPro.length / 1.5}`;
+    const endValue2 = `+=${coef * expUni.length / 1.5}`;
 
     gsap.to(expPro, {
         xPercent: -100 * 1.2 * (expPro.length - 1),
@@ -338,21 +385,21 @@ function afficherCompetencesJQuery() {
     $langages.each(function (index) {
         setTimeout(() => {
             const $nomLangage = $(this).find(".js-nomLangage");
-            const $progressBar = $(this).find(".js-progressBar");  //$(this) element courant 
-            const $pourcentageElem = $(this).find(".js-pourcentage");
+            const $progressBar = $(this).find(".js-progressBar");  // barre visuelle
+            const $pourcentageElem = $(this).find(".progress-bar");  // contient l’attribut data-pourcent
 
             $nomLangage.css("visibility", "visible");
             $progressBar.css("visibility", "visible");
-            $pourcentageElem.css("visibility", "visible");  //@TODO enlever css de la
+            $pourcentageElem.css("visibility", "visible");
 
-            const valeurFinale = parseInt($pourcentageElem.text());
+            const valeurFinale = parseInt($pourcentageElem.attr('data-pourcent'), 10);
             let valeurActuelle = 0;
 
-            $pourcentageElem.text("0%");
+            $pourcentageElem.attr("data-pourcent", "0"); // init à 0
 
             const interval = setInterval(() => {
                 valeurActuelle++;
-                $pourcentageElem.text(valeurActuelle + "%");
+                $pourcentageElem.attr("data-pourcent", valeurActuelle); // met à jour l’attribut utilisé par ::before
 
                 if (valeurActuelle >= valeurFinale) {
                     clearInterval(interval);
@@ -360,7 +407,6 @@ function afficherCompetencesJQuery() {
             }, 20);
 
             gsap.set($(this), { opacity: 0 });
-
             gsap.to($(this), {
                 opacity: 1,
                 duration: 1,
@@ -369,12 +415,11 @@ function afficherCompetencesJQuery() {
         }, 200 * index);
     });
 }
-
 function setPourcentage() {
     const progressBars = document.querySelectorAll('.langages__progress--bar');
 
     progressBars.forEach(bar => {
         const pourcentage = bar.getAttribute('data-pourcent');
-        bar.style.height = pourcentage + '%'; 
+        bar.style.height = pourcentage + '%';
     });
 }

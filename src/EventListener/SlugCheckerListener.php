@@ -26,6 +26,9 @@ class SlugCheckerListener
 
         $request = $event->getRequest();
         $slug = $request->attributes->get('slug');
+        $slug = explode('/', $slug);
+        $slug = $slug[0];
+
 
         if (!$slug) {
             return;
@@ -45,12 +48,25 @@ class SlugCheckerListener
 
         if (in_array('ROLE_ADMIN', $admin->getRoles(), true)) {
             return;
-        } elseif ($user && $user->getSlug() !== $slug) {
+        } else if (in_array('ROLE_PRO', $admin->getRoles(), true)) {
+            $userBySlug = $this->userRepository->findOneBySlug($slug);
+            if (!$userBySlug->isPrivate()) {
+                return;
+            } else {
+                $response = new RedirectResponse(
+                    $this->urlGenerator->generate(
+                        'app_blog',
+                    )
+                );
+                $event->setResponse($response);
+                return;
+            }
+        } else if ($user && $user->getSlug() !== $slug) {
             $response = new RedirectResponse(
                 $this->urlGenerator->generate(
-                    'app_accueil',
+                    'app_profil',
                     [
-                    'slug' => $user->getSlug()
+                        'slug' => $user->getSlug()
                     ]
                 )
             );

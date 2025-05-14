@@ -1,14 +1,21 @@
+@use "variables" as *;
+
 .bodymain {
-    background: radial-gradient(circle, rgba(126, 195, 247, 1) 0%, rgba(126, 237, 133, 1) 100%);
     .headMain {
         background: rgba(255, 255, 255, 0);
         border: 0px;
+        background: $color-primaire;
+        border-bottom: 3px solid black;
+
         nav {
             display: flex;
             flex-direction: row;
 
             .imgLogo {
                 height: auto;
+                @include small {
+                    width: 10%;
+                }
             }
             .navDiva {
                 overflow: visible;
@@ -19,17 +26,19 @@
             }
         }
     }
-
-    main {
-        background: radial-gradient(circle, rgba(126, 195, 247, 1) 0%, rgba(126, 237, 133, 1) 100%);
+   
+    .mainLogin {
         margin: auto;
         display: flex;
         flex-direction: column;
         align-items: center;
-        h1{
+        background-color: white;
+        h1 {
             margin-bottom: 60px;
+            margin-top: 30px;
         }
         form {
+            text-align: center;
             display: flex;
             flex-direction: column;
             .alert {
@@ -42,7 +51,6 @@
 
                 .formNom {
                     margin-left: 15px;
-
                 }
 
                 .formAttr {
@@ -51,7 +59,6 @@
 
                 .checkboxClass {
                     margin-left: 15px;
-                    
                 }
 
                 .radioClass {
@@ -60,9 +67,6 @@
                     flex-direction: row;
                     justify-content: space-evenly;
                 }
-                
-
-                
 
                 .formA {
                     font-size: 0.9em;
@@ -82,7 +86,7 @@
         padding: 15px 30px;
         margin-top: 30px;
         margin-bottom: 10px;
-        background-image: linear-gradient(to right, #16222a 0%, #3a6073 51%, #16222a 100%);
+        background-image: $color-button;
 
         text-align: center;
         text-transform: uppercase;
@@ -94,9 +98,12 @@
         display: block;
 
         &:hover {
-            background-position: right center; /* change the direction of the change here */
+            background-position: right center;
             color: #fff;
             text-decoration: none;
         }
     }
+}
+#divOption2{
+    display: none;
 }

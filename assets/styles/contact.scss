@@ -8,5 +8,9 @@
     .contactImg{
         width: 3%;
         height: auto;
+        @include small {
+            width: 20%;
+            height: auto;
+        }
     }
 }

@@ -15,140 +15,51 @@ use App\Service\TranslationService;
 
 final class BlogController extends AbstractController
 {
-    #[Route('/{slug}/blog', name: 'app_blog')]
+    #[Route('/{_locale}', name: 'app_blog')]
     public function show(
-        string $slug,
         UserRepository $userRepository,
         ExperienceProRepository $repoExpPro,
         ExperienceUniRepository $repoExpUni,
         TranslationService $translator,
         string $_locale
     ): Response {
-        $this->denyAccessUnlessGranted('VIEW_PROFILE', $slug);
 
-        $user = $userRepository->findOneBySlug($slug);
-        if (!$user) {
-            throw $this->createNotFoundException('CV non trouvé.');
-        }
+        $users = $userRepository->findAll();
+        $translatedUsers = [];
 
+        foreach ($users as $user) {
+            if (!$user->isPrivate()) {
+                $translatedProfession = $translator->translate(
+                    User::class,
+                    $user->getId(),
+                    'profession',
+                    $user->getProfession() ?? 'Aucune donnée',
+                    $_locale
+                );
 
-        $translatedProfession = $translator->translate(
-            User::class,
-            $user->getId(),
-            'profession',
-            $user->getProfession() ?? 'Aucune donnée',
-            $_locale
-        );
-        $translatedDescription = $translator->translate(
-            User::class,
-            $user->getId(),
-            'description',
-            $user->getDescription() ?? 'Aucune donnée',
-            $_locale
-        );
+                $translatedDescription = $translator->translate(
+                    User::class,
+                    $user->getId(),
+                    'description',
+                    $user->getDescription() ?? 'Aucune donnée',
+                    $_locale
+                );
 
-        $translatedUser = [
-            'user' => $user,
-            'translated_profession' => $translatedProfession,
-            'translated_description' => $translatedDescription
-        ];
-
-
-
-        $experiencesProAll = $repoExpPro->findAll();
-
-        foreach ($experiencesProAll as $key => $experiencePro) {
-            if (
-                $experiencePro->isArchived() || $experiencePro->getUser()->getSlug() === $slug
-                || $experiencePro->getUser()->isPrivate() === true
-            ) {
-                unset($experiencesProAll[$key]);
+                $translatedUsers[] = [
+                    'user' => $user,
+                    'translated_profession' => $translatedProfession,
+                    'translated_description' => $translatedDescription,
+                ];
             }
         }
 
+        $layout = $this->isGranted('ROLE_PRO')
+            ? 'base/pro/index.html.twig'
+            : 'base/accueil/index.html.twig';
 
-        $experiencesUniAll = $repoExpUni->findAll();
-
-        foreach ($experiencesUniAll as $key => $experienceUni) {
-            if (
-                $experienceUni->isArchived() || $experienceUni->getUser()->getSlug() === $slug
-                || $experienceUni->getUser()->isPrivate() === true
-            ) {
-                unset($experiencesUniAll[$key]);
-            }
-        }
-
-
-
-        $translatedExperiencesProAll = [];
-
-        foreach ($experiencesProAll as $experiencePro) {
-            $translatedPoste = $translator->translate(
-                ExperiencePro::class,
-                $experiencePro->getId(),
-                'poste',
-                $experiencePro->getPoste(),
-                $_locale
-            );
-            $translatedDescription = $translator->translate(
-                ExperiencePro::class,
-                $experiencePro->getId(),
-                'description',
-                $experiencePro->getDescription(),
-                $_locale
-            );
-
-
-            $translatedExperiencesProAll[] = [
-                'experiencePro' => $experiencePro,
-                'translated_poste' => $translatedPoste,
-                'translated_description' => $translatedDescription
-            ];
-        }
-
-        $translatedExperiencesUniAll = [];
-
-        foreach ($experiencesUniAll as $experienceUni) {
-            $translatedTitre = $translator->translate(
-                ExperienceUni::class,
-                $experienceUni->getId(),
-                'titre',
-                $experienceUni->getTitre(),
-                $_locale
-            );
-            $translatedSousTitre = $translator->translate(
-                ExperienceUni::class,
-                $experienceUni->getId(),
-                'sousTitre',
-                $experienceUni->getSousTitre(),
-                $_locale
-            );
-            $translatedDescription = $translator->translate(
-                ExperienceUni::class,
-                $experienceUni->getId(),
-                'description',
-                $experienceUni->getDescription(),
-                $_locale
-            );
-
-
-            $translatedExperiencesUniAll[] = [
-                'experienceUni' => $experienceUni,
-                'translated_titre' => $translatedTitre,
-                'translated_sousTitre' => $translatedSousTitre,
-                'translated_description' => $translatedDescription
-            ];
-        }
-
-
-        return $this->render(
-            'blog/index.html.twig',
-            [
-            'user' => $translatedUser,
-            'exploExpPro' => $translatedExperiencesProAll,
-            'exploExpUni' => $translatedExperiencesUniAll
-
-            ]
-        );
+        return $this->render('blog/index.html.twig', [
+            'translatedUsers' => $translatedUsers,
+            'layout' => $layout,
+        ]);
     }
 }

@@ -15,9 +15,23 @@ app_logout:
   path: /logout
   controller: App\Controller\SecurityController::logout
 
-app_accueil:
+app_register:
+  path: /register
+  controller: App\Controller\RegisterController::register
+
+
+
+app_blog:
+  path: /{_locale}
+  controller: App\Controller\BlogController::show
+  requirements:
+    _locale: fr|en|es
+  defaults:
+    _locale: fr
+
+app_profil:
   path: /{_locale}/{slug}
-  controller: App\Controller\AccueilController::show
+  controller: App\Controller\ProfilController::show
   requirements:
     _locale: fr|en|es
     slug: (?!favicon\.ico).+
@@ -26,7 +40,7 @@ redirect_to_locale:
   path: /{slug}
   controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController
   defaults:
-    route: app_accueil
+    route: app_profil
     _locale: fr
   requirements:
     slug: .+

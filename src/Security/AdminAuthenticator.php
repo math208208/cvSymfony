@@ -26,8 +26,7 @@ class AdminAuthenticator extends AbstractLoginFormAuthenticator
     public function __construct(
         private UrlGeneratorInterface $urlGenerator,
         private UserRepository $userRepository
-    ) {
-    }
+    ) {}
 
     public function authenticate(Request $request): Passport
     {
@@ -51,23 +50,35 @@ class AdminAuthenticator extends AbstractLoginFormAuthenticator
         $admin = $token->getUser();
         $email = $admin->getUserIdentifier();
 
-        $user = $this->userRepository->findOneBy(['email' => $email]);
 
-        if (!$user) {
-            throw new \LogicException("Aucun utilisateur trouvé avec l'email : $email");
+
+        $roles = $token->getRoleNames(); // par ex: ['ROLE_USER', 'ROLE_PRO']
+
+        if (in_array('ROLE_PRO', $roles, true)) {
+            return new RedirectResponse(
+
+                $this->urlGenerator->generate(
+                    'app_parametresPro',
+                )
+            );
+        } else {
+            $user = $this->userRepository->findOneBy(['email' => $email]);
+
+            if (!$user) {
+                throw new \LogicException("Aucun utilisateur trouvé avec l'email : $email");
+            }
+
+            $slug = $user->getSlug();
+            return new RedirectResponse(
+                $this->urlGenerator->generate(
+                    'app_profil',
+                    [
+                        '_locale' => 'fr',
+                        'slug' => $slug,
+                    ]
+                )
+            );
         }
-
-        $slug = $user->getSlug();
-
-        return new RedirectResponse(
-            $this->urlGenerator->generate(
-                'app_accueil',
-                [
-                '_locale' => 'fr',
-                'slug' => $slug,
-                ]
-            )
-        );
     }
 
     protected function getLoginUrl(Request $request): string

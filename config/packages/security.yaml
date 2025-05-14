@@ -24,7 +24,7 @@ security:
         api:
             pattern: ^(/(fr|en|es))?/api
             stateless: true
-            jwt: ~  # Protège les routes avec JWT
+            jwt: ~ 
 
         main:
             pattern: ^/(?!api)
@@ -51,9 +51,10 @@ security:
         - { path: ^/api, roles: IS_AUTHENTICATED_FULLY }
 
 
-        - { path: ^/(fr|en|es)/register, roles: PUBLIC_ACCESS }
+        - { path: ^/register, roles: PUBLIC_ACCESS }
         - { path: ^/login, roles: PUBLIC_ACCESS }
-        
+        - { path: ^/(fr|en|es)(/|$), roles: PUBLIC_ACCESS }
+
         - { path: ^/admin, roles: ROLE_USER }
         - { path: ^/(fr|en|es)/([a-z0-9-]+)$, roles: ROLE_USER }
 

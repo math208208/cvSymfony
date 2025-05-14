@@ -1,79 +1,85 @@
-{% extends 'base.html.twig' %}
+{% extends layout %}
 
-{% block title %}profil
+{% block title %}
+	{% trans %}header.home{% endtrans %}
 {% endblock %}
 
 {% block body %}
 	<main>
-		<section class="sectionParametre">
-			<h2 class="h2Parametre">{% trans %}section.settings{% endtrans %}</h2>
+		<!-- photo moi et description|raw -->
+		<section class="sectionIndex1">
+			<img id="imgmoi" src="{{ user.user.imageName ? asset('uploads/images/' ~ user.user.imageName) : asset('build/images/default.png') }}" alt="Photo personne"/>
 
-			<form method="POST" action="{{ path('app_update_profil', {'slug': user.user.slug}) }}">
-				<div class="divChange">
-					<div class="divmail">
-						<label for="email">{% trans %}section.newEmail{% endtrans %}</label>
-						<input type="email" id="email" name="email" required autofocus>
-					</div>
-					<div class="divMdp">
-						<label for="password">{% trans %}section.newPw{% endtrans %}</label>
-						<input type="password" id="password" name="plainPassword" required>
-					</div>
-					<div class="divProfilEtat">
-						<h3>{% trans %}section.profilPrv{% endtrans %}</h3>
-						<input type="checkbox" name="privateProfile" id="privateProfile" {% if user.user.isPrivate %} checked {% endif %}>
-					</div>
-					<button type="submit">{% trans %}button.change{% endtrans %}</button>
-				</div>
+			<div class="divInfo">
+				<h1>{{user.user.prenom}}
+					{{user.user.nom}}</h1>
+				<h3>{{user.translated_profession|raw}}</h3>
 
-			</form>
+				<p>
+					{{user.translated_description|raw}}
+				</p>
+
+				<button class="aBoutton" id="aBoutton">{% trans %}button.aboutMe{% endtrans %}</button>
+			</div>
 		</section>
 
-		<section class="sectionModifCV">
-			<h2 class="h2Parametre">{% trans %}section.changeCv{% endtrans %}</h2>
-			<a href="{{ path('admin_user_index') }}" target="_blank">EasyAdmin</a>
+		<!-- Parcours et photos -->
+		<section id="a-propos" class="sectionIndex2">
+			<div class="parcours" id="a-propos-div">
+				<h2>{% trans %}section.training{% endtrans %}</h2>
+				<ul>
+					{% for formation in formations %}
+						<li>
+							<em class="italic">{{ formation.formation.annee }}</em>,
+							{{ formation.translated_intitule }}<br/>
+							<em class="italic">{{ formation.translated_lieu }}</em>
+						</li>
 
-			<div class="gridForm">
-				<div class="divForm">
-					<h3>Ajout d'outil</h3>
+					{% else %}
+						<li>{% trans %}nodata{% endtrans %}</li>
+					{% endfor %}
+				</ul>
+			</div>
+			<div class="imagesParcours">
+				{% for formation in formations %}
+					{% if formation.formation.imageName != null %}
+						<img src="{{ asset('uploads/images/' ~ formation.formation.imageName) }}" alt="Image formation" class="imgParcours"/>
+					{% endif %}
 
-					{{ form_start(addOutilForm) }}
-					{{ form_row(addOutilForm.existeOutil  ) }}
-					{{ form_row(addOutilForm.newOutil  ) }}
-					{{ form_row(addOutilForm.newOutilImage  ) }}
-					{{ form_row(addOutilForm.submitOutil  ) }}
-					{{ form_end(addOutilForm) }}
-				</div>
-				<div class="divForm">
-					<h3>Ajout langue</h3>
+				{% else %}
+					<li>{% trans %}nodata{% endtrans %}</li>
+				{% endfor %}
 
-					{{ form_start(addLangueForm) }}
-					{{ form_row(addLangueForm.nomLangue  ) }}
-					{{ form_row(addLangueForm.niveau  ) }}
-					{{ form_row(addLangueForm.submitLangue  ) }}
-					{{ form_end(addLangueForm) }}
-				</div>
-				<div class="divForm">
-					<h3>Ajout loisir</h3>
-
-					{{ form_start(addLoisirForm) }}
-					{{ form_row(addLoisirForm.existeLoisir  ) }}
-					{{ form_row(addLoisirForm.newLoisir  ) }}
-					{{ form_row(addLoisirForm.newLoisirImage  ) }}
-					{{ form_row(addLoisirForm.submitLoisir  ) }}
-					{{ form_end(addLoisirForm) }}
-				</div>
-				<div class="divForm">
-					<h3>Ajout competence</h3>
-
-					{{ form_start(addCompetenceForm) }}
-					{{ form_row(addCompetenceForm.existeCompetence  ) }}
-					{{ form_row(addCompetenceForm.newCompetence ) }}
-					{{ form_row(addCompetenceForm.niveauComp  ) }}
-					{{ form_row(addCompetenceForm.submitCompetence ) }}
-					{{ form_end(addCompetenceForm) }}
-				</div>
+			</div>
 
 
+		</section>
+
+		<!-- Loisirs et photos -->
+		<section class="sectionIndex3">
+			<div class="imagesLoisirs">
+				{% for loisir in loisirs %}
+
+					{% if loisir.loisir.imageName != null %}
+
+						<img id="idgym" src="{{ asset('uploads/images/' ~ loisir.loisir.imageName) }}" alt="Image loisir" class="imgLoisirs"/>
+
+					{% endif %}
+				{% else %}
+					<li>{% trans %}nodata{% endtrans %}</li>
+				{% endfor %}
+			</div>
+			<div class="loisirs divLoisirs">
+				<h2>{% trans %}section.hobbies{% endtrans %}</h2>
+				<ul>
+					{% for loisir in loisirs %}
+						<li>
+							{{ loisir.translated_nom }}
+						</li>
+					{% else %}
+						<li>{% trans %}nodata{% endtrans %}</li>
+					{% endfor %}
+				</ul>
 			</div>
 		</section>
 	</main>

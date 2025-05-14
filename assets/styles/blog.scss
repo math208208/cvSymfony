@@ -1,0 +1,61 @@
+@use "variables" as *;
+.container {
+    background-color: white;
+    .section-title {
+        font-size: 2.5em;
+        margin-bottom: 15px;
+        margin-top: 30px;
+        text-align: center;
+    }
+    .sectionExplo1 {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 30px;
+        padding: 20px;
+        
+
+        .cardProfil {
+            display: flex;
+            flex-direction: column;
+            border: solid 1px grey;
+            border-radius: 20px;
+            padding: 30px;
+            background-color: white;
+            box-shadow: 2px 2px 2px $shadow;
+
+            .classTop {
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                margin-bottom: 30px;
+                img {
+                    width: 25%;
+                    height: auto;
+                }
+                .nameUser {
+                    display: flex;
+                    flex-direction: column;
+                    p{
+                        color: black;
+                        font-size: 2em;
+                    }
+
+                }
+            }
+            .professionUserProfil{
+                text-align: center;
+                font-weight: bold;
+                color: black;
+                margin-bottom: 10px;
+            }
+            .lienRedirect{
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 5px;
+                margin-top: 15px;
+            }
+
+
+        }
+    }
+}

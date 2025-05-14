@@ -1,43 +1,35 @@
-{% extends 'base.html.twig' %}
+{% extends layout %}
 
-{% block title %}Blog
+{% block title %}Explorer
 {% endblock %}
 
 {% block body %}
-	<main>
-		<section class="">
-			<h2>Experiences Professionnel des utilisateurs</h2>
-			<div>
+	<main class="container">
+		<h2 class="section-title">Profil</h2>
 
-				{% for experiencePro in exploExpPro %}
-					<div>
-						<div>
-							<h3>{{experiencePro.translated_poste|raw  }}</h3>
-							<h4>{{experiencePro.experiencePro.entreprise|raw }}</h4>
+		<section class="sectionExplo1">
 
+			{% for translatedUser in translatedUsers %}
+				<div class="cardProfil">
+					<div class="classTop">
+						<img src="{{ translatedUser.user.imageName ? asset('uploads/images/' ~ translatedUser.user.imageName) : asset('build/images/default.png') }}" alt="image personne">
+						<div class="nameUser">
+							<p>{{ translatedUser.user.prenom }}</p>
+							<p>{{ translatedUser.user.nom }}</p>
 						</div>
-						<p>
-							<em>
-								{{experiencePro.experiencePro.dateDebut}}
-								-
-								{{experiencePro.experiencePro.dateFin}}</em>
-						</p>
-						<div>
-
-
-							{{ experiencePro.translated_description|raw }}
-
-						</div>
-						{{ experiencePro.experiencePro.user|raw }}
 					</div>
-
-				{% else %}
-					<li>{% trans %}nodata{% endtrans %}</li>
-				{% endfor %}
-
-			</div>
-
+					<p class="professionUserProfil">{{ translatedUser.translated_profession|raw}}</p>
+					<p class="descriptionUserProfil">{{ translatedUser.translated_description|raw}}</p>
+					<div class="lienRedirect">
+						<a href="{{ path('app_profil', {slug: translatedUser.user.slug}) }}">Profil</a>
+						<a href="{{ path('app_competences', {slug: translatedUser.user.slug}) }}">Competences</a>
+						<a href="{{ path('app_experience', {slug: translatedUser.user.slug}) }}">Expériences</a>
+						<a href="{{ path('app_contact', {slug: translatedUser.user.slug}) }}">Contact</a>
+					</div>
+				</div>
+			{% else %}
+				<p class="no-data">Aucune donnée trouvée.</p>
+			{% endfor %}
 		</section>
-
 	</main>
 {% endblock %}

@@ -94,14 +94,18 @@ final class CompetencesController extends AbstractController
             ];
         }
 
+        $layout = $this->isGranted('ROLE_PRO')
+            ? 'base/pro/index.html.twig'
+            : 'base/user/index.html.twig';
 
         return $this->render(
             'competences/index.html.twig',
             [
-            'user' => $translatedUser,
-            'langues' => $translatedLangages,
-            'competences' => $competences,
-            'outils' => $outils,
+                'layout' => $layout,
+                'user' => $translatedUser,
+                'langues' => $translatedLangages,
+                'competences' => $competences,
+                'outils' => $outils,
             ]
         );
     }

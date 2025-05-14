@@ -45,26 +45,9 @@ class RegisterType extends AbstractType
                 [
                 'label' => 'Je souhaite que mon profil soit privé',
                 'required' => false,
-                'mapped' => false,
                 'attr' => ['class' => 'checkboxClass']
                 ]
             )
-            ->add(
-                'acceptMail',
-                ChoiceType::class,
-                [
-                'label' => 'Je souhaite recevoir des notifications par mail ?',
-                'choices' => [
-                    'Oui' => true,
-                    'Non' => false,
-                ],
-                'expanded' => true,
-                'multiple' => false,
-                'required' => true,
-                'attr' => ['class' => 'radioClass']
-                ]
-            )
-
             ->add(
                 'submit',
                 SubmitType::class,

@@ -35,8 +35,9 @@ class DashboardController extends AbstractDashboardController
 
     public function configureMenuItems(): iterable
     {
-        yield MenuItem::section('Mon CV');
+        yield MenuItem::section('Rôle');
         yield MenuItem::linkToCrud('Personne', 'fa fa-user', \App\Entity\User::class);
+        yield MenuItem::linkToCrud('Professionnel', 'fa fa-user', \App\Entity\Professionnel::class);
 
         yield MenuItem::section('Accueil');
         yield MenuItem::linkToCrud('Formation', 'fa fa-graduation-cap', \App\Entity\Formation::class);

@@ -1,57 +1,61 @@
-{% extends 'base.html.twig' %}
+{% extends layout %}
 
-{% block title %}{% trans %}header.skills{% endtrans %}
+{% block title %}
+	{% trans %}header.skills{% endtrans %}
 {% endblock %}
 
 {% block body %}
 	<main>
+
 		<section class="css-sectionComp1">
 			<h2 class="titreSection">{% trans %}section.programming{% endtrans %}</h2>
-			<!-- Entrainement BEM -->
 			<div class="langages">
 				{% for competence in competences %}
 					<div class="langages__langage js-langage">
-						<h3 class="langages__titre js-nomLangage">{{competence.nom}}</h3>
+						<h3 class="langages__titre js-nomLangage">{{ competence.nom }}</h3>
+
 						<div class="langages__progress js-progressBar">
-							<div class="langages__progress--bar" data-pourcent={{competence.pourcentageMetrise}} ></div>
+							<div class="langages__progress--bar" data-pourcent="{{ competence.pourcentageMetrise }}"></div>
 						</div>
-						<p class="langages__pourcentage js-pourcentage">{{competence.pourcentageMetrise}}%</p>
+
+						<div class="progress-bar" aria-hidden="true" data-pourcent="{{ competence.pourcentageMetrise }}">
+							<progress min="0" max="100"  style="visibility:hidden;height:0;width:0;">
+							{{ competence.pourcentageMetrise }}%
+						</progress>
 					</div>
-				{% else %}
-					<li>{% trans %}nodata{% endtrans %}</li>
-				{% endfor %}
-			</div>
-		</section>
-		<section class="css-sectionComp2">
-			<h2 class="titreSection">{% trans %}section.tools{% endtrans %}</h2>
-			<div class="zoneOutils">
+				</div>
+			{% else %}
+				<p class="no-data">{% trans %}nodata{% endtrans %}</p>
+			{% endfor %}
+		</div>
+	</section>
 
-				{% for outil in outils %}
-					<div class="outil">
-						<h3>{{outil.nom}}</h3>
-						<img src="{{ asset('uploads/images/' ~ outil.imageName) }}" class="outilImage" alt="logo-outil"/>
-					</div>
-				{% else %}
-					<li>{% trans %}nodata{% endtrans %}</li>
-				{% endfor %}
+	<section class="css-sectionComp2">
+		<h2 class="titreSection">{% trans %}section.tools{% endtrans %}</h2>
+		<div class="zoneOutils">
+			{% for outil in outils %}
+				<div class="outil">
+					<h3>{{ outil.nom }}</h3>
+					<img src="{{ asset('uploads/images/' ~ outil.imageName) }}" class="outilImage" alt="logo {{ outil.nom }}"/>
+				</div>
+			{% else %}
+				<p class="no-data">{% trans %}nodata{% endtrans %}</p>
+			{% endfor %}
+		</div>
+	</section>
 
+	<section class="css-sectionComp3">
+		<h2 class="titreSection">{% trans %}section.languages{% endtrans %}</h2>
+		<div class="zoneLangues">
+			{% for langue in langues %}
+				<div class="langue">
+					<h3>{{ langue.translated_nom }}</h3>
+					<p>{{ langue.langue.niveau }}</p>
+				</div>
+			{% else %}
+				<p class="no-data">{% trans %}nodata{% endtrans %}</p>
+			{% endfor %}
+		</div>
+	</section>
 
-			</div>
-		</section>
-		<section class="css-sectionComp3">
-			<h2 class="titreSection">{% trans %}section.languages{% endtrans %}</h2>
-			<div class="zoneLangues">
-				{% for langue in langues %}
-
-					<div class="langue anglais">
-						<h3>{{langue.translated_nom}}</h3>
-						<p>{{langue.langue.niveau}}</p>
-					</div>
-
-				{% else %}
-					<li>{% trans %}nodata{% endtrans %}</li>
-				{% endfor %}
-			</div>
-		</section>
-	</main>
-{% endblock %}
+</main>{% endblock %}

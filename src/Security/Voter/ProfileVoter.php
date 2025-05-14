@@ -28,10 +28,14 @@ final class ProfileVoter extends Voter
         if (!$admin) {
             return false;
         }
+        if (in_array('ROLE_ADMIN', $admin->getRoles()) || in_array('ROLE_PRO', $admin->getRoles())) {
+            return true;
+        }
         $email = $admin->getUserIdentifier();
 
         $user = $this->userRepository->findOneBy(['email' => $email]);
 
+        
         if (!$user) {
             throw new \LogicException("Aucun utilisateur trouvé avec l'email : $email");
         }

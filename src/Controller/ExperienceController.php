@@ -80,14 +80,14 @@ final class ExperienceController extends AbstractController
                 ExperiencePro::class,
                 $experiencePro->getId(),
                 'poste',
-                $experiencePro->getPoste(),
+                $experiencePro->getPoste() ?? 'Aucune donnée',
                 $_locale
             );
             $translatedDescription = $translator->translate(
                 ExperiencePro::class,
                 $experiencePro->getId(),
                 'description',
-                $experiencePro->getDescription(),
+                $experiencePro->getDescription() ?? 'Aucune donnée',
                 $_locale
             );
 
@@ -106,21 +106,21 @@ final class ExperienceController extends AbstractController
                 ExperienceUni::class,
                 $experienceUni->getId(),
                 'titre',
-                $experienceUni->getTitre(),
+                $experienceUni->getTitre() ?? 'Aucune donnée' ,
                 $_locale
             );
             $translatedSousTitre = $translator->translate(
                 ExperienceUni::class,
                 $experienceUni->getId(),
                 'sousTitre',
-                $experienceUni->getSousTitre(),
+                $experienceUni->getSousTitre() ?? 'Aucune donnée',
                 $_locale
             );
             $translatedDescription = $translator->translate(
                 ExperienceUni::class,
                 $experienceUni->getId(),
                 'description',
-                $experienceUni->getDescription(),
+                $experienceUni->getDescription() ?? 'Aucune donnée',
                 $_locale
             );
 
@@ -135,10 +135,14 @@ final class ExperienceController extends AbstractController
 
 
 
+        $layout = $this->isGranted('ROLE_PRO')
+        ? 'base/pro/index.html.twig'
+        : 'base/user/index.html.twig';
 
         return $this->render(
             'experiences/index.html.twig',
             [
+            'layout' => $layout,
             'user' => $translatedUser,
             'experiencesPro' => $translatedExperiencesPro,
             'experiencesUni' => $translatedExperiencesUni,

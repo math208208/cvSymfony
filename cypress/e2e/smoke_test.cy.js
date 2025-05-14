@@ -9,6 +9,7 @@ describe('Smoke Test', () => {
     '/{slug}/profil',
     '/register',
     '/accueil',
+    '/',
   ];
 
   slugs.forEach(slug => {
