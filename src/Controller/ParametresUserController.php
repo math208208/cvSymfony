@@ -3,11 +3,17 @@
 namespace App\Controller;
 
 use App\Entity\Competence;
+use App\Entity\ExperiencePro;
+use App\Entity\ExperienceUni;
+use App\Entity\Formation;
 use App\Entity\Langage;
 use App\Entity\Loisir;
 use App\Entity\Outil;
 use App\Entity\User;
 use App\Form\CompetencesType;
+use App\Form\ExperienceProType;
+use App\Form\ExperienceUniType;
+use App\Form\FormationType;
 use App\Form\LangueType;
 use App\Form\LoisirType;
 use App\Form\OutilType;
@@ -186,6 +192,91 @@ final class ParametresUserController extends AbstractController
         }
 
 
+        //formulaire formation
+        $formFormation = $this->createForm(FormationType::class);
+        $formFormation->handleRequest($request);
+
+        if ($formFormation->isSubmitted() && $formFormation->isValid()) {
+            $formation = new Formation();
+            $intitule = $formFormation->get('intitule')->getData();
+            $annee = $formFormation->get('annee')->getData();
+            $lieu = $formFormation->get('lieu')->getData();
+            $uploadedFile = $formFormation->get('formationImage')->getData();
+
+            $formation->setIntitule($intitule);
+            $formation->setLieu($lieu);
+            $formation->setAnnee($annee);
+            $formation->setImageFile($uploadedFile);
+            $user = $userRepository->findOneBySlug($slug);
+
+            $formation->setUser($user);
+
+            $em->persist($formation);
+            $em->flush();
+
+
+            return $this->redirectToRoute('app_parametres', ['slug' => $user->getSlug()]);
+        }
+
+
+
+        //formulaire experiencePro
+        $formExpPro = $this->createForm(ExperienceProType::class);
+        $formExpPro->handleRequest($request);
+
+        if ($formExpPro->isSubmitted() && $formExpPro->isValid()) {
+            $experiencePro = new ExperiencePro();
+            $poste = $formExpPro->get('poste')->getData();
+            $entreprise = $formExpPro->get('entreprise')->getData();
+            $description = $formExpPro->get('description')->getData();
+            
+            $datedebut = $formExpPro->get('dateDebut')->getData();
+            
+            $datefin = $formExpPro->get('dateFin')->getData(); //si ya
+
+            $experiencePro->setPoste($poste);
+            $experiencePro->setEntreprise($entreprise);
+            $experiencePro->setDescription($description);
+            $experiencePro->setDateDebut($datedebut);
+            if($datefin){
+                $experiencePro->setDateFin($datefin);
+
+            }
+            $user = $userRepository->findOneBySlug($slug);
+
+            $experiencePro->setUser($user);
+
+            $em->persist($experiencePro);
+            $em->flush();
+            return $this->redirectToRoute('app_parametres', ['slug' => $user->getSlug()]);
+        }
+
+        //formulaire experienceUni
+
+        $formExpUni= $this->createForm(ExperienceUniType::class);
+        $formExpUni->handleRequest($request);
+
+        if ($formExpUni->isSubmitted() && $formExpUni->isValid()) {
+            $experienceUni = new ExperienceUni();
+            $titre = $formExpUni->get('titre')->getData();
+            $sousTitre = $formExpUni->get('sousTitre')->getData();
+            $description = $formExpUni->get('description')->getData();
+            $annee = $formExpUni->get('annee')->getData();
+
+            $experienceUni->setTitre($titre);
+            $experienceUni->setDescription($description);
+            $experienceUni->setAnnee($annee);
+            $experienceUni->setSousTitre($sousTitre);
+            $user = $userRepository->findOneBySlug($slug);
+
+            $experienceUni->setUser($user);
+
+            $em->persist($experienceUni);
+            $em->flush();
+
+
+            return $this->redirectToRoute('app_parametres', ['slug' => $user->getSlug()]);
+        }
 
 
 
@@ -198,7 +289,10 @@ final class ParametresUserController extends AbstractController
                 'addOutilForm' => $formOutil->createView(),
                 'addLangueForm' => $formLangue->createView(),
                 'addLoisirForm' => $formLoisir->createView(),
-                'addCompetenceForm' => $formCompetence->createView()
+                'addCompetenceForm' => $formCompetence->createView(),
+                'addExpUniForm' => $formExpUni->createView(),
+                'addExpProForm' => $formExpPro->createView(),
+                'addFormationForm' => $formFormation->createView()
 
             ]
         );

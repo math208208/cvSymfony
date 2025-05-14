@@ -12,6 +12,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use App\Repository\UserRepository;
 use App\Service\TranslationService;
+use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Component\HttpFoundation\Request;
 
 final class BlogController extends AbstractController
 {
@@ -21,19 +23,36 @@ final class BlogController extends AbstractController
         ExperienceProRepository $repoExpPro,
         ExperienceUniRepository $repoExpUni,
         TranslationService $translator,
+        PaginatorInterface $paginator,
+        Request $request,
         string $_locale
     ): Response {
+        $searchTerm = $request->query->get('q', '');
 
-        $users = $userRepository->findAll();
+        $qb = $userRepository->createQueryBuilder('u')
+            ->where('u.isPrivate = false');
+
+        if (!empty($searchTerm)) {
+            $qb
+                ->andWhere('LOWER(u.nom) LIKE :searchTerm OR LOWER(u.prenom) LIKE :searchTerm OR LOWER(u.profession) LIKE :searchTerm')
+                ->setParameter('searchTerm', '%' . strtolower($searchTerm) . '%');
+        }
+
+        $pagination = $paginator->paginate(
+            $qb->getQuery(),
+            $request->query->getInt('page', 1),
+            8
+        );
+
         $translatedUsers = [];
 
-        foreach ($users as $user) {
-            if (!$user->isPrivate()) {
+        foreach ($pagination as $user) {
+            if ($user->getProfession() && $user->getDescription()) {
                 $translatedProfession = $translator->translate(
                     User::class,
                     $user->getId(),
                     'profession',
-                    $user->getProfession() ?? 'Aucune donnée',
+                    $user->getProfession(),
                     $_locale
                 );
 
@@ -41,7 +60,7 @@ final class BlogController extends AbstractController
                     User::class,
                     $user->getId(),
                     'description',
-                    $user->getDescription() ?? 'Aucune donnée',
+                    $user->getDescription(),
                     $_locale
                 );
 
@@ -59,6 +78,7 @@ final class BlogController extends AbstractController
 
         return $this->render('blog/index.html.twig', [
             'translatedUsers' => $translatedUsers,
+            'pagination' => $pagination,
             'layout' => $layout,
         ]);
     }

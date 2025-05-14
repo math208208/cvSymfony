@@ -8,7 +8,10 @@
 		<h2 class="section-title">Profil</h2>
 
 		<section class="sectionExplo1">
-
+			<form method="get" action="{{ path('app_blog') }}" class="search-form">
+				<input type="text" name="q" placeholder="Rechercher par nom, prénom ou métier" value="{{ app.request.get('q') }}">
+				<button type="submit">Rechercher</button>
+			</form>
 			{% for translatedUser in translatedUsers %}
 				<div class="cardProfil">
 					<div class="classTop">
@@ -30,6 +33,10 @@
 			{% else %}
 				<p class="no-data">Aucune donnée trouvée.</p>
 			{% endfor %}
+
+			<div class="pagination">
+				{{ knp_pagination_render(pagination) }}
+			</div>
 		</section>
 	</main>
 {% endblock %}

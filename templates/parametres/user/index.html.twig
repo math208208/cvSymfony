@@ -72,6 +72,41 @@
 					{{ form_row(addCompetenceForm.submitCompetence ) }}
 					{{ form_end(addCompetenceForm) }}
 				</div>
+				<div class="divForm">
+					<h3>Ajout formation</h3>
+
+					{{ form_start(addFormationForm) }}
+					{{ form_row(addFormationForm.intitule  ) }}
+					{{ form_row(addFormationForm.lieu  ) }}
+					{{ form_row(addFormationForm.annee  ) }}
+					{{ form_row(addFormationForm.formationImage  ) }}
+					{{ form_row(addFormationForm.submitFormation ) }}
+					{{ form_end(addFormationForm) }}
+				</div>
+				<div class="divForm">
+					<h3>Ajout experience universitaire</h3>
+
+					{{ form_start(addExpUniForm) }}
+					{{ form_row(addExpUniForm.titre  ) }}
+					{{ form_row(addExpUniForm.sousTitre  ) }}
+					{{ form_row(addExpUniForm.annee  ) }}
+					{{ form_row(addExpUniForm.description  ) }}
+					{{ form_row(addExpUniForm.submitExperienceUni  ) }}
+					{{ form_end(addExpUniForm) }}
+				</div>
+				<div class="divForm">
+					<h3>Ajout experience professionnel</h3>
+
+					{{ form_start(addExpProForm) }}
+					{{ form_row(addExpProForm.poste  ) }}
+					{{ form_row(addExpProForm.entreprise ) }}
+					{{ form_row(addExpProForm.dateDebut  ) }}
+					{{ form_row(addExpProForm.dateFin ) }}
+					{{ form_row(addExpProForm.description ) }}
+					{{ form_row(addExpProForm.submitExperiencePro ) }}
+
+					{{ form_end(addExpProForm) }}
+				</div>
 
 
 			</div>

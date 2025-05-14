@@ -13,16 +13,24 @@ use EasyCorp\Bundle\EasyAdminBundle\Attribute\AdminDashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
 #[AdminDashboard(routePath: '/admin', routeName: 'admin')]
 class DashboardController extends AbstractDashboardController
 {
+    private Security $security;
+
     public function index(): Response
     {
         $url = $this->generateUrl('admin_user_index');
         return new RedirectResponse($url);
+    }
+
+    public function __construct(Security $security)
+    {
+        $this->security = $security;
     }
 
     public function configureDashboard(): Dashboard
@@ -35,9 +43,13 @@ class DashboardController extends AbstractDashboardController
 
     public function configureMenuItems(): iterable
     {
+        $admin = $this->security->getUser();
+
         yield MenuItem::section('Rôle');
         yield MenuItem::linkToCrud('Personne', 'fa fa-user', \App\Entity\User::class);
-        yield MenuItem::linkToCrud('Professionnel', 'fa fa-user', \App\Entity\Professionnel::class);
+        if (in_array('ROLE_ADMIN', $admin->getRoles(), true)) {
+            yield MenuItem::linkToCrud('Professionnel', 'fa fa-user', \App\Entity\Professionnel::class);
+        }
 
         yield MenuItem::section('Accueil');
         yield MenuItem::linkToCrud('Formation', 'fa fa-graduation-cap', \App\Entity\Formation::class);
@@ -55,21 +67,21 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::section('Traductions');
 
         yield MenuItem::linkToCrud('Trad Personne', 'fas fa-language', Translation::class)
-        ->setController(UserTranslationCrudController::class);
+            ->setController(UserTranslationCrudController::class);
 
         yield MenuItem::linkToCrud('Trad Loisir', 'fas fa-language', Translation::class)
-        ->setController(LoisirTranslationCrudController::class);
+            ->setController(LoisirTranslationCrudController::class);
 
         yield MenuItem::linkToCrud('Trad Formation', 'fas fa-language', Translation::class)
-        ->setController(FormationTranslationCrudController::class);
+            ->setController(FormationTranslationCrudController::class);
 
         yield MenuItem::linkToCrud('Trad ExperienceUni', 'fas fa-language', Translation::class)
-        ->setController(ExperienceUniTranslationCrudController::class);
+            ->setController(ExperienceUniTranslationCrudController::class);
 
         yield MenuItem::linkToCrud('Trad ExperiencePro', 'fas fa-language', Translation::class)
-        ->setController(ExperienceProTranslationCrudController::class);
+            ->setController(ExperienceProTranslationCrudController::class);
 
         yield MenuItem::linkToCrud('Trad Langage', 'fas fa-language', Translation::class)
-        ->setController(LangageTranslationCrudController::class);
+            ->setController(LangageTranslationCrudController::class);
     }
 }
