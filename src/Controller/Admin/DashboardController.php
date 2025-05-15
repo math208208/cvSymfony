@@ -64,7 +64,7 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Outils', 'fa fa-wrench', \App\Entity\Outil::class);
         yield MenuItem::linkToCrud('Langues', 'fa fa-language', \App\Entity\Langage::class);
 
-        
+
         if (in_array('ROLE_ADMIN', $admin->getRoles(), true)) {
             yield MenuItem::section('Contact');
             yield MenuItem::linkToCrud('Message', 'fa fa-envelope', \App\Entity\Message::class);

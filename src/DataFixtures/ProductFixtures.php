@@ -37,8 +37,8 @@ class ProductFixtures extends Fixture
         //     $categories[] = $category;
         // }
 
-        // $manager->flush(); 
-        // $manager->clear(); 
+        // $manager->flush();
+        // $manager->clear();
 
         $categories = $manager->getRepository(Category::class)->findAll();
 
@@ -52,7 +52,7 @@ class ProductFixtures extends Fixture
             if ($i % 100000 === 0) {
                 $manager->flush();
                 $manager->clear();
-                echo $i." ";
+                echo $i . " ";
                 $categories = $manager->getRepository(Category::class)->findAll();
             }
         }

@@ -23,10 +23,10 @@
 					<img id="idmenu" alt="imgmenu" src={{ asset('build/images/menu/menu.png') }} class="imgMenu"/>
 				</div>
 				<div class="navDiva">
-					<a id="navExplorer" class="butNav" href="{{ path('app_blog') }}">Explorer</a>
+					<a id="navExplorer" class="butNav" href="{{ path('app_blog') }}">{% trans %}header.explorer{% endtrans %}</a>
 
 					<a id="navExplorer" class="butNav" href="{{ path('app_login') }}">
-						Connexion
+						{% trans %}header.login{% endtrans %}
 					</a>
 				</div>
 			</nav>

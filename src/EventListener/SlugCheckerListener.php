@@ -48,7 +48,7 @@ class SlugCheckerListener
 
         if (in_array('ROLE_ADMIN', $admin->getRoles(), true)) {
             return;
-        } else if (in_array('ROLE_PRO', $admin->getRoles(), true)) {
+        } elseif (in_array('ROLE_PRO', $admin->getRoles(), true)) {
             $userBySlug = $this->userRepository->findOneBySlug($slug);
             if (!$userBySlug->isPrivate()) {
                 return;
@@ -61,13 +61,13 @@ class SlugCheckerListener
                 $event->setResponse($response);
                 return;
             }
-        } else if (in_array('ROLE_USER', $admin->getRoles(), true)) {
+        } elseif (in_array('ROLE_USER', $admin->getRoles(), true)) {
             $userBySlug = $this->userRepository->findOneBySlug($slug);
             /** @var \App\Entity\Admin $admin */
             $email = $admin->getEmail();
-            if($userBySlug->getEmail()===$email){
+            if ($userBySlug->getEmail() === $email) {
                 return;
-            }else if(!$userBySlug->isPrivate()){
+            } elseif (!$userBySlug->isPrivate()) {
                 return;
             } else {
                 $response = new RedirectResponse(

@@ -34,7 +34,7 @@
 
 			<div class="gridForm">
 				<div class="divForm">
-					<h3>Ajout d'outil</h3>
+					<h3>{% trans %}section.add{% endtrans %} {% trans %}section.tool{% endtrans %}</h3>
 
 					{{ form_start(addOutilForm) }}
 					{{ form_row(addOutilForm.existeOutil  ) }}
@@ -44,7 +44,7 @@
 					{{ form_end(addOutilForm) }}
 				</div>
 				<div class="divForm">
-					<h3>Ajout langue</h3>
+					<h3>{% trans %}section.add{% endtrans %} {% trans %}section.langue{% endtrans %}</h3>
 
 					{{ form_start(addLangueForm) }}
 					{{ form_row(addLangueForm.nomLangue  ) }}
@@ -53,7 +53,7 @@
 					{{ form_end(addLangueForm) }}
 				</div>
 				<div class="divForm">
-					<h3>Ajout loisir</h3>
+					<h3>{% trans %}section.add{% endtrans %} {% trans %}section.hobbie{% endtrans %}</h3>
 
 					{{ form_start(addLoisirForm) }}
 					{{ form_row(addLoisirForm.existeLoisir  ) }}
@@ -63,7 +63,7 @@
 					{{ form_end(addLoisirForm) }}
 				</div>
 				<div class="divForm">
-					<h3>Ajout competence</h3>
+					<h3>{% trans %}section.add{% endtrans %} {% trans %}section.skill{% endtrans %}</h3>
 
 					{{ form_start(addCompetenceForm) }}
 					{{ form_row(addCompetenceForm.existeCompetence  ) }}
@@ -73,7 +73,7 @@
 					{{ form_end(addCompetenceForm) }}
 				</div>
 				<div class="divForm">
-					<h3>Ajout formation</h3>
+					<h3>{% trans %}section.add{% endtrans %} {% trans %}section.train{% endtrans %}</h3>
 
 					{{ form_start(addFormationForm) }}
 					{{ form_row(addFormationForm.intitule  ) }}
@@ -88,7 +88,7 @@
 			</div>
 			<div class="gridForm2">
 				<div class="divForm">
-					<h3>Ajout experience universitaire</h3>
+					<h3>{% trans %}section.add{% endtrans %} experience universitaire</h3>
 
 					{{ form_start(addExpUniForm) }}
 					{{ form_row(addExpUniForm.titre  ) }}
@@ -99,7 +99,7 @@
 					{{ form_end(addExpUniForm) }}
 				</div>
 				<div class="divForm">
-					<h3>Ajout experience professionnel</h3>
+					<h3>{% trans %}section.add{% endtrans %} experience professionnel</h3>
 
 					{{ form_start(addExpProForm) }}
 					{{ form_row(addExpProForm.poste  ) }}

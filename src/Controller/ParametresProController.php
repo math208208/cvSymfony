@@ -45,7 +45,7 @@ final class ParametresProController extends AbstractController
         return $this->render(
             'parametres/pro/index.html.twig',
             [
-            'messages' => $messages
+                'messages' => $messages
             ]
         );
     }
@@ -69,16 +69,16 @@ final class ParametresProController extends AbstractController
         $oldEmail = $admin->getEmail();
         $professionnel = $professionnelRepository->findOneBy(['email' => $oldEmail]);
 
-        if ($admin) {
-            $admin->setEmail($newEmail);
-            if ($plainPassword) {
-                $admin->setPassword(
-                    $passwordHasher->hashPassword($admin, $plainPassword)
-                );
-            }
 
-            $em->flush();
+        $admin->setEmail($newEmail);
+        if ($plainPassword) {
+            $admin->setPassword(
+                $passwordHasher->hashPassword($admin, $plainPassword)
+            );
         }
+
+        $em->flush();
+
 
         if ($newEmail) {
             $professionnel->setEmail($newEmail);

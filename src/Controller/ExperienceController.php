@@ -108,7 +108,7 @@ final class ExperienceController extends AbstractController
                 ExperienceUni::class,
                 $experienceUni->getId(),
                 'titre',
-                $experienceUni->getTitre() ?? 'Aucune donnée' ,
+                $experienceUni->getTitre() ?? 'Aucune donnée',
                 $_locale
             );
             $translatedSousTitre = $translator->translate(
@@ -140,18 +140,16 @@ final class ExperienceController extends AbstractController
         /** @var \App\Entity\Admin $admin */
         $email = $admin->getEmail();
         $userCo = $userRepository->findOneBy(['email' => $email]);
-
+        $layout = "";
         if ($this->isGranted('ROLE_PRO')) {
             $layout = 'base/pro/index.html.twig';
-        } else if ($this->isGranted('ROLE_USER') || $this->isGranted('ROLE_ADMIN')) {
-           
-            if($slug===$userCo->getSlug()){
+        } elseif ($this->isGranted('ROLE_USER') || $this->isGranted('ROLE_ADMIN')) {
+            if ($slug === $userCo->getSlug()) {
                 $layout = 'base/user/index.html.twig';
-            }else{
+            } else {
                 $layout = 'base/user/explo.html.twig';
             }
-            
-        } 
+        }
 
         return $this->render(
             'experiences/index.html.twig',
@@ -160,7 +158,7 @@ final class ExperienceController extends AbstractController
             'user' => $translatedUser,
             'experiencesPro' => $translatedExperiencesPro,
             'experiencesUni' => $translatedExperiencesUni,
-            'userCo'=>$userCo,
+            'userCo' => $userCo,
             ]
         );
     }

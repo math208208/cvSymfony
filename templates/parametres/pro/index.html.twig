@@ -34,15 +34,15 @@
 		</section>
 
 		<section class="messageEnvoye">
-			<h2>Message envoyé</h2>
+			<h2>{% trans %}section.messageSend{% endtrans %}</h2>
 			{% for message in messages %}
 				<div>
-					<h4>Envoyé à
+					<h4>{% trans %}section.sendAt{% endtrans %}
 						{{ message.receveur }}</h3>
-					<p>Message : {{ message.message }}</p>
+					<p>{% trans %}section.message{% endtrans %} {{ message.message }}</p>
 				</div>
 			{% else %}
-				<p class="no-data">{% trans %}Aucun message{% endtrans %}</p>
+				<p class="no-data">{% trans %}nodata{% endtrans %}</p>
 			{% endfor %}
 		</section>
 	</main>

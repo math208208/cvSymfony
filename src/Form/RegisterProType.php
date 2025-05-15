@@ -40,7 +40,7 @@ class RegisterProType extends AbstractType
                 'label' => 'Mot de passe'
                 ]
             )
-            
+
             ->add(
                 'submit',
                 SubmitType::class,

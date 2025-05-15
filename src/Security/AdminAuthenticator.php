@@ -26,7 +26,8 @@ class AdminAuthenticator extends AbstractLoginFormAuthenticator
     public function __construct(
         private UrlGeneratorInterface $urlGenerator,
         private UserRepository $userRepository
-    ) {}
+    ) {
+    }
 
     public function authenticate(Request $request): Passport
     {
@@ -56,7 +57,6 @@ class AdminAuthenticator extends AbstractLoginFormAuthenticator
 
         if (in_array('ROLE_PRO', $roles, true)) {
             return new RedirectResponse(
-
                 $this->urlGenerator->generate(
                     'app_parametresPro',
                     [

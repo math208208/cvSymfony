@@ -21,7 +21,6 @@ final class BlogController extends AbstractController
     #[Route('/{_locale}', name: 'app_blog')]
     public function show(
         UserRepository $userRepository,
-
         TranslationService $translator,
         PaginatorInterface $paginator,
         Request $request,
@@ -39,7 +38,8 @@ final class BlogController extends AbstractController
 
         if (!empty($searchTerm)) {
             $qb
-                ->andWhere('LOWER(u.nom) LIKE :searchTerm OR LOWER(u.prenom) LIKE :searchTerm OR LOWER(u.profession) LIKE :searchTerm')
+                ->andWhere('LOWER(u.nom) LIKE :searchTerm OR LOWER(u.prenom) 
+                LIKE :searchTerm OR LOWER(u.profession) LIKE :searchTerm')
                 ->setParameter('searchTerm', '%' . strtolower($searchTerm) . '%');
         }
 
@@ -80,7 +80,7 @@ final class BlogController extends AbstractController
 
         if ($this->isGranted('ROLE_PRO')) {
             $layout = 'base/pro/index.html.twig';
-        } else if ($this->isGranted('ROLE_USER') || $this->isGranted('ROLE_ADMIN')) {
+        } elseif ($this->isGranted('ROLE_USER') || $this->isGranted('ROLE_ADMIN')) {
             $admin = $security->getUser();
             /** @var \App\Entity\Admin $admin */
             $email = $admin->getEmail();

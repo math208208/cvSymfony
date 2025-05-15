@@ -10,12 +10,12 @@ class Category
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    private $id;
+    private $id = null ;
 
     #[ORM\Column(type: 'string')]
     private $name;
 
-  
+
 
     public function getId(): ?int
     {

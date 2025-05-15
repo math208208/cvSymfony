@@ -1,14 +1,14 @@
 describe('Smoke Test', () => {
-  const slugs = ['matheo-moiron', 'jean-a'];
+  const slugs = ['matheo-moiron', 'jean-dupont'];
   const urls = [
     '/{slug}',
-    '/{slug}/blog',
     '/{slug}/competences',
     '/{slug}/contact',
     '/{slug}/experiences',
     '/{slug}/profil',
     '/register',
     '/accueil',
+    '/login',
     '/',
   ];
 

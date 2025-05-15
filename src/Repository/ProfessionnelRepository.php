@@ -8,7 +8,7 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Professionel>
+ * @extends ServiceEntityRepository<Professionnel>
  */
 class ProfessionnelRepository extends ServiceEntityRepository
 {
@@ -41,5 +41,4 @@ class ProfessionnelRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
-
 }

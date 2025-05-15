@@ -54,8 +54,8 @@ class RegisterController extends AbstractController
                 $em->flush();
 
                 $adminCreer = $em->getRepository(Admin::class)->findOneBy(['email' => $data['email']]);
+                $user = new User();
                 if ($adminCreer) {
-                    $user = new User();
                     $user->setNom($data['nom']);
                     $user->setPrenom($data['prenom']);
                     $user->setEmail($data['email']);
@@ -71,12 +71,9 @@ class RegisterController extends AbstractController
                     $form->addError(new FormError('Probleme dans la création'));
                 }
 
-
-
-
                 return $this->redirectToRoute('app_profil', ['slug' => $user->getSlug()]);
             }
-        } else if ($formPro->isSubmitted() && $formPro->isValid()) {
+        } elseif ($formPro->isSubmitted() && $formPro->isValid()) {
             $data = $formPro->getData();
 
             $existingPro = $em->getRepository(Professionnel::class)->findOneBy(['email' => $data['email']]);

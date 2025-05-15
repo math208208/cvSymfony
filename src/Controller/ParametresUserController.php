@@ -229,18 +229,17 @@ final class ParametresUserController extends AbstractController
             $poste = $formExpPro->get('poste')->getData();
             $entreprise = $formExpPro->get('entreprise')->getData();
             $description = $formExpPro->get('description')->getData();
-            
+
             $datedebut = $formExpPro->get('dateDebut')->getData();
-            
+
             $datefin = $formExpPro->get('dateFin')->getData(); //si ya
 
             $experiencePro->setPoste($poste);
             $experiencePro->setEntreprise($entreprise);
             $experiencePro->setDescription($description);
             $experiencePro->setDateDebut($datedebut);
-            if($datefin){
+            if ($datefin) {
                 $experiencePro->setDateFin($datefin);
-
             }
             $user = $userRepository->findOneBySlug($slug);
 
@@ -253,7 +252,7 @@ final class ParametresUserController extends AbstractController
 
         //formulaire experienceUni
 
-        $formExpUni= $this->createForm(ExperienceUniType::class);
+        $formExpUni = $this->createForm(ExperienceUniType::class);
         $formExpUni->handleRequest($request);
 
         if ($formExpUni->isSubmitted() && $formExpUni->isValid()) {

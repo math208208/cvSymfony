@@ -28,8 +28,8 @@ final class ProfilController extends AbstractController
         Security $security,
         string $_locale
     ): Response {
-    
-        
+
+
         $this->denyAccessUnlessGranted('VIEW_PROFILE', $slug);
         $user = $userRepository->findOneBySlug($slug);
 
@@ -122,18 +122,16 @@ final class ProfilController extends AbstractController
         /** @var \App\Entity\Admin $admin */
         $email = $admin->getEmail();
         $userCo = $userRepository->findOneBy(['email' => $email]);
+        $layout = "";
         if ($this->isGranted('ROLE_PRO')) {
             $layout = 'base/pro/index.html.twig';
-        } else if ($this->isGranted('ROLE_USER') || $this->isGranted('ROLE_ADMIN')) {
-            
-            
-            if($slug===$userCo->getSlug()){
+        } elseif ($this->isGranted('ROLE_USER') || $this->isGranted('ROLE_ADMIN')) {
+            if ($slug === $userCo->getSlug()) {
                 $layout = 'base/user/index.html.twig';
-            }else{
+            } else {
                 $layout = 'base/user/explo.html.twig';
             }
-            
-        } 
+        }
 
 
         return $this->render(
@@ -143,10 +141,9 @@ final class ProfilController extends AbstractController
             'layout' => $layout,
             'loisirs' => $translatedLoisirs,
             'formations' => $translatedformations,
-            'userCo'=>$userCo,
-            
+            'userCo' => $userCo,
+
             ]
         );
-
     }
 }

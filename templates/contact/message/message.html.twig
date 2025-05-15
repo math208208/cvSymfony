@@ -1,12 +1,12 @@
 {% if messages is defined %}
-	<h2 class="h2Contact">Messages reçu
+	<h2 class="h2Contact">{% trans %}section.messageGet{% endtrans %} 
 	</h2>
 	{% for message in messages %}
 		<div class="divMsg">
-			<h4>Envoyé par : {{ message.expediteur }}</h3>
-			<p>Message : {{ message.message }}</p>
+			<h4>{% trans %}section.sendTo{% endtrans %} {{ message.expediteur }}</h3>
+			<p>{% trans %}section.message{% endtrans %} {{ message.message }}</p>
 		</div>
 	{% else %}
-		<p class="no-data">{% trans %}Aucun message{% endtrans %}</p>
+		<p class="no-data">{% trans %}nodate{% endtrans %}</p>
 	{% endfor %}
 {% endif %}

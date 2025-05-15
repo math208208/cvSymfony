@@ -10,7 +10,7 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Professionel>
+ * @extends ServiceEntityRepository<Message>
  */
 class MessageRepository extends ServiceEntityRepository
 {
@@ -61,5 +61,4 @@ class MessageRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
-
 }

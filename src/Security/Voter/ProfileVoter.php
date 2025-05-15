@@ -35,7 +35,7 @@ final class ProfileVoter extends Voter
 
         $user = $this->userRepository->findOneBy(['email' => $email]);
 
-        
+
         if (!$user) {
             throw new \LogicException("Aucun utilisateur trouvé avec l'email : $email");
         }

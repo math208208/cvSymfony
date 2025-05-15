@@ -24,7 +24,7 @@ class Professionnel
 
     #[ORM\Column(type: "string", length: 255)]
     private string $entreprise;
-    
+
     #[ORM\Column(type: "string", length: 255, nullable: false, unique: true)]
     private ?string $email = null;
 

@@ -157,6 +157,20 @@ header {
                     display: none;
                 }
             }
+            .actionB{
+                margin: 0;
+                width: 15%;
+                height: 10%;
+                margin-left: 5px;
+
+                .imgAction {
+                    height: auto;
+                    width: 70%;
+                }
+                @include small {
+                    display: none;
+                }
+            }
         }
 
         .menu-ouvert {

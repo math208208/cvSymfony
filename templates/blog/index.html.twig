@@ -5,10 +5,10 @@
 
 {% block body %}
 	<main class="container">
-		<h2 class="section-title">Profil</h2>
+		<h2 class="section-title">{% trans %}header.home{% endtrans %}</h2>
 		<form method="get" action="{{ path('app_blog') }}" class="search-form">
 			<input type="text" name="q" placeholder="Rechercher par nom, prénom ou métier" value="{{ app.request.get('q') }}">
-			<button type="submit">Rechercher</button>
+			<button type="submit">{% trans %}find{% endtrans %}</button>
 		</form>
 		<section class="sectionExplo1">
 
@@ -24,14 +24,14 @@
 					<p class="professionUserProfil">{{ translatedUser.translated_profession|raw}}</p>
 					<p class="descriptionUserProfil">{{ translatedUser.translated_description|raw}}</p>
 					<div class="lienRedirect">
-						<a href="{{ path('app_profil', {slug: translatedUser.user.slug}) }}"> 📄 Profil</a>
-						<a href="{{ path('app_competences', {slug: translatedUser.user.slug}) }}">🛠️ Competences</a>
-						<a href="{{ path('app_experience', {slug: translatedUser.user.slug}) }}">🧰 Expériences</a>
-						<a href="{{ path('app_contact', {slug: translatedUser.user.slug}) }}">✉️ Contact</a>
+						<a href="{{ path('app_profil', {slug: translatedUser.user.slug}) }}"> 📄 {% trans %}header.home{% endtrans %}</a>
+						<a href="{{ path('app_competences', {slug: translatedUser.user.slug}) }}">🛠️ {% trans %}header.skills{% endtrans %}</a>
+						<a href="{{ path('app_experience', {slug: translatedUser.user.slug}) }}">🧰 {% trans %}header.experiences{% endtrans %}</a>
+						<a href="{{ path('app_contact', {slug: translatedUser.user.slug}) }}">✉️ {% trans %}contact{% endtrans %}</a>
 					</div>
 				</div>
 			{% else %}
-				<p class="no-data">Aucune donnée trouvée.</p>
+				<p class="no-data">{% trans %}nodata{% endtrans %}</p>
 			{% endfor %}
 
 

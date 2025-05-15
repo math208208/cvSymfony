@@ -8,9 +8,9 @@
 		<h1 class="h1main">Créer un compte</h1>
 		<div>
 			<input type="radio" id="option1" name="choice" value="1" checked="true" >
-			<label for="option1">Profil utilisateur</label>
+			<label for="option1">{% trans %}header.home{% endtrans %} {% trans %}section.user{% endtrans %}</label>
 			<input type="radio" id="option2" name="choice" value="2">
-			<label for="option2">Profil professionnel</label>
+			<label for="option2">{% trans %}header.home{% endtrans %} {% trans %}section.pro{% endtrans %}</label>
 		</div>
 		<div id="divOption1">
 			{{ form_start(registerForm) }}
@@ -27,7 +27,7 @@
 			{% endfor %}
 			{{ form_row(registerForm.submit  , {'attr': {'class': 'buttonMain'}}) }}
 			{{ form_end(registerForm) }}
-			<a href="{{ path('app_login') }}" class="formA">Connexion</a>
+			<a href="{{ path('app_login') }}" class="formA">{% trans %}header.login{% endtrans %}</a>
 		</div>
 		<div id="divOption2">
 			{{ form_start(registerProForm) }}
@@ -44,7 +44,7 @@
 			{% endfor %}
 			{{ form_row(registerProForm.submit  , {'attr': {'class': 'buttonMain'}}) }}
 			{{ form_end(registerProForm) }}
-			<a href="{{ path('app_login') }}" class="formA">Connexion</a>
+			<a href="{{ path('app_login') }}" class="formA">{% trans %}header.login{% endtrans %}</a>
 		</div>
 	</main>
 {% endblock %}

@@ -27,10 +27,10 @@
 
 				</div>
 				<div class="navDiva">
-					<a id="navExplorer" class="butNav" href="{{ path('app_blog') }}">Explorer</a>
-					<a id="navContact" class="butNav" href="{{ path('app_profil', {slug: userCo.slug}) }}">Mon CV</a>
-					<a href="{{ path('app_parametres', {slug: userCo.slug}) }}" class="actionA"><img class="imgAction" src={{ asset('build/images/menu/profil.png') }} alt="imgProfil"/></a>
-					<a href="{{ path('app_logout') }}" class="actionA"><img class="imgAction" src={{ asset('build/images/menu/exit.png') }} alt="imgExit"/></a>
+					<a id="navExplorer" class="butNav" href="{{ path('app_blog') }}">{% trans %}header.explorer{% endtrans %}</a>
+					<a id="navContact" class="butNav" href="{{ path('app_profil', {slug: userCo.slug}) }}">{% trans %}header.myCv{% endtrans %}</a>
+					<a href="{{ path('app_parametres', {slug: userCo.slug}) }}" class="actionB"><img class="imgAction" src={{ asset('build/images/menu/profil.png') }} alt="imgProfil"/></a>
+					<a href="{{ path('app_logout') }}" class="actionB"><img class="imgAction" src={{ asset('build/images/menu/exit.png') }} alt="imgExit"/></a>
 
 				</div>
 			</nav>

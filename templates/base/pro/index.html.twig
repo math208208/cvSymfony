@@ -25,9 +25,9 @@
 				</div>
 
 				<div class="navDiva">
-					<a id="navExplorer" class="butNav" href="{{ path('app_blog') }}">Explorer</a>
-					<a href="{{ path('app_parametresPro') }}" class="actionA"><img class="imgAction" src={{ asset('build/images/menu/profil.png') }} alt="imgProfil"/></a>
-					<a href="{{ path('app_logout') }}" class="actionA"><img class="imgAction" src={{ asset('build/images/menu/exit.png') }} alt="imgExit"/></a>
+					<a id="navExplorer" class="butNav" href="{{ path('app_blog') }}">{% trans %}header.explorer{% endtrans %}</a>
+					<a href="{{ path('app_parametresPro') }}" class="actionB"><img class="imgAction" src={{ asset('build/images/menu/profil.png') }} alt="imgProfil"/></a>
+					<a href="{{ path('app_logout') }}" class="actionB"><img class="imgAction" src={{ asset('build/images/menu/exit.png') }} alt="imgExit"/></a>
 
 				</div>
 			</nav>

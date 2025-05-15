@@ -2,6 +2,9 @@ header :
   home : "Profil"
   skills : "Compétences"
   experiences : "Experiences"
+  explorer : "Explorer"
+  myCv : "Mon CV"
+  login : "Connexion"
 
 button :
   aboutMe : "A propos"
@@ -9,10 +12,15 @@ button :
 
 section :
   training : "Formations"
+  train : "formation"
   hobbies : "Loisirs"
+  hobbie : "loisir"
   programming : "Langages de programmation"
   tools : "Outils"
+  tool : "d'outil"
+  skill : "compétence"
   languages : "Langues"
+  language : "langue"
   proExperience : "Expériences professionnelles"
   acaExperience : "Expériences universitaire"
   settings : "Paramètres"
@@ -20,10 +28,17 @@ section :
   newEmail : "Nouvel email :"
   changeCv : "Modification CV"
   profilPrv : "Profil privé"
-
+  sendAt: "Envoyer un message à"
+  sendTo : "Envoyé par :"
+  message : "Message :"
+  messageGet : "Messages reçu"
+  messageSend : "Message envoyé"
+  add : "Ajout"
+  user : "utilisateur"
+  pro : "professionnel"
 
 contact : "Contact"
 nodata : "Aucune données"
-
+find : "Rechercher"
 
 
