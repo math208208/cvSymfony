@@ -35,6 +35,7 @@ app_profil:
   requirements:
     _locale: fr|en|es
     slug: (?!favicon\.ico).+
+    
 
 redirect_to_locale:
   path: /{slug}

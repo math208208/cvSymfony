@@ -1,8 +1,50 @@
 {% extends "base/pro/index.html.twig" %}
 
-{% block title %}profil
+{% block title %}Parametres profil
 {% endblock %}
 
 {% block body %}
-	
+
+	<main>
+		<section class="sectionParametre">
+			<h2 class="h2Parametre">{% trans %}section.settings{% endtrans %}</h2>
+
+			<form method="POST" action="{{ path('app_update_parametresPro') }}">
+				<div class="divChange">
+					<div class="divmail">
+						<label for="email">{% trans %}section.newEmail{% endtrans %}</label>
+						<input type="email" id="email" name="email" autofocus>
+					</div>
+					<div class="divMdp">
+						<label for="password">{% trans %}section.newPw{% endtrans %}</label>
+						<input type="password" id="password" name="plainPassword">
+					</div>
+					<div class="divMetier">
+						<label for="metier">Metier</label>
+						<input type="string" id="metier" name="metier">
+					</div>
+					<div class="divEntreprise">
+						<label for="entreprise">Entreprise</label>
+						<input type="string" id="entreprise" name="entreprise">
+					</div>
+					<button type="submit">{% trans %}button.change{% endtrans %}</button>
+				</div>
+
+			</form>
+		</section>
+
+		<section class="messageEnvoye">
+			<h2>Message envoyé</h2>
+			{% for message in messages %}
+				<div>
+					<h4>Envoyé à
+						{{ message.receveur }}</h3>
+					<p>Message : {{ message.message }}</p>
+				</div>
+			{% else %}
+				<p class="no-data">{% trans %}Aucun message{% endtrans %}</p>
+			{% endfor %}
+		</section>
+	</main>
+
 {% endblock %}

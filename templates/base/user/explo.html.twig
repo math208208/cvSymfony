@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="fr">
+	<head>
+		<meta charset="utf-8"/>
+		<title>CV -
+			{% block title %}{% endblock %}
+		</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1"/>
+		<link rel="icon" type="image/png" href={{ asset('build/images/logo.png') }}>
+		{% block stylesheets %}
+			{{ encore_entry_link_tags('app') }}
+		{% endblock %}
+
+	</head>
+
+	<body>
+
+		<!-- En-tête -->
+		<header>
+			<nav>
+				<div class="navMenu">
+					<a href="{{ path('app_profil', {slug: user.user.slug}) }}"><img id="logo" alt="imgLogo" src={{ asset('build/images/logo.png') }} class="imgLogo"/></a>
+					<a href="{{ path('app_parametres', {slug: user.user.slug}) }}" class="actionAmob"><img class="imgActionmob" src={{ asset('build/images/menu/profil.png') }} alt="imgProfil"/></a>
+					<a href="{{ path('app_logout') }}" class="actionAmob"><img class="imgActionmob" src={{ asset('build/images/menu/exit.png') }} alt="imgExit"/></a>
+					<img id="idmenu" alt="imgmenu" src={{ asset('build/images/menu/menu.png') }} class="imgMenu"/>
+					
+
+				</div>
+				<div class="navDiva">
+					<a id="navExplorer" class="butNav" href="{{ path('app_blog') }}">Explorer</a>
+					<a id="navContact" class="butNav" href="{{ path('app_profil', {slug: userCo.slug}) }}">Mon CV</a>
+					<a href="{{ path('app_parametres', {slug: userCo.slug}) }}" class="actionA"><img class="imgAction" src={{ asset('build/images/menu/profil.png') }} alt="imgProfil"/></a>
+					<a href="{{ path('app_logout') }}" class="actionA"><img class="imgAction" src={{ asset('build/images/menu/exit.png') }} alt="imgExit"/></a>
+
+				</div>
+			</nav>
+		</header>
+
+		{% block body %}{% endblock %}
+
+		<footer>
+			<a href="contact.html">{% trans %}contact{% endtrans %}</a>
+		</footer>
+	</body>
+	{% block javascripts %}
+		{{ encore_entry_script_tags('app') }}
+	{% endblock %}
+</html>

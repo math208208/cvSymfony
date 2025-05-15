@@ -27,7 +27,7 @@
 
 				</div>
 				<div class="navDiva">
-
+					<a id="navExplorer" class="butNav" href="{{ path('app_blog') }}">Explorer</a>
 					<a id="navAccueil" class="butNav" href="{{ path('app_profil', {slug: user.user.slug}) }}">{% trans %}header.home{% endtrans %}</a>
 					<a id="navCompetences" class="butNav" href="{{ path('app_competences', {slug: user.user.slug}) }}">{% trans %}header.skills{% endtrans %}</a>
 					<a id="navExperiences" class="butNav" href="{{ path('app_experience', {slug: user.user.slug}) }}">{% trans %}header.experiences{% endtrans %}</a>

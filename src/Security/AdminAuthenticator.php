@@ -59,6 +59,9 @@ class AdminAuthenticator extends AbstractLoginFormAuthenticator
 
                 $this->urlGenerator->generate(
                     'app_parametresPro',
+                    [
+                        '_locale' => 'fr'
+                    ]
                 )
             );
         } else {

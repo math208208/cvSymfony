@@ -1,9 +1,12 @@
 @use "variables" as *;
 
 .sectionContact {
-    padding: 70px;
+    padding: 30px  70px  30px  70px;
+
     .h2Contact {
         padding-bottom: 30px;
+        text-align: center;
+
     }
     .contactImg{
         width: 3%;
@@ -13,4 +16,54 @@
             height: auto;
         }
     }
+
+    .divMsg{
+        border: solid 1px black;
+        border-radius: 20px;
+        padding: 20px;
+        background: $color-primaire;
+        h4{
+            margin-bottom: 5px;
+        }
+
+    }
+
+   
+
+    form {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+
+        div {
+            margin: 7px 0px;
+            display: flex;
+            flex-direction: row;
+            margin-bottom: 25px;
+            align-self: center;
+            label {
+                margin-right: 10px;
+            }
+            button {
+                background: radial-gradient(circle, rgba(252, 222, 121, 1) 36%, rgba(250, 174, 162, 1) 100%);
+                padding: 15px;
+                border-radius: 30px;
+                text-transform: uppercase;
+                transition: 0.5s;
+                background-size: 200% auto;
+                display: block;
+    
+                &:hover {
+                    background-position: right center; /* change the direction of the change here */
+                    text-decoration: none;
+                    cursor: pointer;
+                }
+            }
+        }
+        .cke {
+            padding: 0px 20px;
+            border: none;
+        }
+    }
+    
 }

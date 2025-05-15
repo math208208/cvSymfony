@@ -61,17 +61,23 @@ class SlugCheckerListener
                 $event->setResponse($response);
                 return;
             }
-        } else if ($user && $user->getSlug() !== $slug) {
-            $response = new RedirectResponse(
-                $this->urlGenerator->generate(
-                    'app_profil',
-                    [
-                        'slug' => $user->getSlug()
-                    ]
-                )
-            );
-            $event->setResponse($response);
-            return;
+        } else if (in_array('ROLE_USER', $admin->getRoles(), true)) {
+            $userBySlug = $this->userRepository->findOneBySlug($slug);
+            /** @var \App\Entity\Admin $admin */
+            $email = $admin->getEmail();
+            if($userBySlug->getEmail()===$email){
+                return;
+            }else if(!$userBySlug->isPrivate()){
+                return;
+            } else {
+                $response = new RedirectResponse(
+                    $this->urlGenerator->generate(
+                        'app_blog',
+                    )
+                );
+                $event->setResponse($response);
+                return;
+            }
         }
     }
 }

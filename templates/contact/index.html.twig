@@ -16,11 +16,13 @@
 					<a href="{{user.user.linkdin}}" target="_blank"><img class="contactImg" src={{ asset('build/images/linkedin.webp') }} alt="imgLinkdin"/></a>
 				</li>
 				<li>
-					<a href="{{user.user.github}}" target="_blank"><img class="contactImg"  src={{ asset('build/images/github.png') }} alt="imgGithub"/></a>
+					<a href="{{user.user.github}}" target="_blank"><img class="contactImg" src={{ asset('build/images/github.png') }} alt="imgGithub"/></a>
 				</li>
 			</ul>
 		</section>
 
-		<section></section>
+		<section class="sectionContact">
+			{% include view %}
+		</section>
 	</main>
 {% endblock %}

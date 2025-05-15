@@ -1,0 +1,12 @@
+{% if messages is defined %}
+	<h2 class="h2Contact">Messages reçu
+	</h2>
+	{% for message in messages %}
+		<div class="divMsg">
+			<h4>Envoyé par : {{ message.expediteur }}</h3>
+			<p>Message : {{ message.message }}</p>
+		</div>
+	{% else %}
+		<p class="no-data">{% trans %}Aucun message{% endtrans %}</p>
+	{% endfor %}
+{% endif %}

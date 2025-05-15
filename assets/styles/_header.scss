@@ -33,7 +33,20 @@ header {
                 padding-top: 10px;
                 padding-left: 50px;
                 @include small {
-                    height: 70%;
+                    height: auto;
+                    width: 40%;
+                    padding-left: 10px;
+                }
+            }
+
+            .imgLogoAccueil{
+                height: auto;
+                width: 35%;
+                padding-top: 10px;
+                padding-left: 50px;
+                @include small {
+                    height: auto;
+                    width: 13%;
                     padding-left: 10px;
                 }
             }

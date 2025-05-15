@@ -13,6 +13,7 @@ use Symfony\Component\Routing\Attribute\Route;
 use App\Repository\UserRepository;
 use App\Service\TranslationService;
 use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 
 final class BlogController extends AbstractController
@@ -20,17 +21,21 @@ final class BlogController extends AbstractController
     #[Route('/{_locale}', name: 'app_blog')]
     public function show(
         UserRepository $userRepository,
-        ExperienceProRepository $repoExpPro,
-        ExperienceUniRepository $repoExpUni,
+
         TranslationService $translator,
         PaginatorInterface $paginator,
         Request $request,
+        Security $security,
         string $_locale
     ): Response {
         $searchTerm = $request->query->get('q', '');
 
         $qb = $userRepository->createQueryBuilder('u')
-            ->where('u.isPrivate = false');
+            ->where('u.isPrivate = false')
+            ->andWhere('u.description IS NOT NULL')
+            ->andWhere('u.profession IS NOT NULL');
+
+
 
         if (!empty($searchTerm)) {
             $qb
@@ -43,6 +48,7 @@ final class BlogController extends AbstractController
             $request->query->getInt('page', 1),
             8
         );
+
 
         $translatedUsers = [];
 
@@ -72,14 +78,38 @@ final class BlogController extends AbstractController
             }
         }
 
-        $layout = $this->isGranted('ROLE_PRO')
-            ? 'base/pro/index.html.twig'
-            : 'base/accueil/index.html.twig';
+        if ($this->isGranted('ROLE_PRO')) {
+            $layout = 'base/pro/index.html.twig';
+        } else if ($this->isGranted('ROLE_USER') || $this->isGranted('ROLE_ADMIN')) {
+            $admin = $security->getUser();
+            /** @var \App\Entity\Admin $admin */
+            $email = $admin->getEmail();
+            $userSlug = $userRepository->findOneBy(['email' => $email]);
+
+
+            $userTab = [
+                'user' => $userSlug,
+
+            ];
+            $layout = 'base/user/index.html.twig';
+            return $this->render('blog/index.html.twig', [
+                'translatedUsers' => $translatedUsers,
+                'pagination' => $pagination,
+                'layout' => $layout,
+                'user' => $userTab
+
+            ]);
+        } else {
+            $layout = 'base/accueil/index.html.twig';
+        }
+
+
 
         return $this->render('blog/index.html.twig', [
             'translatedUsers' => $translatedUsers,
             'pagination' => $pagination,
-            'layout' => $layout,
+            'layout' => $layout
+
         ]);
     }
 }

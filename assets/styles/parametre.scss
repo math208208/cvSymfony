@@ -1,0 +1,166 @@
+@use "variables" as *;
+
+.sectionParametre {
+    padding: 100px;
+    text-align: center;
+
+    @include small {
+        padding: 30px;
+    }
+    .h2Parametre {
+        margin-bottom: 30px;
+        font-size: 2.3em;
+    }
+    .divChange {
+        display: flex;
+        flex-direction: column;
+
+        @include small {
+            flex-direction: column;
+            text-align: center;
+        }
+        div {
+            margin-bottom: 30px;
+
+            @include small {
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                margin-left: auto;
+                margin-right: auto;
+            }
+            label {
+                font-size: 1.2em;
+                margin-right: 20px;
+                @include small {
+                    margin-bottom: 10px;
+                }
+            }
+        }
+        .divProfilEtat {
+            display: flex;
+            flex-direction: row;
+            margin-left: auto;
+            margin-right: auto;
+            @include small {
+                text-align: center;
+                margin: auto;
+                margin-bottom: 30px;
+            }
+            h3 {
+                margin-right: 15px;
+            }
+        }
+
+        button {
+            background: radial-gradient(circle, rgba(252, 222, 121, 1) 36%, rgba(250, 174, 162, 1) 100%);
+            padding: 15px;
+            border-radius: 30px;
+            width: 30%;
+            text-transform: uppercase;
+            transition: 0.5s;
+            background-size: 200% auto;
+            display: block;
+            margin: 0px auto;
+
+            &:hover {
+                background-position: right center; /* change the direction of the change here */
+                text-decoration: none;
+                cursor: pointer;
+            }
+        }
+    }
+}
+
+.sectionModifCV {
+    text-align: center;
+    padding: 30px 100px;
+    @include small {
+        text-align: center;
+        padding: 30px;
+    }
+    .h2Parametre {
+        font-size: 2.3em;
+        margin-bottom: 30px;
+    }
+    a {
+        margin-bottom: 30px;
+    }
+    .gridForm {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 50px;
+        @include small {
+            display: flex;
+            flex-direction: column;
+            gap: 0px;
+        }
+        &2 {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 50px;
+            @include small {
+                display: flex;
+                flex-direction: column;
+                gap: 0px;
+            }
+        }
+    }
+
+    .divForm {
+        background: radial-gradient(circle, rgba(252, 222, 121, 1) 36%, rgba(250, 174, 162, 1) 100%);
+        margin-top: 30px;
+        border-radius: 30px;
+        border: 2px solid rgb(9, 9, 9);
+        padding-bottom: 15px;
+        h3 {
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            div {
+                margin: 7px 0px;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-around;
+                label {
+                    margin-bottom: 5px;
+                }
+                select,
+                input,
+                button {
+                    width: fit-content;
+                    align-self: center;
+                }
+            }
+            .cke {
+                padding: 0px 20px;
+                border: none;
+            }
+        }
+    }
+
+    
+}
+
+.messageEnvoye {
+    padding: 0px 100px 100px 100px;
+    h2{
+        margin-bottom: 30px;
+        font-size: 2.3em; 
+        text-align: center;
+    }
+    div {
+        border: solid 1px black;
+        border-radius: 20px;
+        padding: 20px;
+        background: $color-primaire;
+        h4 {
+            margin-bottom: 5px;
+        }
+    }
+}

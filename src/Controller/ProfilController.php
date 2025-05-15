@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use App\Repository\UserRepository;
 use App\Service\TranslationService;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 
 final class ProfilController extends AbstractController
@@ -24,6 +25,7 @@ final class ProfilController extends AbstractController
         LoisirRepository $repoloisirs,
         TranslationService $translator,
         Request $request,
+        Security $security,
         string $_locale
     ): Response {
     
@@ -115,9 +117,23 @@ final class ProfilController extends AbstractController
                 'translated_nom' => $translatedName
             ];
         }
-        $layout = $this->isGranted('ROLE_PRO')
-        ? 'base/pro/index.html.twig'
-        : 'base/user/index.html.twig';
+
+        $admin = $security->getUser();
+        /** @var \App\Entity\Admin $admin */
+        $email = $admin->getEmail();
+        $userCo = $userRepository->findOneBy(['email' => $email]);
+        if ($this->isGranted('ROLE_PRO')) {
+            $layout = 'base/pro/index.html.twig';
+        } else if ($this->isGranted('ROLE_USER') || $this->isGranted('ROLE_ADMIN')) {
+            
+            
+            if($slug===$userCo->getSlug()){
+                $layout = 'base/user/index.html.twig';
+            }else{
+                $layout = 'base/user/explo.html.twig';
+            }
+            
+        } 
 
 
         return $this->render(
@@ -127,6 +143,7 @@ final class ProfilController extends AbstractController
             'layout' => $layout,
             'loisirs' => $translatedLoisirs,
             'formations' => $translatedformations,
+            'userCo'=>$userCo,
             
             ]
         );

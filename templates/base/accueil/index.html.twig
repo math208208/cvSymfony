@@ -19,7 +19,8 @@
 			<nav>
 				<!--Ajouter plus de truc dans le menu genre exemple de cv conseil etc etc-->
 				<div class="navMenu">
-					<a><img id="logo" alt="imgLogo" src={{ asset('build/images/logo.png') }} class="imgLogo"/></a>
+					<a href="{{ path('app_blog') }}"><img id="logo" alt="imgLogo" src={{ asset('build/images/logo.png') }} class="imgLogoAccueil"/></a>
+					<img id="idmenu" alt="imgmenu" src={{ asset('build/images/menu/menu.png') }} class="imgMenu"/>
 				</div>
 				<div class="navDiva">
 					<a id="navExplorer" class="butNav" href="{{ path('app_blog') }}">Explorer</a>
@@ -33,6 +34,9 @@
 
 
 		{% block body %}{% endblock %}
+
+		<footer>
+		</footer>
 	</body>
 	{% block javascripts %}
 		{{ encore_entry_script_tags('app') }}

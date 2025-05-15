@@ -1,0 +1,8 @@
+<h2 class="h2Contact">Envoyer un message à
+	{{user.user.nom}}
+	{{user.user.prenom}}</h2>
+
+{{ form_start(formContact) }}
+{{ form_row(formContact.message  ) }}
+{{ form_row(formContact.submitContact  ) }}
+{{ form_end(formContact) }}

@@ -29,8 +29,8 @@ class ProfessionnelCrudController extends AbstractCrudController
         $test = Action::new('test')
             ->setLabel('Detail')
             ->linkToUrl(
-                function (Professionnel $professionel) {
-                    return 'http://localhost:8001/admin/professionel/' . $professionel->getId();
+                function (Professionnel $professionnel) {
+                    return 'http://localhost:8001/admin/professionnel/' . $professionnel->getId();
                 }
             );
 

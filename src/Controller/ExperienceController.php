@@ -14,6 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use App\Repository\UserRepository;
 use App\Service\TranslationService;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 
 final class ExperienceController extends AbstractController
@@ -26,6 +27,7 @@ final class ExperienceController extends AbstractController
         ExperienceUniRepository $repoExpUni,
         TranslationService $translator,
         string $_locale,
+        Security $security,
         Request $request
     ): Response {
         $this->denyAccessUnlessGranted('VIEW_PROFILE', $slug);
@@ -134,10 +136,22 @@ final class ExperienceController extends AbstractController
         }
 
 
+        $admin = $security->getUser();
+        /** @var \App\Entity\Admin $admin */
+        $email = $admin->getEmail();
+        $userCo = $userRepository->findOneBy(['email' => $email]);
 
-        $layout = $this->isGranted('ROLE_PRO')
-        ? 'base/pro/index.html.twig'
-        : 'base/user/index.html.twig';
+        if ($this->isGranted('ROLE_PRO')) {
+            $layout = 'base/pro/index.html.twig';
+        } else if ($this->isGranted('ROLE_USER') || $this->isGranted('ROLE_ADMIN')) {
+           
+            if($slug===$userCo->getSlug()){
+                $layout = 'base/user/index.html.twig';
+            }else{
+                $layout = 'base/user/explo.html.twig';
+            }
+            
+        } 
 
         return $this->render(
             'experiences/index.html.twig',
@@ -146,6 +160,7 @@ final class ExperienceController extends AbstractController
             'user' => $translatedUser,
             'experiencesPro' => $translatedExperiencesPro,
             'experiencesUni' => $translatedExperiencesUni,
+            'userCo'=>$userCo,
             ]
         );
     }

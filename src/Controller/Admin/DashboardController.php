@@ -51,7 +51,7 @@ class DashboardController extends AbstractDashboardController
             yield MenuItem::linkToCrud('Professionnel', 'fa fa-user', \App\Entity\Professionnel::class);
         }
 
-        yield MenuItem::section('Accueil');
+        yield MenuItem::section('Profil');
         yield MenuItem::linkToCrud('Formation', 'fa fa-graduation-cap', \App\Entity\Formation::class);
         yield MenuItem::linkToCrud('Loisirs', 'fa fa-heart', \App\Entity\Loisir::class);
 
@@ -64,8 +64,13 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Outils', 'fa fa-wrench', \App\Entity\Outil::class);
         yield MenuItem::linkToCrud('Langues', 'fa fa-language', \App\Entity\Langage::class);
 
-        yield MenuItem::section('Traductions');
+        
+        if (in_array('ROLE_ADMIN', $admin->getRoles(), true)) {
+            yield MenuItem::section('Contact');
+            yield MenuItem::linkToCrud('Message', 'fa fa-envelope', \App\Entity\Message::class);
+        }
 
+        yield MenuItem::section('Traductions');
         yield MenuItem::linkToCrud('Trad Personne', 'fas fa-language', Translation::class)
             ->setController(UserTranslationCrudController::class);
 
