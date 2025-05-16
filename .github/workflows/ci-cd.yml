@@ -51,3 +51,18 @@ jobs:
 
       - name: Run PHPStan (level 5)
         run: ~/.composer/vendor/bin/phpstan analyse src --level=5
+
+
+  docker-build:
+    needs: build-and-test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Build Docker image
+        run: docker build -t symfony-app .
+
+      - name: List Docker images
+        run: docker images
