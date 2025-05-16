@@ -38,8 +38,7 @@ final class BlogController extends AbstractController
 
         if (!empty($searchTerm)) {
             $qb
-                ->andWhere('LOWER(u.nom) LIKE :searchTerm OR LOWER(u.prenom) 
-                LIKE :searchTerm OR LOWER(u.profession) LIKE :searchTerm')
+                ->andWhere('LOWER(u.nom) LIKE :searchTerm OR LOWER(u.prenom) LIKE :searchTerm OR LOWER(u.profession) LIKE :searchTerm')
                 ->setParameter('searchTerm', '%' . strtolower($searchTerm) . '%');
         }
 
