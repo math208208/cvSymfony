@@ -43,6 +43,9 @@ jobs:
       - name: Install PHP CodeSniffer
         run: composer global require "squizlabs/php_codesniffer=*"
       
+      - name: Run PHP codeSniffer corrige
+        run: ~/.composer/vendor/bin/phpcbf --standard=PSR12 src
+      
       - name: Run PHP CodeSniffer
         run: ~/.composer/vendor/bin/phpcs --standard=PSR12 src
 
