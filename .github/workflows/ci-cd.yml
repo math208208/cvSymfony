@@ -1,4 +1,4 @@
-name: Symfony CI
+name: Symfony CI CD
 
 on:
   push:
@@ -54,9 +54,8 @@ jobs:
 
 
   docker-build:
-    needs: build-and-test
+    needs: test
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
