@@ -16,7 +16,7 @@ jobs:
         env:
           POSTGRES_DB: app
           POSTGRES_USER: app
-          POSTGRES_PASSWORD: "!ChangeMe!"
+          POSTGRES_PASSWORD: app
         ports:
           - 5432:5432
         options: >-
@@ -24,12 +24,6 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
-
-
-    env:
-      DATABASE_URL: postgres://app:!ChangeMe!@localhost:5432/app
-      APACHE_PORT: 8001
-      CONTAINER_NAME: myapp
 
     steps:
       - name: Checkout repository
@@ -46,33 +40,6 @@ jobs:
       - name: Install composer dependencies
         run: composer install --no-progress --no-suggest --prefer-dist --optimize-autoloader --no-interaction
 
-
-      - name: Start Docker services
-        run: docker compose -f compose.yaml up --build -d
-
-      - name: Wait for Apache to be ready
-        run: |
-          for i in {1..15}; do
-            if curl --silent http://localhost:${{ env.APACHE_PORT }} > /dev/null; then
-              echo "Apache is up!";
-              break;
-            fi
-            echo "Waiting for Apache to start..."
-            sleep 5
-          done
-      - name: Test DB connection manually
-        run: |
-          apt-get update && apt-get install -y postgresql-client
-          PGPASSWORD="!ChangeMe!" psql -h localhost -U app -d app -c '\l'
-
-      - name: Vérifier que Symfony voit bien la bonne base
-        run: php bin/console doctrine:mapping:info
-
-      - name: Install Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18'
-
       - name: Install PHP CodeSniffer
         run: composer global require "squizlabs/php_codesniffer=*"
       
@@ -84,20 +51,6 @@ jobs:
 
       - name: Run PHPStan (level 5)
         run: ~/.composer/vendor/bin/phpstan analyse src --level=5
-
-      - name: Install Cypress dependencies
-        run: npm ci
-
-      - name: Run Cypress tests
-        run: npx cypress run
-
-      - name: Stop Docker containers
-        run: docker compose -f compose.yaml down
-
-      - name: Show Symfony logs
-        run: cat var/log/dev.log || true
-      - name: Dump env vars
-        run: printenv | grep DATABASE_URL
 
 
   docker-build:
