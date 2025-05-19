@@ -79,9 +79,6 @@ jobs:
       - name: Run Cypress tests
         run: npx cypress run
 
-      - name: Display Symfony logs
-        run: docker compose logs php
-
       - name: Stop Docker containers
         run: docker compose -f compose.yaml down
 
