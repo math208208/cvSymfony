@@ -41,8 +41,9 @@ jobs:
         run: composer install --no-progress --no-suggest --prefer-dist --optimize-autoloader --no-interaction
 
 
-      - name: Start PHP server in background
-        run: php -S localhost:8001 -t public &
+      - name: Start Docker services
+        run: docker-compose -f compose.yaml up --build -d
+
       
       - name: Wait for server to be ready
         run: |
@@ -77,6 +78,9 @@ jobs:
 
       - name: Run Cypress tests
         run: npx cypress run
+
+      - name: Stop Docker containers
+        run: docker-compose -f compose.yaml down
 
 
   docker-build:
