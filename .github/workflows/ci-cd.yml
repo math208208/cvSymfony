@@ -16,7 +16,7 @@ jobs:
         env:
           POSTGRES_DB: app
           POSTGRES_USER: app
-          POSTGRES_PASSWORD: !ChangeMe!
+          POSTGRES_PASSWORD: "!ChangeMe!"
         ports:
           - 8081:8081
         options: >-
