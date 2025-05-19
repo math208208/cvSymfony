@@ -8,7 +8,6 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-
 #[AsCommand(
     name: 'app:refresh-user-plate',
     description: 'Recréé la table user_plate en agrégant les données utilisateurs.',
@@ -44,7 +43,8 @@ class RefreshUserPlateCommand extends Command
                 u.slug,
                 u.is_private,
                 COALESCE(string_agg(DISTINCT f.intitule, ' '), '') AS formations,
-                COALESCE(string_agg(DISTINCT ep.poste || ' ' || ep.entreprise || ' ' || ep.description, ' '), '') AS experiences_pro,
+                COALESCE(string_agg(DISTINCT ep.poste || ' ' || ep.entreprise || ' ' || ep.description, ' '), '') 
+                AS experiences_pro,
                 COALESCE(string_agg(DISTINCT eu.titre || ' ' || eu.description, ' '), '') AS experiences_uni,
                 COALESCE(string_agg(DISTINCT l.nom_langue, ' '), '') AS langages,
                 COALESCE(string_agg(DISTINCT o.nom, ' '), '') AS outils,

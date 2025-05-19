@@ -39,6 +39,5 @@ class ProductFixtures extends Fixture
 
         // $manager->flush();
         // $manager->clear();
-
     }
 }

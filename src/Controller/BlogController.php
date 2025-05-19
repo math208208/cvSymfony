@@ -56,7 +56,7 @@ final class BlogController extends AbstractController
         //         ->andWhere('LOWER(u.nom) LIKE :searchTerm
         //                 OR LOWER(u.prenom) LIKE :searchTerm
         //                 OR LOWER(u.profession) LIKE :searchTerm
-        //                 OR LOWER(c.nom) LIKE :searchTerm               
+        //                 OR LOWER(c.nom) LIKE :searchTerm
         //                 OR LOWER(o.nom) LIKE :searchTerm
         //                 OR LOWER(l.nomLangue) LIKE :searchTerm
         //                 OR LOWER(lo.nom) LIKE :searchTerm
@@ -67,7 +67,7 @@ final class BlogController extends AbstractController
         // }
 
 
-        //         //classique SQL 
+        //         //classique SQL
         //         EXPLAIN ANALYSE SELECT *
         // FROM "user" u
         // LEFT JOIN experience_pro ep ON ep.user_id = u.id
@@ -204,7 +204,7 @@ final class BlogController extends AbstractController
 
         //         EXPLAIN ANALYSE SELECT *
         // FROM user_plate
-        // WHERE 
+        // WHERE
         //     LOWER(nom) LIKE LOWER('%infostrates%')
         //     OR LOWER(prenom) LIKE LOWER('%infostrates%')
         //     OR LOWER(profession) LIKE LOWER('%infostrates%')
