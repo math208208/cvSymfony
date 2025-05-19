@@ -42,7 +42,7 @@ jobs:
 
 
       - name: Start Docker services
-        run: docker-compose -f compose.yaml up --build -d
+        run: docker compose -f compose.yaml up --build -d
 
       
       - name: Wait for server to be ready
@@ -80,7 +80,7 @@ jobs:
         run: npx cypress run
 
       - name: Stop Docker containers
-        run: docker-compose -f compose.yaml down
+        run: docker compose -f compose.yaml down
 
 
   docker-build:
