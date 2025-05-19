@@ -73,9 +73,6 @@ jobs:
       - name: Run PHPStan (level 5)
         run: ~/.composer/vendor/bin/phpstan analyse src --level=5
 
-      - name: Run database migrations
-        run: docker compose exec -T php php bin/console doctrine:migrations:migrate --no-interaction
-        
       - name: Install Cypress dependencies
         run: npm ci
 
