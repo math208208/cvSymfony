@@ -16,14 +16,17 @@ jobs:
         env:
           POSTGRES_DB: app
           POSTGRES_USER: app
-          POSTGRES_PASSWORD: app
+          POSTGRES_PASSWORD: !ChangeMe!
         ports:
-          - 5432:5432
+          - 8081:8081
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
+
+    env:
+      DATABASE_URL: postgres://app:!ChangeMe!@localhost:8081/app
 
     steps:
       - name: Checkout repository
