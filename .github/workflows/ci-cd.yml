@@ -60,6 +60,11 @@ jobs:
             sleep 3
           done
 
+      - name: Test DB connection manually
+        run: |
+          apt-get update && apt-get install -y postgresql-client
+          PGPASSWORD="!ChangeMe!" psql -h localhost -U app -d app -c '\l'
+
       - name: Install Node.js
         uses: actions/setup-node@v3
         with:
@@ -85,6 +90,11 @@ jobs:
 
       - name: Stop Docker containers
         run: docker compose -f compose.yaml down
+
+      - name: Show Symfony logs
+        run: cat var/log/dev.log || true
+      - name: Dump env vars
+        run: printenv | grep DATABASE_URL
 
 
   docker-build:
