@@ -3,10 +3,8 @@
 namespace App\Entity;
 
 use App\Entity\Trait\Images;
-use App\Entity\Translation\FormationTranslation;
+use App\EventListener\UserLinkedEntityListener;
 use App\Repository\FormationRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Vich\UploaderBundle\Mapping\Annotation\Uploadable;
 

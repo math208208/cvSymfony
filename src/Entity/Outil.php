@@ -3,12 +3,12 @@
 namespace App\Entity;
 
 use App\Entity\Trait\Images;
+use App\EventListener\UserLinkedEntityListener;
 use App\Repository\OutilRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Vich\UploaderBundle\Mapping\Annotation\Uploadable;
 
 #[Uploadable]
-
 #[ORM\Entity(repositoryClass: OutilRepository::class)]
 class Outil
 {

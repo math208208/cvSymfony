@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Entity\Translation\LangageTranslation;
+use App\EventListener\UserLinkedEntityListener;
 use App\Repository\LangageRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;

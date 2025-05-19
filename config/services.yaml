@@ -34,5 +34,17 @@ services:
         tags:
             - { name: kernel.event_listener, event: kernel.request }
 
+    App\EventListener\UserListener:
+        tags:
+            - { name: doctrine.event_listener, event: postPersist }
+            - { name: doctrine.event_listener, event: postUpdate }
+            - { name: doctrine.event_listener, event: postRemove }
+
+    App\EventListener\UserLinkedEntityListener:
+        tags:
+            - { name: doctrine.event_listener, event: postPersist }
+            - { name: doctrine.event_listener, event: postUpdate }
+            - { name: doctrine.event_listener, event: postRemove }
+
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

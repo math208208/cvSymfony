@@ -40,23 +40,5 @@ class ProductFixtures extends Fixture
         // $manager->flush();
         // $manager->clear();
 
-        $categories = $manager->getRepository(Category::class)->findAll();
-
-        for ($i = 1; $i <= 1000000; $i++) {
-            $product = new Product();
-            $product->setName("Product $i");
-            $product->setPrice(rand(1, 1000));
-            $product->setCategory($categories[array_rand($categories)]);
-            $manager->persist($product);
-
-            if ($i % 100000 === 0) {
-                $manager->flush();
-                $manager->clear();
-                echo $i . " ";
-                $categories = $manager->getRepository(Category::class)->findAll();
-            }
-        }
-
-        $manager->flush();
     }
 }

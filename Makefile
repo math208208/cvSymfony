@@ -34,3 +34,23 @@ startCypress:
 #  		phpcs --standard=PSR12 src
 
 # Probleme cache nav (pas de changement fait) ctrl + shift + R
+
+
+# SELECT *
+# FROM "user" u
+# LEFT JOIN formation f ON f.user_id = u.id
+# LEFT JOIN experience_pro ep ON ep.user_id = u.id
+# LEFT JOIN experience_uni eu ON eu.user_id = u.id
+# LEFT JOIN langage l ON l.user_id = u.id
+# LEFT JOIN outil o ON o.user_id = u.id
+# LEFT JOIN loisir lo ON lo.user_id = u.id
+# LEFT JOIN competence c ON c.user_id = u.id
+# WHERE u.nom LIKE 'Matheo'
+#    OR f.intitule LIKE '%searchTerm%'
+#    OR ep.description LIKE '%searchTerm%'
+#    OR eu.description LIKE '%searchTerm%'
+#    OR l.nom_langue LIKE '%searchTerm%'
+#    OR o.nom LIKE '%searchTerm%'
+#    OR lo.nom LIKE '%searchTerm%'
+#    OR c.nom LIKE '%searchTerm%'
+# ;

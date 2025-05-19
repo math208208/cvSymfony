@@ -7,7 +7,6 @@ use Symfony\Component\Routing\Attribute\Route;
 use App\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 final class CvController extends AbstractController
 {
