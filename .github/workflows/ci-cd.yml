@@ -66,10 +66,7 @@ jobs:
           PGPASSWORD="!ChangeMe!" psql -h localhost -U app -d app -c '\l'
 
       - name: Vérifier que Symfony voit bien la bonne base
-        run: php bin/console doctrine:database:info
-      
-      - name: Run Doctrine migrations
-        run: php bin/console doctrine:migrations:migrate --no-interaction
+        run: php bin/console doctrine:mapping:info
 
       - name: Install Node.js
         uses: actions/setup-node@v3
