@@ -21,8 +21,8 @@ class ConnectType extends AbstractType
                 [
                 'label' => 'Email',
                 'constraints' => [
-                    new NotBlank(['message' => 'L\'email est obligatoire.']),
-                    new Email(['message' => 'Veuillez entrer un email valide.']),
+                    new NotBlank(['message' => 'form.emailRequired']),
+                    new Email(['message' => 'form.emailInvalid']),
                 ]
                 ]
             )
@@ -30,15 +30,17 @@ class ConnectType extends AbstractType
                 '_plainPassword',
                 PasswordType::class,
                 [
-                'label' => 'Mot de passe',
+                'label' => 'form.password',
                 ]
             )
+           
             ->add(
                 'submit',
                 SubmitType::class,
                 [
-                'label' => 'Se connecter',
+                'label' => 'form.login',
                 ]
             );
+            
     }
 }

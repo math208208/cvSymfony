@@ -4,7 +4,7 @@ header:
   experiences: "Experiencias"
   explorer: "Explorar"
   myCv: "Mi CV"
-  login: "Conexión"
+  login: "Iniciar sesión"
 
 button:
   aboutMe: "Sobre mí"
@@ -24,18 +24,79 @@ section:
   proExperience: "Experiencias profesionales"
   acaExperience: "Experiencias universitarias"
   settings: "Configuración"
-  newPw: "Nueva contraseña :"
-  newEmail: "Nuevo correo electrónico :"
-  changeCv: "Modificación del CV"
+  newPw: "Nueva contraseña:"
+  newEmail: "Nuevo correo electrónico:"
+  changeCv: "Modificar CV"
   profilPrv: "Perfil privado"
   sendAt: "Enviar un mensaje a"
-  sendTo: "Enviado por :"
-  message: "Mensaje :"
+  sendTo: "Enviado por:"
+  message: "Mensaje:"
   messageGet: "Mensajes recibidos"
   messageSend: "Mensaje enviado"
   add: "Añadir"
   user: "usuario"
   pro: "profesional"
+  createAccount: "Crear una cuenta"
+  contact: "Contacto"
+  nodata: "Sin datos"
+  find: "Buscar"
+  experience: "experiencia"
+  uni : "académica"
+  
+form:
+  selectExistingSkill: "Selecciona una competencia existente"
+  orEnterNewSkill: "O ingresa una nueva competencia"
+  enterSkillLevel: "Indica el nivel de dominio"
+  levelRange: "El nivel debe estar entre {{ min }} y {{ max }}."
+  add: "Añadir"
+
+  emailRequired: "El correo electrónico es obligatorio."
+  emailInvalid: "Por favor, introduce un correo válido."
+  password: "Contraseña"
+  login: "Iniciar sesión"
+  message: "Mensaje"
+  send: "Enviar"
+
+  jobTitle: "Puesto"
+  company: "Empresa"
+  startDate: "Fecha de inicio"
+  endDate: "Fecha de finalización"
+  description: "Descripción"
+
+  title: "Título"
+  subtitle: "Subtítulo"
+  year: "Año"
+  label: "Nombre"
+  location: "Lugar"
+  trainingImage: "Imagen de la formación (opcional)"
+  imageFormatError: "Sube una imagen válida (jpeg, png, webp)"
+
+  selectLanguage: "Selecciona un idioma:"
+  languageLevel: "Nivel:"
+
+  selectistingHobby: "Selecciona un pasatiempo existente"
+  orEnterNewHobby: "O ingresa un nuevo pasatiempo"
+  hobbyImage: "Imagen del pasatiempo (opcional)"
+
+  selectExistingTool: "Selecciona una herramienta existente"
+  orEnterNewTool: "O ingresa una nueva herramienta"
+  toolImage: "Imagen de la herramienta (opcional)"
+
+  startMyCv: "¡Comenzar mi CV!"
+  start: "¡Comenzar!"
+
+  privateProfile: "Quiero que mi perfil sea privado"
+
+  name: "Nombre"
+  lastName: "Apellido"
+
+langue:
+  english: "Inglés"
+  spanish: "Español"
+  chinese: "Chino"
+  portuguese: "Portugués"
+  german: "Alemán"
+  japanese: "Japonés"
 
 contact: "Contacto"
 nodata: "Sin datos"

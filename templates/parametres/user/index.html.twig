@@ -28,6 +28,7 @@
 			</form>
 		</section>
 
+
 		<section class="sectionModifCV">
 			<h2 class="h2Parametre">{% trans %}section.changeCv{% endtrans %}</h2>
 			<a href="{{ path('admin_user_index') }}" target="_blank">EasyAdmin</a>
@@ -44,7 +45,7 @@
 					{{ form_end(addOutilForm) }}
 				</div>
 				<div class="divForm">
-					<h3>{% trans %}section.add{% endtrans %} {% trans %}section.langue{% endtrans %}</h3>
+					<h3>{% trans %}section.add{% endtrans %} {% trans %}section.language{% endtrans %}</h3>
 
 					{{ form_start(addLangueForm) }}
 					{{ form_row(addLangueForm.nomLangue  ) }}
@@ -88,7 +89,7 @@
 			</div>
 			<div class="gridForm2">
 				<div class="divForm">
-					<h3>{% trans %}section.add{% endtrans %} experience universitaire</h3>
+					<h3>{% trans %}section.add{% endtrans %} {% trans %}section.experience{% endtrans %} {% trans %}section.uni{% endtrans %}</h3>
 
 					{{ form_start(addExpUniForm) }}
 					{{ form_row(addExpUniForm.titre  ) }}
@@ -99,7 +100,7 @@
 					{{ form_end(addExpUniForm) }}
 				</div>
 				<div class="divForm">
-					<h3>{% trans %}section.add{% endtrans %} experience professionnel</h3>
+					<h3>{% trans %}section.add{% endtrans %} {% trans %}section.experience{% endtrans %} {% trans %}section.pro{% endtrans %}</h3>
 
 					{{ form_start(addExpProForm) }}
 					{{ form_row(addExpProForm.poste  ) }}

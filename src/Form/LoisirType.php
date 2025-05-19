@@ -23,7 +23,7 @@ class LoisirType extends AbstractType
                 'class' => Loisir::class,
                 'choice_label' => 'nom',
                 'required' => false,
-                'label' => 'Sélectionner un loisir existant',
+                'label' => 'form.selectistingHobby',
                 'mapped' => false
                 ]
             )
@@ -32,7 +32,7 @@ class LoisirType extends AbstractType
                 TextType::class,
                 [
                 'required' => false,
-                'label' => 'Ou entrez un nouveau loisir',
+                'label' => 'form.orEnterNewHobby',
                 'mapped' => false,
                 ]
             )
@@ -40,7 +40,7 @@ class LoisirType extends AbstractType
                 'newLoisirImage',
                 FileType::class,
                 [
-                'label' => 'Image du loisir (optionnel)',
+                'label' => 'form.hobbyImage',
                 'required' => false,
                 'mapped' => false,
                 'constraints' => [
@@ -52,7 +52,7 @@ class LoisirType extends AbstractType
                             'image/png',
                             'image/webp',
                         ],
-                        'mimeTypesMessage' => 'Veuillez uploader une image valide (jpeg, png, webp)',
+                        'mimeTypesMessage' => 'form.imageFormatError',
                         ]
                     ),
                 ],
@@ -62,7 +62,7 @@ class LoisirType extends AbstractType
                 'submitLoisir',
                 SubmitType::class,
                 [
-                'label' => 'Ajouter'
+                'label' => 'form.add'
                 ]
             );
     }

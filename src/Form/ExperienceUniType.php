@@ -23,7 +23,7 @@ class ExperienceUniType extends AbstractType
                 TextType::class,
                 [
                     'required' => true,
-                    'label' => 'Titre',
+                    'label' => 'form.title',
                     'mapped' => false,
                 ]
             )
@@ -32,7 +32,7 @@ class ExperienceUniType extends AbstractType
                 TextType::class,
                 [
                     'required' => true,
-                    'label' => 'Sous titre',
+                    'label' => 'form.subtitle',
                     'mapped' => false,
                 ]
             )
@@ -41,7 +41,7 @@ class ExperienceUniType extends AbstractType
                 IntegerType::class,
                 [
                     'required' => true,
-                    'label' => 'Annee',
+                    'label' => 'form.year',
                     'mapped' => false,
                 ]
             )
@@ -50,7 +50,7 @@ class ExperienceUniType extends AbstractType
                 CKEditorType::class,
                 [
                     'required' => true,
-                    'label' => 'Description',
+                    'label' => 'form.description',
                     'mapped' => false,
                 ]
             )
@@ -59,7 +59,7 @@ class ExperienceUniType extends AbstractType
                 'submitExperienceUni',
                 SubmitType::class,
                 [
-                    'label' => 'Ajouter'
+                    'label' => 'form.add'
                 ]
             );
     }

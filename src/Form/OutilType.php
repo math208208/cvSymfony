@@ -23,7 +23,7 @@ class OutilType extends AbstractType
                 'class' => Outil::class,
                 'choice_label' => 'nom',
                 'required' => false,
-                'label' => 'Sélectionner un outil existant',
+                'label' => 'form.selectExistingTool',
                 'mapped' => false
                 ]
             )
@@ -32,7 +32,7 @@ class OutilType extends AbstractType
                 TextType::class,
                 [
                 'required' => false,
-                'label' => 'Ou entrez un nouvel outil',
+                'label' => 'form.orEnterNewTool',
                 'mapped' => false
                 ]
             )
@@ -40,7 +40,7 @@ class OutilType extends AbstractType
                 'newOutilImage',
                 FileType::class,
                 [
-                'label' => 'Image de l’outil (optionnel)',
+                'label' => 'form.toolImage',
                 'required' => false,
                 'mapped' => false,
                 'constraints' => [
@@ -52,7 +52,7 @@ class OutilType extends AbstractType
                             'image/png',
                             'image/webp',
                         ],
-                        'mimeTypesMessage' => 'Veuillez uploader une image valide (jpeg, png, webp)'
+                        'mimeTypesMessage' => 'form.imageFormatError'
                         ]
                     ),
                 ],
@@ -62,7 +62,7 @@ class OutilType extends AbstractType
                 'submitOutil',
                 SubmitType::class,
                 [
-                'label' => 'Ajouter'
+                'label' => 'form.add'
                 ]
             );
     }

@@ -5,7 +5,7 @@
 
 {% block body %}
 	<main class="mainLogin">
-		<h1 class="h1main">Connexion</h1>
+		<h1 class="h1main">{% trans %}form.login{% endtrans %}</h1>
 
 		{% if error %}
 			<div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
@@ -17,17 +17,17 @@
 				<input class="formAttr" type="email" id="email" name="_email" value="{{ last_username }}" required autofocus>
 			</div>
 			<div>
-				<label for="password">Mot de passe :</label>
+				<label for="password">{% trans %}form.password{% endtrans %} :</label>
 				<input class="formAttr" type="password" id="password" name="_plainPassword" required>
 			</div>
 
 			{# Champ CSRF token ESSENTIEL #}
 			<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
-			<button class="buttonMain" type="submit">Se connecter</button>
+			<button class="buttonMain" type="submit">{% trans %}form.login{% endtrans %}</button>
 		</form>
 
-		<a href="{{ path('app_register') }}" class="formA">Créer un compte</a>
+		<a href="{{ path('app_register') }}" class="formA">{% trans %}section.createAccount{% endtrans %}</a>
 	</main>
 {% endblock %}
 

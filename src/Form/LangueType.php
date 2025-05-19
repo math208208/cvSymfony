@@ -18,22 +18,22 @@ class LangueType extends AbstractType
                 ChoiceType::class,
                 [
                 'choices' => [
-                    'Anglais' => 'anglais',
-                    'Espagnol' => 'espagnol',
-                    'Chinois' => 'chinois',
-                    'Portugais' => 'portugais',
-                    'Allemand' => 'allemand',
-                    'Japonais' => 'japonais',
+                    'langue.english' => 'anglais',
+                    'langue.spanish' => 'espagnol',
+                    'langue.chinese' => 'chinois',
+                    'langue.portuguese' => 'portugais',
+                    'langue.german' => 'allemand',
+                    'langue.japanese' => 'japonais',
                 ],
                 'required' => true,
-                'label' => 'Sélectionnez une langue :' ,
+                'label' => 'form.selectLanguage' ,
                 ]
             )
             ->add(
                 'niveau',
                 TextType::class,
                 [
-                'label' => 'Niveau : ',
+                'label' => 'form.languageLevel',
                 'mapped' => false,
                 ]
             )
@@ -42,7 +42,7 @@ class LangueType extends AbstractType
                 'submitLangue',
                 SubmitType::class,
                 [
-                'label' => 'Ajouter'
+                'label' => 'form.add'
                 ]
             );
     }

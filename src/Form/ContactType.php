@@ -18,7 +18,7 @@ class ContactType extends AbstractType
                 TextType::class,
                 [
                     'required' => true,
-                    'label' => 'Message',
+                    'label' => 'form.message',
                     'mapped' => false,
                 ]
             )
@@ -27,7 +27,7 @@ class ContactType extends AbstractType
                 'submitContact',
                 SubmitType::class,
                 [
-                    'label' => 'Envoyer'
+                    'label' => 'form.send'
                 ]
             );
     }

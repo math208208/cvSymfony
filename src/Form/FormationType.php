@@ -22,7 +22,7 @@ class FormationType extends AbstractType
                 TextType::class,
                 [
                     'required' => true,
-                    'label' => 'Intitule',
+                    'label' => 'form.label',
                     'mapped' => false,
                 ]
             )
@@ -31,7 +31,7 @@ class FormationType extends AbstractType
                 IntegerType::class,
                 [
                 'required' => true,
-                'label' => 'Annee',
+                'label' => 'form.year',
                 'mapped' => false,
                 ]
             )
@@ -40,7 +40,7 @@ class FormationType extends AbstractType
                 TextType::class,
                 [
                     'required' => true,
-                    'label' => 'Lieu',
+                    'label' => 'form.location',
                     'mapped' => false,
                 ]
             )
@@ -48,7 +48,7 @@ class FormationType extends AbstractType
                 'formationImage',
                 FileType::class,
                 [
-                'label' => 'Image de la formation (optionnel)',
+                'label' => 'form.trainingImage',
                 'required' => false,
                 'mapped' => false,
                 'constraints' => [
@@ -60,7 +60,7 @@ class FormationType extends AbstractType
                             'image/png',
                             'image/webp',
                         ],
-                        'mimeTypesMessage' => 'Veuillez uploader une image valide (jpeg, png, webp)',
+                        'mimeTypesMessage' => 'form.imageFormatError',
                         ]
                     ),
                 ],
@@ -73,7 +73,7 @@ class FormationType extends AbstractType
                 'submitFormation',
                 SubmitType::class,
                 [
-                    'label' => 'Ajouter'
+                    'label' => 'form.add'
                 ]
             );
     }

@@ -19,25 +19,33 @@ class RegisterProType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('nom', TextType::class)
-            ->add('prenom', TextType::class)
-            ->add('metier', TextType::class)
-            ->add('entreprise', TextType::class)
+            ->add('nom', TextType::class, [
+                'label' => 'form.lastName'
+            ])
+            ->add('prenom', TextType::class, [
+                'label' => 'form.name'
+            ])
+            ->add('metier', TextType::class, [
+                'label' => 'form.jobTitle'
+            ])
+            ->add('entreprise', TextType::class, [
+                'label' => 'form.company'
+            ])
             ->add(
                 'email',
                 EmailType::class,
                 [
-                'constraints' => [
-                    new NotBlank(['message' => 'L\'email est obligatoire.']),
-                    new Email(['message' => 'Veuillez entrer un email valide.']),
-                ]
+                    'constraints' => [
+                        new NotBlank(['message' => 'form.emailRequired']),
+                        new Email(['message' => 'form.emailInvalid']),
+                    ]
                 ]
             )
             ->add(
                 'plainPassword',
                 PasswordType::class,
                 [
-                'label' => 'Mot de passe'
+                    'label' => 'form.password'
                 ]
             )
 
@@ -45,7 +53,7 @@ class RegisterProType extends AbstractType
                 'submit',
                 SubmitType::class,
                 [
-                'label' => 'Commencer mon CV !'
+                    'label' => 'form.start'
                 ]
             );
     }

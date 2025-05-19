@@ -22,7 +22,7 @@ class ExperienceProType extends AbstractType
                 TextType::class,
                 [
                     'required' => true,
-                    'label' => 'Poste',
+                    'label' => 'form.jobTitle',
                     'mapped' => false,
                 ]
             )
@@ -31,7 +31,7 @@ class ExperienceProType extends AbstractType
                 TextType::class,
                 [
                     'required' => true,
-                    'label' => 'Entreprise',
+                    'label' => 'form.company',
                     'mapped' => false,
                 ]
             )
@@ -40,7 +40,7 @@ class ExperienceProType extends AbstractType
                 IntegerType::class,
                 [
                     'required' => true,
-                    'label' => 'Date debut',
+                    'label' => 'form.startDate',
                     'mapped' => false,
                 ]
             )
@@ -49,7 +49,7 @@ class ExperienceProType extends AbstractType
                 IntegerType::class,
                 [
                     'required' => false,
-                    'label' => 'Date fin',
+                    'label' => 'form.endDate',
                     'mapped' => false,
                 ]
             )
@@ -58,7 +58,7 @@ class ExperienceProType extends AbstractType
                 CKEditorType::class,
                 [
                     'required' => true,
-                    'label' => 'Description',
+                    'label' => 'form.description',
                     'mapped' => false,
                 ]
             )
@@ -67,7 +67,7 @@ class ExperienceProType extends AbstractType
                 'submitExperiencePro',
                 SubmitType::class,
                 [
-                    'label' => 'Ajouter'
+                    'label' => 'form.add'
                 ]
             );
     }

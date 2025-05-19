@@ -8,17 +8,24 @@ controllers:
     _locale: fr
 
 app_login:
-  path: /login
+  path: /{_locale}/login
   controller: App\Controller\SecurityController::login
+  requirements:
+    _locale: fr|en|es
+  defaults:
+    _locale: fr
 
 app_logout:
   path: /logout
   controller: App\Controller\SecurityController::logout
 
 app_register:
-  path: /register
+  path: /{_locale}/register
   controller: App\Controller\RegisterController::register
-
+  requirements:
+    _locale: fr|en|es
+  defaults:
+    _locale: fr
 
 
 app_blog:

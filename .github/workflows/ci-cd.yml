@@ -52,7 +52,18 @@ jobs:
       - name: Run PHPStan (level 5)
         run: ~/.composer/vendor/bin/phpstan analyse src --level=5
 
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
 
+      - name: Install Cypress dependencies
+        run: npm ci
+
+      - name: Run Cypress tests
+        run: npx cypress run
+
+        
   docker-build:
     needs: test
     runs-on: ubuntu-latest

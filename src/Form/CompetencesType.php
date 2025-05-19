@@ -23,7 +23,7 @@ class CompetencesType extends AbstractType
                 'class' => Competence::class,
                 'choice_label' => 'nom',
                 'required' => false,
-                'label' => 'Sélectionner une competence existante',
+                'label' => 'form.selectExistingSkill',
                 'mapped' => false,
                 ]
             )
@@ -32,24 +32,23 @@ class CompetencesType extends AbstractType
                 TextType::class,
                 [
                 'required' => false,
-                'label' => 'Ou entrez la nouvelle competence',
+                'label' => 'form.orEnterNewSkill',
                 'mapped' => false,
                 ]
             )
-
             ->add(
                 'niveauComp',
                 IntegerType::class,
                 [
                 'required' => true,
-                'label' => 'Entrez le niveau de maîtrise',
+                'label' => 'form.enterSkillLevel',
                 'mapped' => false,
                 'constraints' => [
                     new Range(
                         [
                         'min' => 0,
                         'max' => 100,
-                        'notInRangeMessage' => 'Le niveau doit être entre {{ min }} et {{ max }}.',
+                        'notInRangeMessage' => 'form.levelRange',
                         ]
                     ),
                 ],
@@ -60,11 +59,12 @@ class CompetencesType extends AbstractType
                 ]
             )
 
+            
             ->add(
                 'submitCompetence',
                 SubmitType::class,
                 [
-                'label' => 'Ajouter'
+                'label' => 'form.add'
                 ]
             );
     }
