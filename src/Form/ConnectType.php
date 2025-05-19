@@ -33,7 +33,7 @@ class ConnectType extends AbstractType
                 'label' => 'form.password',
                 ]
             )
-           
+
             ->add(
                 'submit',
                 SubmitType::class,
@@ -41,6 +41,5 @@ class ConnectType extends AbstractType
                 'label' => 'form.login',
                 ]
             );
-            
     }
 }

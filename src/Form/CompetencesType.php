@@ -59,7 +59,7 @@ class CompetencesType extends AbstractType
                 ]
             )
 
-            
+
             ->add(
                 'submitCompetence',
                 SubmitType::class,
