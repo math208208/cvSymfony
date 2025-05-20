@@ -24,10 +24,15 @@
 					<p class="professionUserProfil">{{ translatedUser.translated_profession|raw}}</p>
 					<p class="descriptionUserProfil">{{ translatedUser.translated_description|raw}}</p>
 					<div class="lienRedirect">
-						<a href="{{ path('app_profil', {slug: translatedUser.user.slug}) }}"> 📄 {% trans %}header.home{% endtrans %}</a>
-						<a href="{{ path('app_competences', {slug: translatedUser.user.slug}) }}">🛠️ {% trans %}header.skills{% endtrans %}</a>
-						<a href="{{ path('app_experience', {slug: translatedUser.user.slug}) }}">🧰 {% trans %}header.experiences{% endtrans %}</a>
-						<a href="{{ path('app_contact', {slug: translatedUser.user.slug}) }}">✉️ {% trans %}contact{% endtrans %}</a>
+						<a href="{{ path('app_profil', {slug: translatedUser.user.slug}) }}">
+							📄
+							{% trans %}header.home{% endtrans %}</a>
+						<a href="{{ path('app_competences', {slug: translatedUser.user.slug}) }}">🛠️
+							{% trans %}header.skills{% endtrans %}</a>
+						<a href="{{ path('app_experience', {slug: translatedUser.user.slug}) }}">🧰
+							{% trans %}header.experiences{% endtrans %}</a>
+						<a href="{{ path('app_contact', {slug: translatedUser.user.slug}) }}">✉️
+							{% trans %}contact{% endtrans %}</a>
 					</div>
 				</div>
 			{% else %}
@@ -36,8 +41,22 @@
 
 
 		</section>
+
 		<div class="pagination">
-			{{ knp_pagination_render(pagination) }}
+			{% if page > 1 %}
+				<a href="{{ path('app_blog', {'page': page - 1, 'q': searchTerm }) }}">Précédent</a>
+			{% endif %}
+
+			{% for i in 1..totalPages %}
+				<a href="{{ path('app_blog', {'page': i, 'q': searchTerm }) }}" class="{{ i == page ? 'active' : '' }}">
+					{{ i }}
+				</a>
+			{% endfor %}
+
+			{% if page < totalPages %}
+				<a href="{{ path('app_blog', {'page': page + 1, 'q': searchTerm }) }}">Suivant</a>
+			{% endif %}
 		</div>
+
 	</main>
 {% endblock %}

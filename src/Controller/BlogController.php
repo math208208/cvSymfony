@@ -11,6 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use App\Repository\UserRepository;
+use App\Service\ElasticService;
 use App\Service\TranslationService;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\SecurityBundle\Security;
@@ -28,13 +29,16 @@ final class BlogController extends AbstractController
         Request $request,
         Security $security,
         EntityManagerInterface $em,
-        string $_locale
+        string $_locale,
+        ElasticService $elasticService,
     ): Response {
         $searchTerm = $request->query->get('q', '');
-
+        $page = $request->query->getInt('page', 1); // récupère la page actuelle (par défaut 1)
+        $size = 8;
 
         // Classique
         //-------------------------------------------------------------
+
 
 
         // $qb = $userRepository->createQueryBuilder('u')
@@ -52,6 +56,8 @@ final class BlogController extends AbstractController
 
 
         // if (!empty($searchTerm)) {
+
+
         //     $qb
         //         ->andWhere('LOWER(u.nom) LIKE :searchTerm
         //                 OR LOWER(u.prenom) LIKE :searchTerm
@@ -66,6 +72,44 @@ final class BlogController extends AbstractController
         //         ->setParameter('searchTerm', '%' . strtolower($searchTerm) . '%');
         // }
 
+
+        // // pagination
+        // $users = $paginator->paginate(
+        //     $qb->getQuery(),
+        //     $page,
+        //     $size
+        // );
+        // $translatedUsers = [];
+
+
+        // foreach ($users as $user) {
+        //     if ($user->getProfession() && $user->getDescription()) {
+        //         $translatedProfession = $translator->translate(
+        //             User::class,
+        //             $user->getId(),
+        //             'profession',
+        //             $user->getProfession(),
+        //             $_locale
+        //         );
+
+        //         $translatedDescription = $translator->translate(
+        //             User::class,
+        //             $user->getId(),
+        //             'description',
+        //             $user->getDescription(),
+        //             $_locale
+        //         );
+
+        //         $translatedUsers[] = [
+        //             'user' => $user,
+        //             'translated_profession' => $translatedProfession,
+        //             'translated_description' => $translatedDescription,
+        //         ];
+        //     }
+        // }
+
+        // $total = count($qb->getQuery()->getResult());
+        // $totalPages = ceil($total / $size);
 
         //         //classique SQL
         //         EXPLAIN ANALYSE SELECT *
@@ -92,69 +136,29 @@ final class BlogController extends AbstractController
         //     LOWER(ep.poste) LIKE '%développeur%' OR
         //     LOWER(ep.entreprise) LIKE '%développeur%'
         //   );
-
-        //pagination
-        // $pagination = $paginator->paginate(
-        //     $qb->getQuery(),
-        //     $request->query->getInt('page', 1),
-        //     8
-        // );
-
-        // $translatedUsers = [];
-
-        // foreach ($pagination as $user) {
-        //     if ($user->getProfession() && $user->getDescription()) {
-        //         $translatedProfession = $translator->translate(
-        //             User::class,
-        //             $user->getId(),
-        //             'profession',
-        //             $user->getProfession(),
-        //             $_locale
-        //         );
-
-        //         $translatedDescription = $translator->translate(
-        //             User::class,
-        //             $user->getId(),
-        //             'description',
-        //             $user->getDescription(),
-        //             $_locale
-        //         );
-
-        //         $translatedUsers[] = [
-        //             'user' => $user,
-        //             'translated_profession' => $translatedProfession,
-        //             'translated_description' => $translatedDescription,
-        //         ];
-        //     }
-        // }
         //-------------------------------------------------------------
 
 
 
 
 
-        //table plate
+        // table plate
         //-------------------------------------------------------------
-        $sql = "SELECT * FROM user_plate
-                WHERE is_private = false
-                  AND description IS NOT NULL
-                  AND profession IS NOT NULL";
+        $sql = '
+            SELECT DISTINCT u.*
+            FROM "user" u
+            JOIN user_plate up ON up.user_id = u.id
+            WHERE u.is_private = false
+            AND u.description IS NOT NULL
+            AND u.profession IS NOT NULL
+        ';
 
         $params = [];
 
         if ($searchTerm) {
-            $sql .= " AND (
-                LOWER(nom) LIKE :searchTerm
-                OR LOWER(prenom) LIKE :searchTerm
-                OR LOWER(profession) LIKE :searchTerm
-                OR LOWER(formations) LIKE :searchTerm
-                OR LOWER(experiences_pro) LIKE :searchTerm
-                OR LOWER(experiences_uni) LIKE :searchTerm
-                OR LOWER(langages) LIKE :searchTerm
-                OR LOWER(outils) LIKE :searchTerm
-                OR LOWER(loisirs) LIKE :searchTerm
-                OR LOWER(competences) LIKE :searchTerm
-            )";
+            $sql .= "
+                AND LOWER(up.value) LIKE :searchTerm
+            ";
 
             $params['searchTerm'] = '%' . strtolower($searchTerm) . '%';
         }
@@ -166,9 +170,10 @@ final class BlogController extends AbstractController
         // Paginer le tableau résultat (pagination manuelle)
         $pagination = $paginator->paginate(
             $results,
-            $request->query->getInt('page', 1),
-            8
+            $page,
+            $size
         );
+
 
         //traduction avec table plate
         $translatedUsers = [];
@@ -200,7 +205,8 @@ final class BlogController extends AbstractController
             }
         }
 
-
+        $total = count($results);
+        $totalPages = ceil($total / $size);
 
         //         EXPLAIN ANALYSE SELECT *
         // FROM user_plate
@@ -216,14 +222,79 @@ final class BlogController extends AbstractController
         //     OR LOWER(loisirs) LIKE LOWER('%infostrates%')
         //     OR LOWER(competences) LIKE LOWER('%infostrates%')
         // ;
-        //-------------------------------------------------------------
+
+
+        // -------------------------------------------------------------
 
 
 
+        // //ElasticSearch
+        // //--------------------------------------------------------------
+        // $params = [
+        //     'index' => 'users',
+        //     'body' => [
+        //         'query' => [
+        //             'bool' => [
+        //                 'must' => [
+        //                     ['term' => ['private' => false]],
+        //                     ['exists' => ['field' => 'description']],
+        //                     ['exists' => ['field' => 'profession']],
+        //                 ],
+        //             ],
+        //         ],
+        //         'size' => 8,
+        //         'from' => ($page - 1) * $size,
+        //     ],
+        // ];
 
+        // //prblm car elastic search recup pas tout donc lui considere que ce qui est recup cest juster pour une page donc jpeux pas utiliser kdn pour la pagination dans ce cas la
 
+        // if ($searchTerm) {
+        //     $params['body']['query']['bool']['must'][] = [
+        //         'multi_match' => [
+        //             'query' => $searchTerm,
+        //             'fields' => ['nom^3', 'prenom^3', 'profession', 'formations', 'experiences_pro', 'experiences_uni', 'langages', 'outils', 'loisirs', 'competences'],
+        //             'fuzziness' => 'AUTO',
+        //         ],
+        //     ];
+        // }
 
+        // $results = $elasticService->search($params);
+        // $hits = $results['hits']['hits'] ?? [];
+        // $total = $results['hits']['total']['value'] ?? 0;
+        // $totalPages = ceil($total / $size);
 
+        // $translatedUsers = [];
+        // foreach ($hits as $hit) {
+        //     $userId = $hit['_id'];
+        //     $userEntity = $userRepository->find($userId);
+
+        //     if ($userEntity && $userEntity->getProfession() && $userEntity->getDescription()) {
+        //         $translatedProfession = $translator->translate(
+        //             User::class,
+        //             $userId,
+        //             'profession',
+        //             $userEntity->getProfession(),
+        //             $_locale
+        //         );
+
+        //         $translatedDescription = $translator->translate(
+        //             User::class,
+        //             $userId,
+        //             'description',
+        //             $userEntity->getDescription(),
+        //             $_locale
+        //         );
+
+        //         $translatedUsers[] = [
+        //             'user' => $userEntity,
+        //             'translated_profession' => $translatedProfession,
+        //             'translated_description' => $translatedDescription,
+        //         ];
+        //     }
+        // }
+
+        //---------------------------------------------------------------
 
 
 
@@ -243,9 +314,11 @@ final class BlogController extends AbstractController
             $layout = 'base/user/index.html.twig';
             return $this->render('blog/index.html.twig', [
                 'translatedUsers' => $translatedUsers,
-                'pagination' => $pagination,
                 'layout' => $layout,
-                'user' => $userTab
+                'user' => $userTab,
+                'page' => $page,
+                'searchTerm' => $searchTerm,
+                'totalPages' => $totalPages,
 
             ]);
         } else {
@@ -256,9 +329,10 @@ final class BlogController extends AbstractController
 
         return $this->render('blog/index.html.twig', [
             'translatedUsers' => $translatedUsers,
-            'pagination' => $pagination,
-            'layout' => $layout
-
+            'layout' => $layout,
+            'page' => $page,
+            'searchTerm' => $searchTerm,
+            'totalPages' => $totalPages,
         ]);
     }
 }

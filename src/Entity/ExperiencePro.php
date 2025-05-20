@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Entity\ExperienceProTranslation as EntityExperienceProTranslation;
 use App\Entity\Translation\ExperienceProTranslation;
+use App\EventListener\UserLinkedEntityListener;
 use App\Repository\ExperienceProRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;

@@ -28,8 +28,8 @@ class User
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private $id = null;
+    #[ORM\Column(type: 'integer')]
+    private ?int $id = null;
 
     #[ORM\Column(length: 255)]
     private ?string $nom = null;
@@ -114,10 +114,62 @@ class User
         $slugTemp = strtolower($slugTemp);
 
         $slugTemp = str_replace(
-            ['á', 'à', 'â', 'ä', 'ã', 'å', 'ç', 'é', 'è', 'ê', 'ë', 'í', 'ï', 'î', 'ì', 'ñ',
-            'ó', 'ò', 'ô', 'ö', 'õ', 'ú', 'ù', 'û', 'ü', 'ý'],
-            ['a', 'a', 'a', 'a', 'a', 'a', 'c', 'e', 'e', 'e', 'e', 'i', 'i', 'i', 'i', 'n',
-            'o', 'o', 'o', 'o', 'o', 'u', 'u', 'u', 'u', 'y'],
+            [
+                'á',
+                'à',
+                'â',
+                'ä',
+                'ã',
+                'å',
+                'ç',
+                'é',
+                'è',
+                'ê',
+                'ë',
+                'í',
+                'ï',
+                'î',
+                'ì',
+                'ñ',
+                'ó',
+                'ò',
+                'ô',
+                'ö',
+                'õ',
+                'ú',
+                'ù',
+                'û',
+                'ü',
+                'ý'
+            ],
+            [
+                'a',
+                'a',
+                'a',
+                'a',
+                'a',
+                'a',
+                'c',
+                'e',
+                'e',
+                'e',
+                'e',
+                'i',
+                'i',
+                'i',
+                'i',
+                'n',
+                'o',
+                'o',
+                'o',
+                'o',
+                'o',
+                'u',
+                'u',
+                'u',
+                'u',
+                'y'
+            ],
             $slugTemp
         );
 
@@ -299,4 +351,54 @@ class User
 
         return $this;
     }
+
+    public function getFormationsString(): string
+    {
+        return implode(', ', $this->formations->map(function ($formation) {
+            return $formation->getIntitule();
+        })->toArray());
+    }
+
+    public function getExperiencesProString(): string
+    {
+        return implode(', ', $this->experiencesPro->map(function ($experience) {
+            return $experience->getPoste();
+        })->toArray());
+    }
+
+    public function getExperiencesUniString(): string
+    {
+        return implode(', ', $this->experiencesUni->map(function ($experience) {
+            return $experience->getTitre();
+        })->toArray());
+    }
+
+    public function getLangagesString(): string
+    {
+        return implode(', ', $this->langues->map(function ($langue) {
+            return $langue->getNomLangue();
+        })->toArray());
+    }
+
+    public function getOutilsString(): string
+    {
+        return implode(', ', $this->outils->map(function ($outil) {
+            return $outil->getNom();
+        })->toArray());
+    }
+
+    public function getLoisirsString(): string
+    {
+        return implode(', ', $this->loisirs->map(function ($loisir) {
+            return $loisir->getNom();
+        })->toArray());
+    }
+
+    public function getCompetencesString(): string
+    {
+        return implode(', ', $this->competences->map(function ($competence) {
+            return $competence->getNom();
+        })->toArray());
+    }
+
 }

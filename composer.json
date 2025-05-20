@@ -16,6 +16,7 @@
         "doctrine/doctrine-migrations-bundle": "^3.4.1",
         "doctrine/orm": "^3.3.2",
         "easycorp/easyadmin-bundle": "^4.24.6",
+        "elasticsearch/elasticsearch": "^8.13",
         "fakerphp/faker": "^1.24.1",
         "friendsofsymfony/ckeditor-bundle": "^2.6",
         "knplabs/doctrine-behaviors": "^1.4.1",
