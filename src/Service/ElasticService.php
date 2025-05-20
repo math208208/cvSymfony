@@ -18,7 +18,7 @@ class ElasticService
     public function search(array $params): array
     {
         $response = $this->client->search($params);
-    
+
         return $response->asArray();
     }
 

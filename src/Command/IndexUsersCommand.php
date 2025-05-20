@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Command;
 
 use App\Repository\UserRepository;
@@ -33,7 +34,7 @@ class IndexUsersCommand extends Command
                     'profession' => $user->getProfession(),
                     'description' => $user->getDescription(),
                     'private' => $user->isPrivate(),
-                    'formations' => $user->getFormationsString(), 
+                    'formations' => $user->getFormationsString(),
                     'experiences_pro' => $user->getExperiencesProString(),
                     'experiences_uni' => $user->getExperiencesUniString(),
                     'langages' => $user->getLangagesString(),
@@ -42,7 +43,8 @@ class IndexUsersCommand extends Command
                     'competences' => $user->getCompetencesString(),
                 ]);
             } catch (\Throwable $e) {
-                $output->writeln("<error>Erreur utilisateur #" . $user->getId() . " : " . $e->getMessage() . "</error>");
+                $output->writeln("<error>Erreur utilisateur #" .
+                $user->getId() . " : " . $e->getMessage() . "</error>");
             }
         }
 

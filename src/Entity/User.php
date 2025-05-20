@@ -400,5 +400,4 @@ class User
             return $competence->getNom();
         })->toArray());
     }
-
 }
