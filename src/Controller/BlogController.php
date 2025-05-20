@@ -247,15 +247,15 @@ final class BlogController extends AbstractController
         //     ],
         // ];
 
-        // //prblm car elastic search recup pas tout donc lui 
-        // //considere que ce qui est recup cest juster pour une page 
+        // //prblm car elastic search recup pas tout donc lui
+        // //considere que ce qui est recup cest juster pour une page
         // //donc jpeux pas utiliser kdn pour la pagination dans ce cas la
 
         // if ($searchTerm) {
         //     $params['body']['query']['bool']['must'][] = [
         //         'multi_match' => [
         //             'query' => $searchTerm,
-        //             'fields' => ['nom^3', 'prenom^3', 'profession', 'formations', 
+        //             'fields' => ['nom^3', 'prenom^3', 'profession', 'formations',
         //             'experiences_pro', 'experiences_uni', 'langages', 'outils', 'loisirs', 'competences'],
         //             'fuzziness' => 'AUTO',
         //         ],
