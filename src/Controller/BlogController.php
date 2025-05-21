@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-
 use App\Entity\User;
 use App\Repository\UserPlateRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

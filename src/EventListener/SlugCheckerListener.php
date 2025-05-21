@@ -27,7 +27,7 @@ class SlugCheckerListener
         $slug = $request->attributes->get('slug');
         $slug = explode('/', $slug);
         $slug = $slug[0];
-        
+
         if (!$slug) {
             return;
         }

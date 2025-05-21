@@ -29,5 +29,4 @@ class UserPlateRepository extends ServiceEntityRepository
             ->getQuery()
             ->getScalarResult();
     }
-    
 }
