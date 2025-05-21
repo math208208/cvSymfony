@@ -2,11 +2,9 @@
 
 namespace App\Controller;
 
-use App\Entity\ExperiencePro;
-use App\Entity\ExperienceUni;
+
 use App\Entity\User;
-use App\Repository\ExperienceProRepository;
-use App\Repository\ExperienceUniRepository;
+use App\Repository\UserPlateRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -18,6 +16,7 @@ use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\DBAL\Connection;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 final class BlogController extends AbstractController
 {
@@ -35,6 +34,7 @@ final class BlogController extends AbstractController
         $searchTerm = $request->query->get('q', '');
         $page = $request->query->getInt('page', 1); // récupère la page actuelle (par défaut 1)
         $size = 8;
+
 
         // Classique
         //-------------------------------------------------------------
@@ -337,5 +337,79 @@ final class BlogController extends AbstractController
             'searchTerm' => $searchTerm,
             'totalPages' => $totalPages,
         ]);
+    }
+
+
+    #[Route('/autocomplete', name: 'autocomplete', methods: ['GET'])]
+    public function index(Request $request, UserPlateRepository $repo, UserRepository $userRepo): JsonResponse
+    {
+
+        $q = $request->query->get('q', '');
+        $results = $repo->findSuggestions($q);
+
+        $suggestions = [];
+
+        foreach ($results as $result) {
+            $user = $userRepo->find($result['userId']);
+
+            if ($user->isPrivate() === false) {
+                $suggestions[] = [
+                    'value' => $user->getNom() . ' ' . $user->getPrenom() . ' -> ' . $result["field"],
+                    'slug' => $user->getSlug(),
+                    'field' => $result["field"],
+                ];
+            }
+        }
+
+
+
+        return new JsonResponse($suggestions);
+    }
+
+
+    #[Route('/showcv/{id}', name: 'showcv', methods: ['GET'])]
+    public function showcv(int $id, UserRepository $userRepo): JsonResponse
+    {
+        $user = $userRepo->find($id);
+
+        $data = [
+            'nom' => $user->getNom(),
+            'prenom' => $user->getPrenom(),
+            'profession' => $user->getProfession(),
+            'description' => $user->getDescription(),
+            'email' => $user->getEmail(),
+            'telephone' => $user->getTelephone(),
+
+            'outils' => array_map(fn($outil) => $outil->getNom(), $user->getOutils()->toArray()),
+
+
+            'competences' => array_map(fn($competence) => $competence->getNom(), $user->getCompetences()->toArray()),
+            'langues' => array_map(fn($langue) => [
+                'nom' => $langue->getNomLangue(),
+                'niveau' => $langue->getNiveau()
+            ], $user->getLangues()->toArray()),
+
+            'loisirs' => array_map(fn($loisir) => $loisir->getNom(), $user->getLoisirs()->toArray()),
+            'experiencesPro' => array_map(fn($exp) => [
+                'poste' => $exp->getPoste(),
+                'entreprise' => $exp->getEntreprise(),
+                'dateDebut' => $exp->getDateDebut(),
+                'dateFin' => $exp->getDateFin() ?? null,
+            ], $user->getExperiencesPro()->toArray()),
+
+            'experiencesUni' => array_map(fn($exp) => [
+                'titre' => $exp->getTitre(),
+                'sousTitre' => $exp->getSousTitre(),
+                'annee' => $exp->getAnnee(),
+            ], $user->getExperiencesUni()->toArray()),
+
+            'formations' => array_map(fn($formation) => [
+                'intitule' => $formation->getIntitule(),
+                'lieu' => $formation->getLieu(),
+                'annee' => $formation->getAnnee(),
+            ], $user->getFormations()->toArray()),
+        ];
+
+        return new JsonResponse($data);
     }
 }

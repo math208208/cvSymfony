@@ -23,13 +23,11 @@ class SlugCheckerListener
 
     public function onKernelRequest(RequestEvent $event)
     {
-
         $request = $event->getRequest();
         $slug = $request->attributes->get('slug');
         $slug = explode('/', $slug);
         $slug = $slug[0];
-
-
+        
         if (!$slug) {
             return;
         }

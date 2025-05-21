@@ -36,6 +36,16 @@ app_blog:
   defaults:
     _locale: fr
 
+autocomplete:
+  path: /{_locale}/autocomplete
+  controller: App\Controller\BlogController::index
+  requirements:
+    _locale: fr|en|es
+  defaults:
+    _locale: fr
+
+
+
 app_profil:
   path: /{_locale}/{slug}
   controller: App\Controller\ProfilController::show

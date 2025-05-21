@@ -1,0 +1,66 @@
+{% block cv %}
+	<section id="showcv">
+		<button id="closeButton" onclick="closePopup()">x</button>
+
+		<div class="showTop">
+			<div>
+				<h2 id="cv-nom-prenom"></h2>
+				<p>
+					<strong>Profession :</strong>
+					<span id="cv-profession"></span>
+				</p>
+			</div>
+			<div class="contact">
+				<p>
+					<strong>Email :</strong>
+					<span id="cv-email"></span>
+				</p>
+				<p>
+					<strong>Téléphone :</strong>
+					<span id="cv-telephone"></span>
+				</p>
+			</div>
+		</div>
+
+		<h3>Description</h3>
+		<p id="cv-description"></p>
+
+
+		<div class="gridShowCv4">
+			<div>
+				<h3>Compétences</h3>
+				<ul id="cv-competences"></ul>
+			</div>
+			<div>
+				<h3>Outils</h3>
+				<ul id="cv-outils"></ul>
+			</div>
+			<div>
+				<h3>Langues</h3>
+				<ul id="cv-langues"></ul>
+			</div>
+			<div>
+				<h3>Loisirs</h3>
+				<ul id="cv-loisirs"></ul>
+			</div>
+		</div>
+
+		<div class="gridShowCv3">
+			<div>
+				<h3>Formations</h3>
+				<ul id="cv-formations"></ul>
+			</div>
+			<div>
+				<h3>Expériences Professionnelles</h3>
+				<ul id="cv-exp-pro"></ul>
+			</div>
+			<div>
+				<h3>Expériences Universitaires</h3>
+				<ul id="cv-exp-uni"></ul>
+			</div>
+		</div>
+
+
+	</section>
+
+{% endblock %}

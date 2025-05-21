@@ -54,6 +54,7 @@ security:
         - { path: ^/(fr|en|es)/register, roles: PUBLIC_ACCESS }
         - { path: ^/(fr|en|es)/login, roles: PUBLIC_ACCESS }
         - { path: ^/(fr|en|es)(/|$), roles: PUBLIC_ACCESS }
+        - { path: ^/(fr|en|es)/autocomplete, roles: PUBLIC_ACCESS }
 
         - { path: ^/admin, roles: ROLE_USER }
         - { path: ^/(fr|en|es)/([a-z0-9-]+)$, roles: ROLE_USER }
