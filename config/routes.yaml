@@ -45,7 +45,6 @@ autocomplete:
     _locale: fr
 
 
-
 app_profil:
   path: /{_locale}/{slug}
   controller: App\Controller\ProfilController::show

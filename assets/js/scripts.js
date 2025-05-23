@@ -90,19 +90,28 @@ function setupAutocomplete() {
 function openPopup(element) {
     const userId = element.dataset.userId;
     const showcv = document.getElementById('showcv');
+    const locale = document.body.dataset.locale;
 
 
     // Appelle la route Symfony via AJAX (fetch)
-    fetch(`/fr/showcv/${userId}`)
+    fetch(`/${locale}/showcv/${userId}`)
         .then(response => response.json())
         .then(data => {
             showcv.style.display = 'block';
 
-            document.getElementById('cv-nom-prenom').textContent = `${data.prenom} ${data.nom}`;
-            document.getElementById('cv-profession').textContent = data.profession;
+            document.getElementById('cv-nom').textContent = ` ${data.nom}`;
+            document.getElementById('cv-prenom').textContent = `${data.prenom} `;
+            document.getElementById('cv-profession').innerHTML = data.profession;
             document.getElementById('cv-email').textContent = data.email;
             document.getElementById('cv-telephone').textContent = data.telephone;
-            document.getElementById('cv-description').textContent = data.description;
+            document.getElementById('cv-description').innerHTML = data.description;
+            if (data.image !== null) {
+                document.getElementById('cv-image').src = `uploads/images/${data.image}`;
+            } else {
+                document.getElementById('cv-image').src = `build/images/default.ca330b81.png`
+            };
+
+
             // Compétences
             document.getElementById('cv-competences').innerHTML = data.competences.map(c => `<div>${c}</div>`).join('');
             // Outils
@@ -110,30 +119,30 @@ function openPopup(element) {
             // Langues
             document.getElementById('cv-langues').innerHTML = data.langues.map(l => `<div>${l.nom} (${l.niveau})</div>`).join('');
             // Loisirs
-            document.getElementById('cv-loisirs').innerHTML = data.loisirs.map(l => `<div>${l}</div>`).join('');
+            document.getElementById('cv-loisirs').innerHTML = data.loisirs.map(l => `<div>${l.nom}</div>`).join('');
             // Expériences professionnelles
             document.getElementById('cv-exp-pro').innerHTML = data.experiencesPro.map(exp => `
                 <div>
-                    <strong>${exp.poste}</strong> chez ${exp.entreprise}<br>
+                    <strong>${exp.poste}</strong> ${exp.entreprise}<br>
                     ${exp.dateDebut} – ${exp.dateFin}<br>
                 </div>
             `).join('');
             // Expériences universitaires
             document.getElementById('cv-exp-uni').innerHTML = data.experiencesUni.map(exp => `
                 <div>
-                    <strong>${exp.titre}</strong> ${exp.sousTitre}<br>
+                    <strong>${exp.titre}</strong> ${exp.sousTitre}
                     ${exp.annee} <br>
                 </div>
             `).join('');
             // Formations
             document.getElementById('cv-formations').innerHTML = data.formations.map(f => `
                 <div>
-                    <strong>${f.intitule}</strong> à ${f.lieu}<br>
+                    <strong>${f.intitule}</strong> ${f.lieu}<br>
                     ${f.annee}<br>
                 </div>
             `).join('');
         })
-        .catch (error => console.error('Erreur:', error));
+        .catch(error => console.error('Erreur:', error));
 
 }
 

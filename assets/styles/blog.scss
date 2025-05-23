@@ -69,7 +69,7 @@
             width: 35%;
             display: flex;
             flex-direction: column;
-            z-index: 8;
+            z-index: 2;
             top: 0;
             padding: 0;
             margin-top: 0;
@@ -78,6 +78,9 @@
             overflow-y: auto;
             top: 100%;
             background: white;
+            @include small {
+                width: 90%;
+            }
             li {
                 list-style: none;
                 border: 1px solid rgb(242, 205, 131);
@@ -91,37 +94,89 @@
         }
     }
     #showcv {
-        position:absolute;
+        position: fixed;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
         background-color: white;
-        padding: 2rem;
         box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
         border-radius: 10px;
         z-index: 1000;
         width: 50%;
         max-width: 90%;
         display: none;
+        padding: 0px 30px 20px 30px;
+        border-left: solid 7px rgb(242, 205, 131);
+        .divButton {
+            text-align: right;
+            button {
+                margin: 10px;
+            }
+        }
 
-        .showTop{
+        div,
+        p {
+            font-size: 0.9em;
+        }
+        h3 {
+            font-size: 1em;
+        }
+
+        .showTop {
             display: flex;
             flex-direction: row;
             justify-content: space-between;
+            margin-bottom: 10px;
+            @include small {
+                flex-direction: column;
+            }
+            img {
+                width: 12%;
+                height: auto;
+                @include small {
+                    display: none;
+                }
+            }
+            .showTopText {
+                display: flex;
+                flex-direction: column;
+                width: 30%;
+            }
+
+            .divDescription {
+                display: flex;
+                flex-direction: column;
+                width: 50%;
+                @include small {
+                    width: 100%;
+                    margin-top: 10px;
+                }
+            }
         }
-        
-        ul{
-            margin:0;
+
+        ul {
+            margin: 0;
             padding: 0;
         }
 
-        .gridShowCv4{
+        .gridShowCv4 {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
+            grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+            margin: 15px;
+            @include small {
+               margin: 0;
+            }
+            
         }
-        .gridShowCv3{
+        .gridShowCv3 {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            @include small {
+                display: none;
+            }
+            div {
+                margin: 10px;
+            }
         }
     }
 
