@@ -6,17 +6,17 @@
 {% block body %}
 	<main>
 		<section class="sectionContact">
-			<h2 class="h2Contact">{% trans %}contact{% endtrans %}</h2>
+			<h1 class="h2Contact">{% trans %}contact{% endtrans %}</h1>
 			<ul>
 				<li>Email :
 					{{user.user.email}}</li>
 				<li>Tel :
 					{{user.user.telephone}}</li>
 				<li>
-					<a href="{{user.user.linkdin}}" target="_blank"><img class="contactImg" src={{ asset('build/images/linkedin.webp') }} alt="imgLinkdin"/></a>
+					<a href="{{user.user.linkdin}}" target="_blank"><img class="contactImg" src={{ asset('build/images/linkedin.webp') }} alt="{{ 'alt.linkedin_image'|trans }}"/></a>
 				</li>
 				<li>
-					<a href="{{user.user.github}}" target="_blank"><img class="contactImg" src={{ asset('build/images/github.png') }} alt="imgGithub"/></a>
+					<a href="{{user.user.github}}" target="_blank"><img class="contactImg" src={{ asset('build/images/github.png') }} alt="{{ 'alt.github_image'|trans }}"/></a>
 				</li>
 			</ul>
 		</section>

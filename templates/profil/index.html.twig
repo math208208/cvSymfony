@@ -8,12 +8,13 @@
 	<main>
 		<!-- photo moi et description|raw -->
 		<section class="sectionIndex1">
-			<img id="imgmoi" src="{{ user.user.imageName ? asset('uploads/images/' ~ user.user.imageName) : asset('build/images/default.png') }}" alt="Photo personne"/>
+			<img id="imgmoi" src="{{ user.user.imageName ? asset('uploads/images/' ~ user.user.imageName) : asset('build/images/default.png') }}"
+			 alt="{{ 'alt.image_of'|trans }} {{user.user.prenom}} {{user.user.nom}}"/>
 
 			<div class="divInfo">
 				<h1>{{user.user.prenom}}
 					{{user.user.nom}}</h1>
-				<h3>{{user.translated_profession|raw}}</h3>
+				<h2>{{user.translated_profession|raw}}</h2>
 
 				<p>
 					{{user.translated_description|raw}}
@@ -43,11 +44,11 @@
 			<div class="imagesParcours">
 				{% for formation in formations %}
 					{% if formation.formation.imageName != null %}
-						<img src="{{ asset('uploads/images/' ~ formation.formation.imageName) }}" alt="Image formation" class="imgParcours"/>
+						<img src="{{ asset('uploads/images/' ~ formation.formation.imageName) }}" alt="{{ 'alt.image_of'|trans }} {{ formation.translated_intitule }}" class="imgParcours"/>
 					{% endif %}
 
 				{% else %}
-					<li>{% trans %}nodata{% endtrans %}</li>
+					<p>{% trans %}nodata{% endtrans %}</p>
 				{% endfor %}
 
 			</div>
@@ -62,11 +63,11 @@
 
 					{% if loisir.loisir.imageName != null %}
 
-						<img id="idgym" src="{{ asset('uploads/images/' ~ loisir.loisir.imageName) }}" alt="Image loisir" class="imgLoisirs"/>
+						<img id="idgym" src="{{ asset('uploads/images/' ~ loisir.loisir.imageName) }}" alt="{{ 'alt.image_of'|trans }} {{ loisir.translated_nom }}" class="imgLoisirs"/>
 
 					{% endif %}
 				{% else %}
-					<li>{% trans %}nodata{% endtrans %}</li>
+					<p>{% trans %}nodata{% endtrans %}</p>
 				{% endfor %}
 			</div>
 			<div class="loisirs divLoisirs">

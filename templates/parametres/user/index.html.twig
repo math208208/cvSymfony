@@ -1,11 +1,13 @@
 {% extends "base/user/index.html.twig" %}
 
-{% block title %}Parametres profil
+{% block title %}
+	{{ 'alt.profile_management'|trans }}
 {% endblock %}
 
 {% block body %}
 	<main>
 		<section class="sectionParametre">
+			<h1>{% trans %}alt.profile_management{% endtrans %}</h1>
 			<h2 class="h2Parametre">{% trans %}section.settings{% endtrans %}</h2>
 
 			<form method="POST" action="{{ path('app_update_parametres', {'slug': user.user.slug}) }}">
@@ -19,7 +21,7 @@
 						<input type="password" id="password" name="plainPassword" required>
 					</div>
 					<div class="divProfilEtat">
-						<h3>{% trans %}section.profilPrv{% endtrans %}</h3>
+						<label for="privateProfile">{% trans %}section.profilPrv{% endtrans %}</label>
 						<input type="checkbox" name="privateProfile" id="privateProfile" {% if user.user.isPrivate %} checked {% endif %}>
 					</div>
 					<button type="submit">{% trans %}button.change{% endtrans %}</button>
@@ -35,7 +37,8 @@
 
 			<div class="gridForm">
 				<div class="divForm">
-					<h3>{% trans %}section.add{% endtrans %} {% trans %}section.tool{% endtrans %}</h3>
+					<h3>{% trans %}section.add{% endtrans %}
+						{% trans %}section.tool{% endtrans %}</h3>
 
 					{{ form_start(addOutilForm) }}
 					{{ form_row(addOutilForm.existeOutil  ) }}
@@ -45,7 +48,8 @@
 					{{ form_end(addOutilForm) }}
 				</div>
 				<div class="divForm">
-					<h3>{% trans %}section.add{% endtrans %} {% trans %}section.language{% endtrans %}</h3>
+					<h3>{% trans %}section.add{% endtrans %}
+						{% trans %}section.language{% endtrans %}</h3>
 
 					{{ form_start(addLangueForm) }}
 					{{ form_row(addLangueForm.nomLangue  ) }}
@@ -54,7 +58,8 @@
 					{{ form_end(addLangueForm) }}
 				</div>
 				<div class="divForm">
-					<h3>{% trans %}section.add{% endtrans %} {% trans %}section.hobbie{% endtrans %}</h3>
+					<h3>{% trans %}section.add{% endtrans %}
+						{% trans %}section.hobbie{% endtrans %}</h3>
 
 					{{ form_start(addLoisirForm) }}
 					{{ form_row(addLoisirForm.existeLoisir  ) }}
@@ -64,7 +69,8 @@
 					{{ form_end(addLoisirForm) }}
 				</div>
 				<div class="divForm">
-					<h3>{% trans %}section.add{% endtrans %} {% trans %}section.skill{% endtrans %}</h3>
+					<h3>{% trans %}section.add{% endtrans %}
+						{% trans %}section.skill{% endtrans %}</h3>
 
 					{{ form_start(addCompetenceForm) }}
 					{{ form_row(addCompetenceForm.existeCompetence  ) }}
@@ -74,7 +80,8 @@
 					{{ form_end(addCompetenceForm) }}
 				</div>
 				<div class="divForm">
-					<h3>{% trans %}section.add{% endtrans %} {% trans %}section.train{% endtrans %}</h3>
+					<h3>{% trans %}section.add{% endtrans %}
+						{% trans %}section.train{% endtrans %}</h3>
 
 					{{ form_start(addFormationForm) }}
 					{{ form_row(addFormationForm.intitule  ) }}
@@ -89,7 +96,9 @@
 			</div>
 			<div class="gridForm2">
 				<div class="divForm">
-					<h3>{% trans %}section.add{% endtrans %} {% trans %}section.experience{% endtrans %} {% trans %}section.uni{% endtrans %}</h3>
+					<h3>{% trans %}section.add{% endtrans %}
+						{% trans %}section.experience{% endtrans %}
+						{% trans %}section.uni{% endtrans %}</h3>
 
 					{{ form_start(addExpUniForm) }}
 					{{ form_row(addExpUniForm.titre  ) }}
@@ -100,7 +109,9 @@
 					{{ form_end(addExpUniForm) }}
 				</div>
 				<div class="divForm">
-					<h3>{% trans %}section.add{% endtrans %} {% trans %}section.experience{% endtrans %} {% trans %}section.pro{% endtrans %}</h3>
+					<h3>{% trans %}section.add{% endtrans %}
+						{% trans %}section.experience{% endtrans %}
+						{% trans %}section.pro{% endtrans %}</h3>
 
 					{{ form_start(addExpProForm) }}
 					{{ form_row(addExpProForm.poste  ) }}

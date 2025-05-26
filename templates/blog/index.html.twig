@@ -5,7 +5,7 @@
 
 {% block body %}
 	<main class="container">
-		<h2 class="section-title">{% trans %}header.home{% endtrans %}</h2>
+		<h1 class="section-title">{% trans %}header.home{% endtrans %}</h1>
 		<form method="get" action="{{ path('app_blog') }}" class="search-form">
 			<div>
 				<input id="search" type="text" autocomplete="off" name="q" placeholder="find ..." value="{{ app.request.get('q') }}">
@@ -24,7 +24,7 @@
 			{% for translatedUser in translatedUsers %}
 				<div class="cardProfil"  data-user-id="{{ translatedUser.user.id }}" onclick="openPopup(this)">
 					<div id="contCv" class="classTop">
-						<img src="{{ translatedUser.user.imageName ? asset('uploads/images/' ~ translatedUser.user.imageName) : asset('build/images/default.png') }}" alt="image personne">
+						<img src="{{ translatedUser.user.imageName ? asset('uploads/images/' ~ translatedUser.user.imageName) : asset('build/images/default.png') }}" alt="{{ 'alt.image_of'|trans }} {{ translatedUser.user.prenom }} {{ translatedUser.user.nom }}" class="imgProfil">
 						<div class="nameUser">
 							<p>{{ translatedUser.user.prenom }}</p>
 							<p>{{ translatedUser.user.nom }}</p>

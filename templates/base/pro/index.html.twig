@@ -3,7 +3,8 @@
 	<head>
 		<meta charset="utf-8"/>
 		<title>
-			CV - {% block title %}{% endblock %}
+			CV -
+			{% block title %}{% endblock %}
 		</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1"/>
 		<link rel="icon" type="image/png" href={{ asset('build/images/logo.png') }}>
@@ -13,21 +14,29 @@
 
 	</head>
 
-	<body class="bodymain"  data-locale="{{ app.request.locale }}">
+	<body class="bodymain" data-locale="{{ app.request.locale }}">
 
 		<header class="headMain">
 			<nav>
 				<div class="navMenu">
-					<a href="{{ path('app_blog') }}"><img id="logo" alt="imgLogo" src={{ asset('build/images/logo.png') }} class="imgLogo"/></a>
-					<a href="{{ path('app_parametresPro') }}" class="actionAmob"><img class="imgActionmob" src={{ asset('build/images/menu/profil.png') }} alt="imgProfil"/></a>
-					<a href="{{ path('app_logout') }}" class="actionAmob"><img class="imgActionmob" src={{ asset('build/images/menu/exit.png') }} alt="imgExit"/></a>
-					<img id="idmenu" alt="imgmenu" src={{ asset('build/images/menu/menu.png') }} class="imgMenu"/>
+					<a href="{{ path('app_blog') }}">
+						<img id="logo" alt="{{ 'alt.home'|trans }}" src={{ asset('build/images/logo.png') }} class="imgLogo"/></a>
+					<a href="{{ path('app_parametresPro') }}" class="actionAmob">
+						<img class="imgActionmob" src={{ asset('build/images/menu/profil.png') }} alt="{{ 'alt.profile_management'|trans }}"/>
+						<span class="visually-hidden">{{ 'alt.profile_management'|trans }}</span>
+					</a>
+
+					<a href="{{ path('app_logout') }}" class="actionAmob">
+						<img class="imgActionmob" alt="{{ 'alt.logout'|trans }}" src={{ asset('build/images/menu/exit.png') }}/>
+						<span class="visually-hidden">{{ 'alt.logout'|trans }}</span>
+					</a>
+					<img id="idmenu" alt="{{ 'alt.open_menu'|trans }}" src={{ asset('build/images/menu/menu.png') }} class="imgMenu"/>
 				</div>
 
 				<div class="navDiva">
 					<a id="navExplorer" class="butNav" href="{{ path('app_blog') }}">{% trans %}header.explorer{% endtrans %}</a>
-					<a href="{{ path('app_parametresPro') }}" class="actionB"><img class="imgAction" src={{ asset('build/images/menu/profil.png') }} alt="imgProfil"/></a>
-					<a href="{{ path('app_logout') }}" class="actionB"><img class="imgAction" src={{ asset('build/images/menu/exit.png') }} alt="imgExit"/></a>
+					<a href="{{ path('app_parametresPro') }}" class="actionB"><img class="imgAction" src={{ asset('build/images/menu/profil.png') }} alt="{{ 'alt.profile_management'|trans }}"/></a>
+					<a href="{{ path('app_logout') }}" class="actionB"><img class="imgAction" alt="{{ 'alt.logout'|trans }}" src={{ asset('build/images/menu/exit.png') }}/></a>
 
 				</div>
 			</nav>
@@ -36,8 +45,7 @@
 
 		{% block body %}{% endblock %}
 
-		<footer>
-		</footer>
+		<footer></footer>
 	</body>
 	{% block javascripts %}
 		{{ encore_entry_script_tags('app') }}

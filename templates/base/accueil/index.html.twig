@@ -19,8 +19,8 @@
 			<nav>
 				<!--Ajouter plus de truc dans le menu genre exemple de cv conseil etc etc-->
 				<div class="navMenu">
-					<a href="{{ path('app_blog') }}"><img id="logo" alt="imgLogo" src={{ asset('build/images/logo.png') }} class="imgLogoAccueil"/></a>
-					<img id="idmenu" alt="imgmenu" src={{ asset('build/images/menu/menu.png') }} class="imgMenu"/>
+					<a href="{{ path('app_blog') }}"><img id="logo" alt="{{ 'alt.home'|trans }}" src={{ asset('build/images/logo.png') }} class="imgLogoAccueil"/></a>
+					<img id="idmenu" alt="{{ 'alt.open_menu'|trans }}" src={{ asset('build/images/menu/menu.png') }} class="imgMenu"/>
 				</div>
 				<div class="navDiva">
 					<a id="navExplorer" class="butNav" href="{{ path('app_blog') }}">{% trans %}header.explorer{% endtrans %}</a>

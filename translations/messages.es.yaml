@@ -98,6 +98,17 @@ langue:
   german: "Alemán"
   japanese: "Japonés"
 
+alt:
+  home: "volver al inicio"
+  open_menu: "abrir el menú"
+  profile_management: "gestión del perfil"
+  logout: "cerrar sesión"
+  image_of: "imagen de"
+  logo_of: "logo de"
+  linkedin_image: "imagen de Linkedin"
+  github_image: "imagen de GitHub"
+
+
 contact: "Contacto"
 nodata: "Sin datos"
 find: "Buscar"

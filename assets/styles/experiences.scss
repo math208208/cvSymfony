@@ -5,6 +5,11 @@
     @include small {
         padding: 25px;
     }
+    h1 {
+        padding-top: 50px;
+        padding-bottom: 20px;
+        text-align: center;
+    }
     .h2Experience {
         margin-top: 50px;
         text-align: center;
@@ -65,7 +70,7 @@
                         text-align: center;
                     }
                 }
-                h4 {
+                h3 {
                     @include small {
                         text-align: center;
                     }
@@ -88,7 +93,6 @@
                     margin: 0;
                 }
                 ul {
-                    
                     @include small {
                         margin-bottom: 25px;
                     }
@@ -96,7 +100,7 @@
                         list-style: none;
                         font-size: 1.3em;
                         @include small {
-                            padding: 10px ;
+                            padding: 10px;
                         }
                     }
                 }

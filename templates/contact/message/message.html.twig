@@ -3,7 +3,7 @@
 	</h2>
 	{% for message in messages %}
 		<div class="divMsg">
-			<h4>{% trans %}section.sendTo{% endtrans %} {{ message.expediteur }}</h3>
+			<h3>{% trans %}section.sendTo{% endtrans %} {{ message.expediteur }}</h3>
 			<p>{% trans %}section.message{% endtrans %} {{ message.message }}</p>
 		</div>
 	{% else %}

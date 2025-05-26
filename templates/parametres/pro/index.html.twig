@@ -7,6 +7,7 @@
 
 	<main>
 		<section class="sectionParametre">
+			<h1>{% trans %}alt.profile_management{% endtrans %}</h1>
 			<h2 class="h2Parametre">{% trans %}section.settings{% endtrans %}</h2>
 
 			<form method="POST" action="{{ path('app_update_parametresPro') }}">
@@ -37,9 +38,10 @@
 			<h2>{% trans %}section.messageSend{% endtrans %}</h2>
 			{% for message in messages %}
 				<div>
-					<h4>Message envoyé à 
+					<h3>Message envoyé à
 						{{ message.receveur }}</h3>
-					<p>{% trans %}section.message{% endtrans %} {{ message.message }}</p>
+					<p>{% trans %}section.message{% endtrans %}
+						{{ message.message }}</p>
 				</div>
 			{% else %}
 				<p class="no-data">{% trans %}nodata{% endtrans %}</p>

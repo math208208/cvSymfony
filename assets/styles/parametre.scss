@@ -1,11 +1,14 @@
 @use "variables" as *;
 
 .sectionParametre {
-    padding: 100px;
+    padding: 50px;
     text-align: center;
 
     @include small {
         padding: 30px;
+    }
+    h1{
+        margin-bottom: 50px;
     }
     .h2Parametre {
         margin-bottom: 30px;
@@ -47,13 +50,14 @@
                 margin: auto;
                 margin-bottom: 30px;
             }
-            h3 {
+            label {
                 margin-right: 15px;
+                font-weight: bold;
             }
         }
 
         button {
-            background: radial-gradient(circle, rgba(252, 222, 121, 1) 36%, rgba(250, 174, 162, 1) 100%);
+            background: $color-button2;
             padding: 15px;
             border-radius: 30px;
             width: 30%;
@@ -108,7 +112,7 @@
     }
 
     .divForm {
-        background: radial-gradient(circle, rgba(252, 222, 121, 1) 36%, rgba(250, 174, 162, 1) 100%);
+        background: $color-button2;
         margin-top: 30px;
         border-radius: 30px;
         border: 2px solid rgb(9, 9, 9);

@@ -91,13 +91,23 @@ form:
     lastName: 'Nom'
 
 langue:
-  english: "Anglais"
-  spanish: "Espagnol"
-  chinese: "Chinois"
-  portuguese: "Portugais"
-  german: "Allemand"
-  japanese: "Japonais"
-    
-contact : "Contact"
-nodata : "Aucune données"
-find : "Rechercher"
+    english: "Anglais"
+    spanish: "Espagnol"
+    chinese: "Chinois"
+    portuguese: "Portugais"
+    german: "Allemand"
+    japanese: "Japonais"
+
+alt:
+    home: "retour à l'accueil"
+    open_menu: "ouvrir le menu"
+    profile_management: "gestion du profil"
+    logout: "se déconnecter"
+    image_of: "image de"
+    logo_of: "logo de"
+    linkedin_image: "image Linkedin"
+    github_image: "image github"
+
+contact: "Contact"
+nodata: "Aucune donnée"
+find: "Rechercher"

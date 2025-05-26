@@ -49,6 +49,7 @@
             }
         }
         button {
+            color: white;
             @include small {
                 background-color: $color-terciaire;
             }
@@ -61,7 +62,7 @@
         width: 45%;
 
         .aBoutton {
-            background: radial-gradient(circle, rgba(252, 222, 121, 1) 36%, rgba(250, 174, 162, 1) 100%);
+            background: $color-button2;
             padding: 15px;
             border-radius: 30px;
             text-align: center;
@@ -105,16 +106,13 @@
         }
     }
     .imagesParcours {
+        text-align: end;
         .imgParcours {
             border-radius: 20px;
             @include boxshadow;
-
-            &:nth-child(1) {
-                right: 7%;
-                margin-top: 4em;
-            }
             &:nth-child(2) {
-                right: 29%;
+                right: 7%;
+                margin: 30px;
             }
 
             @include small {

@@ -7,7 +7,9 @@
 {% block body %}
 	<main>
 
+
 		<section class="css-sectionComp1">
+			<h1>{% trans %}header.skills{% endtrans %}</h1>
 			<h2 class="titreSection">{% trans %}section.programming{% endtrans %}</h2>
 			<div class="langages">
 				{% for competence in competences %}
@@ -19,7 +21,7 @@
 						</div>
 
 						<div class="progress-bar" aria-hidden="true" data-pourcent="{{ competence.pourcentageMetrise }}">
-							<progress min="0" max="100"  style="visibility:hidden;height:0;width:0;">
+							<progress min="0" max="100" style="visibility:hidden;height:0;width:0;">
 							{{ competence.pourcentageMetrise }}%
 						</progress>
 					</div>
@@ -36,7 +38,7 @@
 			{% for outil in outils %}
 				<div class="outil">
 					<h3>{{ outil.nom }}</h3>
-					<img src="{{ asset('uploads/images/' ~ outil.imageName) }}" class="outilImage" alt="logo {{ outil.nom }}"/>
+					<img src="{{ asset('uploads/images/' ~ outil.imageName) }}" class="outilImage" alt="{{ 'alt.logo_of'|trans }} {{ outil.nom }}"/>
 				</div>
 			{% else %}
 				<p class="no-data">{% trans %}nodata{% endtrans %}</p>

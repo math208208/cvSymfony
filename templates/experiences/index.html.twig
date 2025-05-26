@@ -7,13 +7,14 @@
 {% block body %}
 	<main>
 		<section class="sectionExperience  sectionExperiencePro">
+			<h1>{% trans %}header.experiences{% endtrans %}</h1>
 			<h2 class="h2Experience">{% trans %}section.proExperience{% endtrans %}</h2>
 			<div class="divExp divExpPro">
 				{% for experiencePro in experiencesPro %}
 					<div class="exp expPro">
 						<div class="blocexp blocexpPro">
 							<h2>{{experiencePro.translated_poste|raw }}</h2>
-							<h4>{{experiencePro.experiencePro.entreprise|raw }}</h4>
+							<h3>{{experiencePro.experiencePro.entreprise|raw }}</h3>
 
 						</div>
 						<p>
@@ -30,7 +31,7 @@
 						</div>
 					</div>
 				{% else %}
-					<li>{% trans %}nodata{% endtrans %}</li>
+					<p>{% trans %}nodata{% endtrans %}</p>
 				{% endfor %}
 
 
@@ -47,7 +48,7 @@
 					<div class="exp expUni">
 						<div class="blocexp blocexpUni">
 							<h2>{{experienceUni.translated_titre|raw  }}</h2>
-							<h4>{{experienceUni.translated_sousTitre|raw }}</h4>
+							<h3>{{experienceUni.translated_sousTitre|raw }}</h3>
 
 						</div>
 						<p>
@@ -62,7 +63,7 @@
 						</div>
 					</div>
 				{% else %}
-					<li>{% trans %}nodata{% endtrans %}</li>
+					<p>{% trans %}nodata{% endtrans %}</p>
 				{% endfor %}
 
 			</div>

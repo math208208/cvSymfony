@@ -21,14 +21,14 @@ footer {
             left: 0;
             width: 100%;
             height: 3px;
-            background: radial-gradient(circle,rgba(252, 222, 121, 1) 36%, rgba(250, 174, 162, 1) 100%);
+            background: $color-button2;
             transform: scaleX(0);
             transform-origin: center;
             transition: transform 0.5s;
         }
 
         &:hover {
-            background: radial-gradient(circle,rgba(252, 222, 121, 1) 36%, rgba(250, 174, 162, 1) 100%);
+            background: $color-button2;
             -webkit-background-clip: text;
             background-clip: text; 
             font-weight: bold;
