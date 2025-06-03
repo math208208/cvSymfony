@@ -23,30 +23,72 @@
             @include small {
                 width: 90%;
             }
+            div {
+                display: flex;
+                flex-direction: column;
 
-            input {
-                padding: 10px 15px;
-                width: 50%;
-                max-width: 90%;
-                border: 1px solid #ccc;
-                border-radius: 20px;
-                margin-right: 5px;
-                font-size: 1rem;
-                transition: border-color 0.3s ease;
+                input {
+                    padding: 10px 15px;
+                    width: 90%;
+                    border: 1px solid #ccc;
+                    border-radius: 20px;
+                    margin-right: 5px;
+                    font-size: 1rem;
+                    z-index: 3;
+                    transition: border-color 0.3s ease;
+                    margin-right: 15px;
+                    
+                    @include small {
+                        width: 80%;
+                    }
 
-                &:focus {
-                    outline: none;
-                    border-color: $color-secondaire;
-                    box-shadow: 0 0 0 2px $color-secondaire;
+                    &:focus {
+                        outline: none;
+                        border-color: $color-secondaire;
+                        box-shadow: 0 0 0 2px $color-secondaire;
+                    }
+                }
+
+                #suggestions {
+                    width: 24.7%;
+                    display: flex;
+                    flex-direction: column;
+                    z-index: 2;
+                    top: 20px;
+                    padding: 0;
+                    margin-top: -20px;
+                    position: absolute;
+                    max-height: 300px;
+                    overflow-y: auto;
+                    top: 100%;
+                    background: white;
+                    border-radius: 0 0 20px 20px;
+
+                    @include small {
+                        width: 56%;
+                    }
+
+
+                    li {
+                        list-style: none;
+                        border: 1px solid $color-secondaire;
+                        &:last-child {
+                            border-radius: 0 0 20px 20px;
+                        }
+                        &:first-child {
+                           padding-top: 30px;
+                        }
+                        &:hover {
+                            background: $color-secondaire;
+                        }
+                    }
                 }
             }
-
             button {
                 background: $color-button2;
                 padding: 15px;
                 border-radius: 30px;
                 margin-left: 5px;
-                width: 20%;
                 text-align: center;
                 text-transform: uppercase;
                 transition: 0.5s;
@@ -62,120 +104,6 @@
                     text-decoration: none;
                     cursor: pointer;
                 }
-            }
-        }
-
-        #suggestions {
-            width: 35%;
-            display: flex;
-            flex-direction: column;
-            z-index: 2;
-            top: 0;
-            padding: 0;
-            margin-top: 0;
-            position: absolute;
-            max-height: 300px;
-            overflow-y: auto;
-            top: 100%;
-            background: white;
-            @include small {
-                width: 90%;
-            }
-            li {
-                list-style: none;
-                border: 1px solid $color-secondaire;
-                &:last-child {
-                    border-radius: 0 0 20px 20px;
-                }
-                &:hover {
-                    background: $color-secondaire;
-                }
-            }
-        }
-    }
-    #showcv {
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        background-color: white;
-        box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
-        border-radius: 10px;
-        z-index: 1000;
-        width: 50%;
-        max-width: 90%;
-        display: none;
-        padding: 0px 30px 20px 30px;
-        border-left: solid 7px $color-secondaire;
-        .divButton {
-            text-align: right;
-            button {
-                margin: 10px;
-            }
-        }
-
-        div,
-        p {
-            font-size: 0.9em;
-        }
-        h3 {
-            font-size: 1em;
-        }
-
-        .showTop {
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between;
-            margin-bottom: 10px;
-            @include small {
-                flex-direction: column;
-            }
-            img {
-                width: 12%;
-                height: auto;
-                @include small {
-                    display: none;
-                }
-            }
-            .showTopText {
-                display: flex;
-                flex-direction: column;
-                width: 30%;
-            }
-
-            .divDescription {
-                display: flex;
-                flex-direction: column;
-                width: 50%;
-                @include small {
-                    width: 100%;
-                    margin-top: 10px;
-                }
-            }
-        }
-
-        ul {
-            margin: 0;
-            padding: 0;
-        }
-
-        .gridShowCv4 {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
-            margin: 15px;
-            @include small {
-               margin: 0;
-            }
-            
-        }
-        .gridShowCv3 {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-            @include small {
-                display: none;
-            }
-            div {
-                margin: 10px;
             }
         }
     }
@@ -271,16 +199,101 @@
         margin-top: 20px;
 
         a {
-            font-size:24px;
-            margin: 10px
+            font-size: 24px;
+            margin: 10px;
+            &:hover {
+                font-weight: bold;
+            }
         }
-        span:hover {
-            font-weight: bold;
-        }
-        .current {
+        .active {
             font-size: 1.5em;
             color: $color-secondaire;
             font-weight: bold;
+        }
+    }
+}
+
+#showcv {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    z-index: 1000;
+    width: 50%;
+    max-width: 90%;
+    padding: 0px 30px 20px 30px;
+    border-left: solid 7px $color-secondaire;
+    .divButton {
+        text-align: right;
+        button {
+            margin: 10px;
+        }
+    }
+
+    div,
+    p {
+        font-size: 0.9em;
+    }
+    h3 {
+        font-size: 1em;
+    }
+
+    .showTop {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        margin-bottom: 10px;
+        @include small {
+            flex-direction: column;
+        }
+        img {
+            width: 12%;
+            height: auto;
+            @include small {
+                display: none;
+            }
+        }
+        .showTopText {
+            display: flex;
+            flex-direction: column;
+            width: 30%;
+        }
+
+        .divDescription {
+            display: flex;
+            flex-direction: column;
+            width: 50%;
+            @include small {
+                width: 100%;
+                margin-top: 10px;
+            }
+        }
+    }
+
+    ul {
+        margin: 0;
+        padding: 0;
+    }
+
+    .gridShowCv4 {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+        margin: 15px;
+        @include small {
+            margin: 0;
+        }
+    }
+    .gridShowCv3 {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+        @include small {
+            display: none;
+        }
+        div {
+            margin: 10px;
         }
     }
 }

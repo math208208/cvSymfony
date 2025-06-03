@@ -8,21 +8,21 @@
 		<h1 class="section-title">{% trans %}header.home{% endtrans %}</h1>
 		<form method="get" action="{{ path('app_blog') }}" class="search-form">
 			<div>
-				<input id="search" type="text" autocomplete="off" name="q" placeholder="find ..." value="{{ app.request.get('q') }}">
+				<div>
+					<input id="search" type="text" autocomplete="off" name="q" placeholder="find ..." value="{{ app.request.get('q') }}">
+					<ul id="suggestions"></ul>
+				</div>
 				<button type="submit">{% trans %}find{% endtrans %}</button>
-
 			</div>
-			<ul id="suggestions"></ul>
 		</form>
 
-		{% include '/blog/showcv.html.twig' %}
 
 
 		<section class="sectionExplo1">
 
 
 			{% for translatedUser in translatedUsers %}
-				<div class="cardProfil"  data-user-id="{{ translatedUser.user.id }}" onclick="openPopup(this)">
+				<div class="cardProfil" data-user-id="{{ translatedUser.user.email }}">
 					<div id="contCv" class="classTop">
 						<img src="{{ translatedUser.user.imageName ? asset('uploads/images/' ~ translatedUser.user.imageName) : asset('build/images/default.png') }}" alt="{{ 'alt.image_of'|trans }} {{ translatedUser.user.prenom }} {{ translatedUser.user.nom }}" class="imgProfil">
 						<div class="nameUser">

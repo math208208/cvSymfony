@@ -91,34 +91,31 @@ class LoisirCrudController extends AbstractCrudController
         return $qb;
     }
 
-    public function configureFields(string $pageName): iterable
+    public function configureFields(string $pageName): iterable   //permet de configurer les champs à afficher dans le formulaire et la liste
     {
         $fields = [
 
             IdField::new('id')->hideOnForm(),
-            TextField::new('nom'),
-            TextField::new('imageFile')
+            TextField::new('nom'),     // Nom du loisir sera affiché dans le formulaire et la liste
+            TextField::new('imageFile')     // Champ pour télécharger l'image du loisir
                 ->setFormType(VichImageType::class)
-                ->onlyOnForms(),
-            ImageField::new('imageName', 'Image')
+                ->onlyOnForms(),                //visible uniquement dans le formulaire
+            ImageField::new('imageName', 'Image') // Champ pour afficher l'image du loisir
                 ->setBasePath('/uploads/images')
-                ->hideOnForm(),
-            AssociationField::new('user')
-                ->autocomplete()
-                ->setFormTypeOption('attr', ['data-search' => 'true'])
-                ->setRequired(true),
+                ->hideOnForm(),         //visible uniquement dans la liste
+            AssociationField::new('user')      // Association avec l'entité User
+                ->autocomplete()            // Permet l'autocomplétion pour la sélection de l'utilisateur
+                ->setFormTypeOption('attr', ['data-search' => 'true'])    
+                ->setRequired(true),    // Champ obligatoire
 
-            BooleanField::new('archived', 'Archivé')
-                ->renderAsSwitch()
+            BooleanField::new('archived', 'Archivé')   // Champ pour indiquer si le loisir est archivé (ne sera pas renvoyer en front si il est archivé)
+                ->renderAsSwitch()      
 
         ];
-
-
-
         return $fields;
     }
 
-    public function configureCrud(Crud $crud): Crud
+    public function configureCrud(Crud $crud): Crud  //gestion des champs qui sont recherchables dans la liste
     {
         return $crud
             ->setSearchFields(

@@ -13,6 +13,9 @@ startdocker:
 stopdocker:
 		docker-compose -f compose.yaml down
 
+restartdocker:
+		docker-compose -f compose.yaml down && docker-compose -f compose.yaml up --build -d
+
 migrate:
 		php bin/console doctrine:migrations:migrate
 

@@ -6,9 +6,10 @@
 
 {% block body %}
 	<main>
+		<h1>{% trans %}header.experiences{% endtrans %}</h1>
 		<section class="sectionExperience  sectionExperiencePro">
-			<h1>{% trans %}header.experiences{% endtrans %}</h1>
 			<h2 class="h2Experience">{% trans %}section.proExperience{% endtrans %}</h2>
+
 			<div class="divExp divExpPro">
 				{% for experiencePro in experiencesPro %}
 					<div class="exp expPro">

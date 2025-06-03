@@ -42,9 +42,6 @@ class ProfessionnelCrudController extends AbstractCrudController
         return $actions;
     }
 
-
-
-
     public function configureFields(string $pageName): iterable
     {
         return [
@@ -56,7 +53,6 @@ class ProfessionnelCrudController extends AbstractCrudController
             TextField::new('email'),
         ];
     }
-
 
     public function configureCrud(Crud $crud): Crud
     {

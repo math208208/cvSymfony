@@ -26,7 +26,10 @@ app_register:
     _locale: fr|en|es
   defaults:
     _locale: fr
-
+    
+api_login:
+  path: /api/login
+  methods: [POST]
 
 app_blog:
   path: /{_locale}
@@ -38,7 +41,7 @@ app_blog:
 
 autocomplete:
   path: /{_locale}/autocomplete
-  controller: App\Controller\BlogController::index
+  controller: App\Controller\AutocompletionController::index
   requirements:
     _locale: fr|en|es
   defaults:

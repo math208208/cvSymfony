@@ -8,8 +8,7 @@
 		<section class="sectionContact">
 			<h1 class="h2Contact">{% trans %}contact{% endtrans %}</h1>
 			<ul>
-				<li>Email :
-					{{user.user.email}}</li>
+				<li><a href="mailto:{{user.user.email}}">Email : {{user.user.email}}</a></li>
 				<li>Tel :
 					{{user.user.telephone}}</li>
 				<li>

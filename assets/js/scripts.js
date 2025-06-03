@@ -29,6 +29,16 @@ window.addEventListener('load', () => {
 });
 
 document.addEventListener('DOMContentLoaded', setupAutocomplete);
+document.addEventListener("DOMContentLoaded", function () {
+    const cards = document.querySelectorAll(".cardProfil");
+
+    cards.forEach(card => {
+        card.addEventListener("click", function () {
+            openPopup(this);
+        });
+    });
+});
+
 
 function setupMenuToggle() {
     $(".imgMenu").on("click", () => {
@@ -88,66 +98,123 @@ function setupAutocomplete() {
 
 
 function openPopup(element) {
-    const userId = element.dataset.userId;
-    const showcv = document.getElementById('showcv');
+    const userMail = element.dataset.userId;
+
     const locale = document.body.dataset.locale;
 
-
-    // Appelle la route Symfony via AJAX (fetch)
-    fetch(`/${locale}/showcv/${userId}`)
-        .then(response => response.json())
-        .then(data => {
-            showcv.style.display = 'block';
-
-            document.getElementById('cv-nom').textContent = ` ${data.nom}`;
-            document.getElementById('cv-prenom').textContent = `${data.prenom} `;
-            document.getElementById('cv-profession').innerHTML = data.profession;
-            document.getElementById('cv-email').textContent = data.email;
-            document.getElementById('cv-telephone').textContent = data.telephone;
-            document.getElementById('cv-description').innerHTML = data.description;
-            if (data.image !== null) {
-                document.getElementById('cv-image').src = `uploads/images/${data.image}`;
-            } else {
-                document.getElementById('cv-image').src = `build/images/default.ca330b81.png`
-            };
-
-
-            // Compétences
-            document.getElementById('cv-competences').innerHTML = data.competences.map(c => `<div>${c}</div>`).join('');
-            // Outils
-            document.getElementById('cv-outils').innerHTML = data.outils.map(o => `<div>${o}</div>`).join('');
-            // Langues
-            document.getElementById('cv-langues').innerHTML = data.langues.map(l => `<div>${l.nom} (${l.niveau})</div>`).join('');
-            // Loisirs
-            document.getElementById('cv-loisirs').innerHTML = data.loisirs.map(l => `<div>${l.nom}</div>`).join('');
-            // Expériences professionnelles
-            document.getElementById('cv-exp-pro').innerHTML = data.experiencesPro.map(exp => `
-                <div>
-                    <strong>${exp.poste}</strong> ${exp.entreprise}<br>
-                    ${exp.dateDebut} – ${exp.dateFin}<br>
+    let showcv = document.getElementById('showcv');
+    if (!showcv) {
+        const cvHTML = `
+        <section id="showcv">
+            <div class="divButton">
+                <button id="closeButton" onclick="closePopup()">x</button>
+            </div>
+            <div class="showTop">
+                <img id="cv-image" src="" alt="Photo">
+                <div class="showTopText">
+                    <h2 id="cv-nom"></h2>
+                    <h2 id="cv-prenom"></h2>
+                    <p><strong>Profession :</strong> <span id="cv-profession"></span></p>
+                    <p><strong>Email :</strong> <span id="cv-email"></span></p>
+                    <p><strong>Téléphone :</strong> <span id="cv-telephone"></span></p>
                 </div>
-            `).join('');
-            // Expériences universitaires
-            document.getElementById('cv-exp-uni').innerHTML = data.experiencesUni.map(exp => `
-                <div>
-                    <strong>${exp.titre}</strong> ${exp.sousTitre}
-                    ${exp.annee} <br>
+                <div class="divDescription">
+                    <h3>Description</h3>
+                    <p id="cv-description"></p>
                 </div>
-            `).join('');
-            // Formations
-            document.getElementById('cv-formations').innerHTML = data.formations.map(f => `
-                <div>
-                    <strong>${f.intitule}</strong> ${f.lieu}<br>
-                    ${f.annee}<br>
-                </div>
-            `).join('');
+            </div>
+            <div class="gridShowCv4">
+                <div><h3>Compétences</h3><ul id="cv-competences"></ul></div>
+                <div><h3>Outils</h3><ul id="cv-outils"></ul></div>
+                <div><h3>Langues</h3><ul id="cv-langues"></ul></div>
+                <div><h3>Loisirs</h3><ul id="cv-loisirs"></ul></div>
+            </div>
+            <div class="gridShowCv3">
+                <div><h3>Formations</h3><ul id="cv-formations"></ul></div>
+                <div><h3>Expérience Pro</h3><ul id="cv-exp-pro"></ul></div>
+                <div><h3>Expérience Univ</h3><ul id="cv-exp-uni"></ul></div>
+            </div>
+        </section>
+        `;
+
+        document.body.insertAdjacentHTML('beforeend', cvHTML);
+        showcv = document.getElementById('showcv');
+        showcv.style.display = 'none';
+
+    }
+
+    fetch('/api/login', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            email: 'matheomoiron@gmail.com',
+            password: 'infostrates'
         })
-        .catch(error => console.error('Erreur:', error));
+    })
+    .then(response => response.json())
+    .then(loginData => {
+        const token = loginData.token; 
+        const mail = userMail ; 
+    
+        return fetch(`${locale}/api/cv?email=${mail}`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+    })
+    .then(response => response.json())
+    .then(data => {
 
+            if (!data.error) {
+
+                document.getElementById('cv-nom').textContent = ` ${data.nom}`;
+                document.getElementById('cv-prenom').textContent = `${data.prenom} `;
+                document.getElementById('cv-profession').innerHTML = data.profession;
+                document.getElementById('cv-email').textContent = data.email;
+                document.getElementById('cv-telephone').textContent = data.telephone;
+                document.getElementById('cv-description').innerHTML = data.description;
+                document.getElementById('cv-image').src = data.image
+                    ? `uploads/images/${data.image}`
+                    : `build/images/default.ca330b81.png`;
+
+                document.getElementById('cv-competences').innerHTML = data.competences.map(c => `<div>${c}</div>`).join('');
+                document.getElementById('cv-outils').innerHTML = data.outils.map(o => `<div>${o}</div>`).join('');
+                document.getElementById('cv-langues').innerHTML = data.langues.map(l => `<div>${l.nom} (${l.niveau})</div>`).join('');
+                document.getElementById('cv-loisirs').innerHTML = data.loisirs.map(l => `<div>${l.nom}</div>`).join('');
+                document.getElementById('cv-exp-pro').innerHTML = data.experiencesPro.map(exp => `
+                    <div>
+                        <strong>${exp.poste}</strong> ${exp.entreprise}<br>
+                        ${exp.dateDebut} – ${exp.dateFin}<br>
+                    </div>`).join('');
+                document.getElementById('cv-exp-uni').innerHTML = data.experiencesUni.map(exp => `
+                    <div>
+                        <strong>${exp.titre}</strong> ${exp.sousTitre} ${exp.annee}<br>
+                    </div>`).join('');
+                document.getElementById('cv-formations').innerHTML = data.formations.map(f => `
+                    <div>
+                        <strong>${f.intitule}</strong> ${f.lieu}<br>
+                        ${f.annee}<br>
+                    </div>`).join('');
+                showcv.style.display = 'block';
+
+            } else {
+                showcv.style.display = 'none';
+            }
+
+        })
+
+        .catch(error => console.error('Erreur:', error));
 }
 
 function closePopup() {
-    document.getElementById('showcv').style.display = 'none';
+    const showcv = document.getElementById('showcv');
+    showcv.style.display = 'none';
+    if (showcv) {
+        showcv.remove();
+    }
 }
 
 

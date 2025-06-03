@@ -18,7 +18,7 @@ services:
       XDEBUG_CONFIG: "remote_host=172.18.0.1 remote_enable=1"
       BLACKFIRE_SERVER_ID: ~
       BLACKFIRE_SERVER_TOKEN: ~
-      APP_ENV: dev
+      APP_ENV: ${APP_ENV}      
     working_dir: /var/www/app
     links:
       - database
