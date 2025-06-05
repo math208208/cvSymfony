@@ -1,0 +1,31 @@
+<section id="showcv">
+    <div class="divButton">
+        <button id="closeButton" onclick="closePopup()">x</button>
+    </div>
+    <div class="showTop">
+        <div class="showTopText">
+            <h2 id="cv-nom">{{ cv.nom }}</h2>
+            <h2 id="cv-prenom">{{ cv.prenom }}</h2>
+            <p><strong>Profession :</strong> {{ cv.profession }}</p>
+            <p><strong>Email :</strong> {{ cv.email }}</p>
+            <p><strong>Téléphone :</strong> {{ cv.telephone }}</p>
+        </div>
+        <div class="divDescription">
+            <h3>Description</h3>
+            <p>{{ cv.description|raw }}</p>
+        </div>
+    </div>
+
+    <div class="gridShowCv4">
+        <div><h3>Compétences</h3><ul>{% for c in cv.competences %}<div>{{ c|raw}}</div>{% endfor %}</ul></div>
+        <div><h3>Outils</h3><ul>{% for o in cv.outils %}<div>{{ o|raw }}</div>{% endfor %}</ul></div>
+        <div><h3>Langues</h3><ul>{% for l in cv.langues %}<div>{{ l.nom|raw }} ({{ l.niveau|raw }})</div>{% endfor %}</ul></div>
+        <div><h3>Loisirs</h3><ul>{% for l in cv.loisirs %}<div>{{ l.nom|raw}}</div>{% endfor %}</ul></div>
+    </div>
+
+    <div class="gridShowCv3">
+        <div><h3>Formations</h3><ul>{% for f in cv.formations %}<div><strong>{{ f.intitule|raw }}</strong> {{ f.lieu|raw }}<br>{{ f.annee }}</div>{% endfor %}</ul></div>
+        <div><h3>Expérience Pro</h3><ul>{% for exp in cv.experiencesPro %}<div><strong>{{ exp.poste|raw }}</strong> {{ exp.entreprise|raw }}<br>{{ exp.dateDebut }} – {{ exp.dateFin }}</div>{% endfor %}</ul></div>
+        <div><h3>Expérience Univ</h3><ul>{% for exp in cv.experiencesUni %}<div><strong>{{ exp.titre|raw }}</strong> {{ exp.sousTitre|raw }} {{ exp.annee }}</div>{% endfor %}</ul></div>
+    </div>
+</section>
