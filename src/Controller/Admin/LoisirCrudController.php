@@ -91,7 +91,7 @@ class LoisirCrudController extends AbstractCrudController
         return $qb;
     }
 
-    public function configureFields(string $pageName): iterable   //permet de configurer les champs à afficher dans le formulaire et la liste
+    public function configureFields(string $pageName): iterable
     {
         $fields = [
 
@@ -105,11 +105,11 @@ class LoisirCrudController extends AbstractCrudController
                 ->hideOnForm(),         //visible uniquement dans la liste
             AssociationField::new('user')      // Association avec l'entité User
                 ->autocomplete()            // Permet l'autocomplétion pour la sélection de l'utilisateur
-                ->setFormTypeOption('attr', ['data-search' => 'true'])    
+                ->setFormTypeOption('attr', ['data-search' => 'true'])
                 ->setRequired(true),    // Champ obligatoire
 
-            BooleanField::new('archived', 'Archivé')   // Champ pour indiquer si le loisir est archivé (ne sera pas renvoyer en front si il est archivé)
-                ->renderAsSwitch()      
+            BooleanField::new('archived', 'Archivé')
+                ->renderAsSwitch()
 
         ];
         return $fields;

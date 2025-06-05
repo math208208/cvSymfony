@@ -11,7 +11,6 @@ use Symfony\Component\Routing\Annotation\Route;
 
 final class AutocompletionController extends AbstractController
 {
-
     #[Route('/autocomplete', name: 'autocomplete', methods: ['GET'])]
     public function index(Request $request, UserPlateRepository $repo, UserRepository $userRepo): JsonResponse
     {

@@ -23,12 +23,12 @@ class TranslationService
         string $entityName,     //Nom de l'entité auquel on veut traduire un attribut
         int $entityId,          //Id de l'entité
         string $attribute,      //Attribut de l'entité à traduire
-        string $default,        //Valeur par défaut si la traduction n'existe pas 
+        string $default,        //Valeur par défaut si la traduction n'existe pas
         ?string $locale = null  //Locale de la traduction (la langue)
     ): string {
         $locale = $locale ?? $this->locale;
 
-        //On cherche la traduction dans la base de données a partir 
+        //On cherche la traduction dans la base de données a partir
         //de l'entité, de l'id de l'entité et de l'attribut
         $translation = $this->repo->findOneBy(
             [
@@ -55,6 +55,3 @@ class TranslationService
         return $default;
     }
 }
-
-
-
