@@ -49,7 +49,7 @@ h1 {
             min-width: 0; /* Empêche le débordement */
             padding: 50px 80px;
             box-sizing: border-box;
-            background: $color-primaire;
+            background:$color-terciaire;
 
             @include small {
                 margin: 15px;

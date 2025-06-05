@@ -17,7 +17,6 @@
 		</form>
 
 
-
 		<section class="sectionExplo1">
 
 
@@ -66,6 +65,8 @@
 				<a href="{{ path('app_blog', {'page': page + 1, 'q': searchTerm }) }}">Suivant</a>
 			{% endif %}
 		</div>
-
+		<script>
+			window.IS_USER_CONNECTED = {{ app.user ? 'false' : 'true' }};
+		</script>
 	</main>
 {% endblock %}

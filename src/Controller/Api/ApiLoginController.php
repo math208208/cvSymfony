@@ -27,7 +27,7 @@ class ApiLoginController extends AbstractController
         $this->entityManager = $entityManager;
     }
 
-    #[Route(path: '/api/login', name: 'api_login', methods: "POST")]
+    #[Route(path: '/api/login', name: 'api_login', methods: ['POST'])]
     public function login(Request $request)
     {
         $data = json_decode($request->getContent(), true);

@@ -1,13 +1,13 @@
 $color-primaire: radial-gradient(circle, rgb(205, 246, 255) 0%, rgb(126, 220, 237) 100%);
 
-$color-terciaire: #fd9630;
-$color-secondaire: rgba(170, 228, 131, 0.803);
+$color-terciaire: #f3bc7e;
+$color-secondaire: #f3bc7e;
 $color-titre: #000000;
 $color-texte: #4b4a4a;
 $shadow: rgba(157, 157, 157, 0.495);
 
 $color-button: linear-gradient(to right, #16222a 0%, #3a6073 51%, #16222a 100%);
-$color-button2:radial-gradient(circle,#356a35 36%, #089b00 100%);
+$color-button2: #f3bc7e;
 @font-face {
     font-family: "Quicksand";
     src: url("../fonts/Quicksand-VariableFont_wght.ttf") format("woff2");

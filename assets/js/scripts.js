@@ -30,6 +30,10 @@ window.addEventListener('load', () => {
 
 document.addEventListener('DOMContentLoaded', setupAutocomplete);
 document.addEventListener("DOMContentLoaded", function () {
+    if (window.IS_USER_CONNECTED) {
+        return; 
+    }
+
     const cards = document.querySelectorAll(".cardProfil");
 
     cards.forEach(card => {
@@ -153,20 +157,20 @@ function openPopup(element) {
             password: 'infostrates'
         })
     })
-    .then(response => response.json())
-    .then(loginData => {
-        const token = loginData.token; 
-        const mail = userMail ; 
-    
-        return fetch(`${locale}/api/cv?email=${mail}`, {
-            method: 'GET',
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        });
-    })
-    .then(response => response.json())
-    .then(data => {
+        .then(response => response.json())
+        .then(loginData => {
+            const token = loginData.token;
+            const mail = userMail;
+
+            return fetch(`${locale}/api/cv?email=${mail}`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+        })
+        .then(response => response.json())
+        .then(data => {
 
             if (!data.error) {
 
